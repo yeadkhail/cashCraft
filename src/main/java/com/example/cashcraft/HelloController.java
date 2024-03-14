@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 
 import java.sql.*;
 
-public class HelloController {
+public class   HelloController {
     @FXML
     private Label welcomeText;
 
@@ -29,6 +29,7 @@ public class HelloController {
                 // Do something with id and name
                 System.out.println("ID: " + id + ", Name: " + name);
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
