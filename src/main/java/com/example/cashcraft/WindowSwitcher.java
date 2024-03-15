@@ -30,10 +30,11 @@ public class WindowSwitcher
                 String pass="";
                 Connection connection = Makeconnection.makeconnection();
                 Statement statement = connection.createStatement();
-                ResultSet rs=statement.executeQuery("select password from user where id=1");
+                ResultSet rs=statement.executeQuery("select password from user where id=701");
                 if(rs.next()) {pass = rs.getString("password");}
                 if(passfield.getText().equals(pass))
                 {
+                    connection.close();
                     root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
                     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
@@ -41,7 +42,6 @@ public class WindowSwitcher
                     stage.show();
                 }
                 else throw new ExceptionCatcher("Wrong input!");
-                connection.close();
             }
         } catch(ExceptionCatcher ex)
         {
