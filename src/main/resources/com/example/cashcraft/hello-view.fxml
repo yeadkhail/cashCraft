@@ -14,6 +14,8 @@
                <children>
                   <ComboBox fx:id="CB" layoutX="15.0" layoutY="15.0" onAction="#on_select_CB" prefHeight="31.0" prefWidth="318.0" promptText="Type" AnchorPane.leftAnchor="14.0" />
                   <TextArea fx:id="TA" editable="false" layoutX="340.0" layoutY="15.0" prefHeight="530.0" prefWidth="450.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="14.0" />
+                  <ComboBox fx:id="TB" layoutX="14.0" layoutY="63.0" onAction="#on_select_TB" prefHeight="31.0" prefWidth="318.0" promptText="Sort by time" />
+                  <ComboBox fx:id="AB" layoutX="14.0" layoutY="111.0" prefHeight="31.0" prefWidth="318.0" promptText="Sort by amount" />
                </children></AnchorPane>
       </content>
     </Tab>
