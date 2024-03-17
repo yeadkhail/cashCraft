@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.util.Objects;
 public class WindowSwitcher
 {
     @FXML
-    private TextField passfield;
+    private PasswordField passfield;
     private Scene scene;
     private Stage stage;
     private Parent root;
