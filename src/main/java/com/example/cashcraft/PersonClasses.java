@@ -1,6 +1,9 @@
 package com.example.cashcraft;
 
 import java.security.cert.PolicyNode;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class PersonClasses {
@@ -173,6 +176,120 @@ public class PersonClasses {
             this.toWallet = toWallet;
             this.notes = notes;
         }
+
+    }
+    public Transfer[] transfers(ResultSet rs) {
+        ArrayList<Transfer> transfers = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String uuid = rs.getString("uuid");
+                double amount = rs.getDouble("amount");
+                String desc = rs.getString("desc");
+                People people = new People(rs.getString("people_uuid"), rs.getString("people_name"), rs.getString("people_desc"));
+                Date date = rs.getDate("date");
+                Wallet fromWallet = new Wallet(rs.getString("from_wallet_uuid"), rs.getString("from_wallet_name"), rs.getString("from_wallet_desc"));
+                Wallet toWallet = new Wallet(rs.getString("to_wallet_uuid"), rs.getString("to_wallet_name"), rs.getString("to_wallet_desc"));
+                String notes = rs.getString("notes");
+                transfers.add(new Transfer(uuid, amount, desc, people, date, fromWallet, toWallet, notes));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transfers.toArray(new Transfer[0]);
+    }
+    public Income[] incomes(ResultSet rs) {
+        ArrayList<Income> incomes = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String uuid = rs.getString("uuid");
+                double amount = rs.getDouble("amount");
+                String desc = rs.getString("desc");
+                Category category = new Category(rs.getString("category_uuid"), rs.getString("category_name"), rs.getString("category_desc"));
+                People people = new People(rs.getString("people_uuid"), rs.getString("people_name"), rs.getString("people_desc"));
+                Date date = rs.getDate("date");
+                Wallet wallet = new Wallet(rs.getString("wallet_uuid"), rs.getString("wallet_name"), rs.getString("wallet_desc"));
+                String notes = rs.getString("notes");
+                incomes.add(new Income(uuid, amount, desc, category, people, date, wallet, notes));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return incomes.toArray(new Income[0]);
+    }
+    public Expense[] expenses(ResultSet rs) {
+        ArrayList<Expense> expenses = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String uuid = rs.getString("uuid");
+                double amount = rs.getDouble("amount");
+                String desc = rs.getString("desc");
+                Category category = new Category(rs.getString("category_uuid"), rs.getString("category_name"), rs.getString("category_desc"));
+                People people = new People(rs.getString("people_uuid"), rs.getString("people_name"), rs.getString("people_desc"));
+                Date date = rs.getDate("date");
+                Wallet wallet = new Wallet(rs.getString("wallet_uuid"), rs.getString("wallet_name"), rs.getString("wallet_desc"));
+                String notes = rs.getString("notes");
+                expenses.add(new Expense(uuid, amount, desc, category, people, date, wallet, notes));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return expenses.toArray(new Expense[0]);
+    }
+    public People[] peoples(ResultSet rs) {
+        ArrayList<People> peoples = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String uuid = rs.getString("uuid");
+                String name = rs.getString("name");
+                String desc = rs.getString("desc");
+                peoples.add(new People(uuid, name, desc));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return peoples.toArray(new People[0]);
+    }
+    public Wallet[] wallets(ResultSet rs) {
+        ArrayList<Wallet> wallets = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String uuid = rs.getString("uuid");
+                String name = rs.getString("name");
+                String desc = rs.getString("desc");
+                wallets.add(new Wallet(uuid, name, desc));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return wallets.toArray(new Wallet[0]);
+    }
+    public Place[] places(ResultSet rs) {
+        ArrayList<Place> places = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String uuid = rs.getString("uuid");
+                String name = rs.getString("name");
+                String desc = rs.getString("desc");
+                places.add(new Place(uuid, name, desc));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return places.toArray(new Place[0]);
+    }
+    public Category[] categories(ResultSet rs) {
+        ArrayList<Category> categories = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                String uuid = rs.getString("uuid");
+                String name = rs.getString("name");
+                String desc = rs.getString("desc");
+                categories.add(new Category(uuid, name, desc));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories.toArray(new Category[0]);
     }
 
 }
