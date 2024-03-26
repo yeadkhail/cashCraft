@@ -144,4 +144,35 @@ public class PersonClasses {
             this.notes = notes;
         }
     }
+    public class Transfer{
+        public String uuid;
+        public double amount;
+        public String desc;
+        public People people;
+        public Date date;
+        public Wallet fromWallet;
+        public Wallet toWallet;
+        public String notes;
+        public Transfer(){
+            this.uuid = "";
+            this.amount = 0.0d;
+            this.desc = "";
+            this.people = new People();
+            this.date = new Date();
+            this.fromWallet = new Wallet();
+            this.toWallet = new Wallet();
+            this.notes = "";
+        }
+        public Transfer(String uuid, double amount, String desc, People people, Date date, Wallet fromWallet, Wallet toWallet, String notes) {
+            this.uuid = uuid;
+            this.amount = amount;
+            this.desc = desc;
+            this.people = people;
+            this.date = date;
+            this.fromWallet = fromWallet;
+            this.toWallet = toWallet;
+            this.notes = notes;
+        }
+    }
+
 }
