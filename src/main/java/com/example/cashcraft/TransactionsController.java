@@ -13,117 +13,172 @@ import java.util.ResourceBundle;
 
 public class TransactionsController implements Initializable
 {
-    String Type;
-    String Source;
-    int Amount;
-    String Amount_choice;
-    String Time;
-    ResultSet rs;
+    String selected_type;
+    String selected_sort;
+    String[] types = {"All","Income","Expense","Transfer"};
+    String[] sorting = {"Random","Newest","Oldest","Highest","Lowest"};
     String query;
+    ResultSet resultset;
+    PreparedStatement preparedstatement;
     Statement statement;
-    PreparedStatement PS;
     Connection connection;
-    private String[] choices={"Arbitrary","Income", "Expense", "Savings"};
-    private String[] time_choices={"Arbitrary","Recent","Oldest"};
-    private String[] amount_choices={"Arbitrary","Decreasing","Increasing"};
     @FXML
-    private ComboBox<String> CB;
+    TextArea info_box;
     @FXML
-    private ComboBox<String> TB;
+    ComboBox<String> type_combo;
     @FXML
-    private ComboBox<String> AB;
-    @FXML
-    private TextArea TA;
+    ComboBox<String> sort_combo;
     @Override
     public void initialize(URL arg0, ResourceBundle arg1)
     {
-        CB.getItems().addAll(choices);
-        TB.getItems().addAll(time_choices);
-        AB.getItems().addAll(amount_choices);
-        Type="Arbitrary";
-        Time="Arbitrary";
-        Amount_choice="Arbitrary";
-        try {
-            connection = Makeconnection.makeconnection();
-            statement = connection.createStatement();
-            statement.setQueryTimeout(30);  // set timeout to 30 sec.
-            Date date= Date.valueOf("2024-03-17");
-            statement.executeUpdate("drop table if exists transactions");
-            statement.executeUpdate("create table transactions (amount int, type string,source string,timing date)");
-            date= Date.valueOf("2024-04-12");
-            statement.executeUpdate("insert into transactions values(15000, 'Income', 'Tuition',' "+ date +" ' )");
-            date= Date.valueOf("2023-11-12");
-            statement.executeUpdate("insert into transactions values(15000, 'Income', 'Rent',' "+ date +" ' )");
-            date= Date.valueOf("2023-12-25");
-            statement.executeUpdate("insert into transactions values(150, 'Expense', 'Food CDS',' "+ date +" ' )");
-            date= Date.valueOf("2023-12-31");
-            statement.executeUpdate("insert into transactions values(200, 'Expense', 'Copy buying',' "+ date +" ' )");
-            date= Date.valueOf("2023-09-18");
-            statement.executeUpdate("insert into transactions values(1500, 'Savings', 'Salami',' "+ date +" ' )");
-            date= Date.valueOf("2022-04-18");
-            statement.executeUpdate("insert into transactions values(500, 'Savings', 'Mother gift',' "+ date +" ' )");
-            rs = statement.executeQuery("select * from transactions");
+        type_combo.getItems().addAll(types);
+        sort_combo.getItems().addAll(sorting);
+        selected_type="All";
+        selected_sort="Random";
+        try
+        {
+            connection =Makeconnection.makeconnection();
+            statement=connection.createStatement();
+            statement.setQueryTimeout(30);
+            query = "SELECT i.amount, i.desc, i.date, w.wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
+                    "FROM income i " +
+                    "LEFT JOIN wallet w ON i.wallet = w.wallet_id " +
+                    "LEFT JOIN people p ON i.people = p.people_id " +
+                    "LEFT JOIN category c ON i.category = c.category_id " +
+                    "LEFT JOIN place pl ON i.place = pl.place_id";
 
-            while (rs.next()) {
-                Amount = rs.getInt("amount");
-                Type = rs.getString("type");
-                Source = rs.getString("source");
-                Time = rs.getString("timing");
-                // Do something with id and name
-                TA.appendText("Amount: "+Amount+"   Type: "+Type+"   Cause: "+Source+"   Date: "+Time+"\n");
+            resultset = statement.executeQuery(query);
+            while(resultset.next())
+            {
+                int val=resultset.getInt("amount");
+                String desc=resultset.getString("desc");
+                String timing=resultset.getString("date");
+                String wallet=resultset.getString("wallet_name");
+                String people=resultset.getString("people_name");
+                String place=resultset.getString("place_name");
+                String note=resultset.getString("notes");
+                String category=resultset.getString("category_name");
+                info_box.appendText(("Amount: "+val+"     Description: "+desc+"     Date: "+timing+"     Wallet source: "+wallet+"     Category: "+category+"     People: "+people+"     Place: "+place+"     Note: "+note+"\n\n"));
             }
+
+            query = "SELECT i.amount, i.desc, i.date, w.wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
+                    "FROM expense i " +
+                    "LEFT JOIN wallet w ON i.wallet = w.wallet_id " +
+                    "LEFT JOIN people p ON i.people = p.people_id " +
+                    "LEFT JOIN category c ON i.category = c.category_id " +
+                    "LEFT JOIN place pl ON i.place = pl.place_id";
+
+            resultset = statement.executeQuery(query);
+            while(resultset.next())
+            {
+                int val=resultset.getInt("amount");
+                String desc=resultset.getString("desc");
+                String timing=resultset.getString("date");
+                String wallet=resultset.getString("wallet_name");
+                String people=resultset.getString("people_name");
+                String place=resultset.getString("place_name");
+                String note=resultset.getString("notes");
+                String category=resultset.getString("category_name");
+                info_box.appendText(("Amount: "+val+"     Description: "+desc+"     Date: "+timing+"     Wallet source: "+wallet+"     Category: "+category+"     People: "+people+"     Place: "+place+"     Note: "+note+"\n\n"));
+            }
+
+            query = "SELECT i.amount, i.desc, i.date, fw.wallet_name as from_wallet_name, tw.wallet_name as to_wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
+                    "FROM transfer i " +
+                    "LEFT JOIN wallet fw ON i.from_wallet = fw.wallet_id " +
+                    "LEFT JOIN people p ON i.people = p.people_id " +
+                    "LEFT JOIN category c ON i.category = c.category_id " +
+                    "LEFT JOIN place pl ON i.place = pl.place_id " +
+                    "LEFT JOIN wallet tw on i.to_wallet = tw.wallet_id";
+            resultset = statement.executeQuery(query);
+            while (resultset.next()) {
+                int val = resultset.getInt("amount");
+                String desc = resultset.getString("desc");
+                String timing = resultset.getString("date");
+                String to_wallet = resultset.getString("to_wallet_name");
+                String from_wallet = resultset.getString("from_wallet_name");
+                String people = resultset.getString("people_name");
+                String place = resultset.getString("place_name");
+                String note = resultset.getString("notes");
+                String category = resultset.getString("category_name");
+                info_box.appendText("Amount: " + val + "     Description: " + desc + "     Date: " + timing + "     From: " + from_wallet + "     To: " + to_wallet + "     Category: " + category + "     People: " + people + "     Place: " + place + "     Note: " + note + "\n\n");
+            }
+
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
     @FXML
-    void on_select_CB(ActionEvent event) throws SQLException {
-        Type=CB.getValue();
-        TA.clear();
-        if(Type.equals("Arbitrary"))
+    void on_type_selected()throws SQLException
+    {
+        info_box.clear();
+        if(type_combo.getValue()!=null)
+        {selected_type=type_combo.getValue();}
+        if(sort_combo.getValue()!=null)
+        {selected_sort=sort_combo.getValue();}
+
+        //handle type first
+        if(selected_type.equals("Income"))query = "SELECT i.amount, i.desc, i.date, w.wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
+                "FROM income i " +
+                "LEFT JOIN wallet w ON i.wallet = w.wallet_id " +
+                "LEFT JOIN people p ON i.people = p.people_id " +
+                "LEFT JOIN category c ON i.category = c.category_id " +
+                "LEFT JOIN place pl ON i.place = pl.place_id";
+        else if(selected_type.equals("Expense"))query = "SELECT i.amount, i.desc, i.date, w.wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
+                "FROM expense i " +
+                "LEFT JOIN wallet w ON i.wallet = w.wallet_id " +
+                "LEFT JOIN people p ON i.people = p.people_id " +
+                "LEFT JOIN category c ON i.category = c.category_id " +
+                "LEFT JOIN place pl ON i.place = pl.place_id";
+        else if(selected_type.equals("Transfer"))query = "SELECT i.amount, i.desc, i.date, fw.wallet_name as from_wallet_name, tw.wallet_name as to_wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
+                "FROM transfer i " +
+                "LEFT JOIN wallet fw ON i.from_wallet = fw.wallet_id " +
+                "LEFT JOIN people p ON i.people = p.people_id " +
+                "LEFT JOIN category c ON i.category = c.category_id " +
+                "LEFT JOIN place pl ON i.place = pl.place_id " +
+                "LEFT JOIN wallet tw on i.to_wallet = tw.wallet_id";
+        else if(selected_type.equals("All"))
         {
-            query="select * from transactions";
-            rs = statement.executeQuery(query);
-            while (rs.next()) {
-                Amount = rs.getInt("amount");
-                Type = rs.getString("type");
-                Source = rs.getString("source");
-                Time = rs.getString("timing");
-                // Do something with id and name
-                TA.appendText("Amount: "+Amount+"   Type: "+Type+"   Cause: "+Source+"   Date: "+Time+"\n");
+
+        }
+
+        //handle time second
+        if(selected_sort.equals("Newest"))query += " ORDER BY i.date DESC";
+        else if(selected_sort.equals("Oldest"))query += " ORDER BY i.date ASC";
+        else if(selected_sort.equals("Highest"))query += " ORDER BY i.amount DESC";
+        else if(selected_sort.equals("Lowest"))query += " ORDER BY i.amount ASC";
+        else if(selected_sort.equals("Random"))query+=" ORDER BY RANDOM()";
+
+        resultset=statement.executeQuery(query);
+        if(selected_type.equals("Transfer")) {
+
+            while (resultset.next()) {
+                int val = resultset.getInt("amount");
+                String desc = resultset.getString("desc");
+                String timing = resultset.getString("date");
+                String to_wallet = resultset.getString("to_wallet_name");
+                String from_wallet = resultset.getString("from_wallet_name");
+                String people = resultset.getString("people_name");
+                String place = resultset.getString("place_name");
+                String note = resultset.getString("notes");
+                String category = resultset.getString("category_name");
+                info_box.appendText("Amount: " + val + "     Description: " + desc + "     Date: " + timing + "     From: " + from_wallet + "     To: " + to_wallet + "     Category: " + category + "     People: " + people + "     Place: " + place + "     Note: " + note + "\n\n");
             }
-            return;
         }
-        query="select * from transactions where type=?";
-        PS = connection.prepareStatement(query);
-        PS.setString(1,Type);
-        rs = PS.executeQuery();
-        while (rs.next()) {
-            Amount = rs.getInt("amount");
-            Type = rs.getString("type");
-            Source = rs.getString("source");
-            Time = rs.getString("timing");
-            // Do something with id and name
-            TA.appendText("Amount: "+Amount+"   Type: "+Type+"   Cause: "+Source+"   Date: "+Time+"\n");
-        }
-    }
-    @FXML
-    void on_select_TB(ActionEvent event) throws SQLException {
-        //TA.clear();
-        Time=TB.getValue();
-        query="select * from transactions where type=?";
-        PS = connection.prepareStatement(query);
-        PS.setString(1,Type);
-        rs = PS.executeQuery(query);
-        TA.clear();
-        while (rs.next()) {
-            Amount = rs.getInt("amount");
-            Type = rs.getString("type");
-            Source = rs.getString("source");
-            Time = rs.getString("timing");
-            // Do something with id and name
-            TA.appendText("Amount: "+Amount+"   Type: "+Type+"   Cause: "+Source+"   Date: "+Time+"\n");
+        else
+        {
+            while(resultset.next())
+            {
+                int val=resultset.getInt("amount");
+                String desc=resultset.getString("desc");
+                String timing=resultset.getString("date");
+                String wallet=resultset.getString("wallet_name");
+                String people=resultset.getString("people_name");
+                String place=resultset.getString("place_name");
+                String note=resultset.getString("notes");
+                String category=resultset.getString("category_name");
+                info_box.appendText(("Amount: "+val+"     Description: "+desc+"     Date: "+timing+"     Wallet source: "+wallet+"     Category: "+category+"     People: "+people+"     Place: "+place+"     Note: "+note+"\n\n"));
+            }
         }
     }
 }
