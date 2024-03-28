@@ -1,9 +1,14 @@
 package com.example.cashcraft;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 
 import java.net.URL;
@@ -14,16 +19,32 @@ import java.util.ResourceBundle;
 public class TransactionsController implements Initializable
 {
     String selected_type;
-    String selected_sort;
     String[] types = {"All","Income","Expense","Transfer"};
-    String[] sorting = {"Random","Newest","Oldest","Highest","Lowest"};
     String query;
     ResultSet resultset;
-    PreparedStatement preparedstatement;
     Statement statement;
     Connection connection;
     @FXML
-    TextArea info_box;
+    TableView<ObservableList<String>> info_box;
+
+    @FXML
+    TableColumn<ObservableList<String>, String> amount_column;
+    @FXML
+    TableColumn<ObservableList<String>, String> people_column;
+    @FXML
+    TableColumn<ObservableList<String>, String> place_column;
+    @FXML
+    TableColumn<ObservableList<String>, String> cat_column;
+    @FXML
+    TableColumn<ObservableList<String>, String> note_column;
+    @FXML
+    TableColumn<ObservableList<String>, String> desc_column;
+    @FXML
+    TableColumn<ObservableList<String>, String> date_column;
+    @FXML
+    TableColumn<ObservableList<String>, String> src_column;
+    @FXML
+    TableColumn<ObservableList<String>, String> dest_column;
     @FXML
     ComboBox<String> type_combo;
     @FXML
@@ -32,77 +53,12 @@ public class TransactionsController implements Initializable
     public void initialize(URL arg0, ResourceBundle arg1)
     {
         type_combo.getItems().addAll(types);
-        sort_combo.getItems().addAll(sorting);
         selected_type="All";
-        selected_sort="Random";
         try
         {
             connection =Makeconnection.makeconnection();
             statement=connection.createStatement();
             statement.setQueryTimeout(30);
-            query = "SELECT i.amount, i.desc, i.date, w.wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
-                    "FROM income i " +
-                    "LEFT JOIN wallet w ON i.wallet = w.wallet_id " +
-                    "LEFT JOIN people p ON i.people = p.people_id " +
-                    "LEFT JOIN category c ON i.category = c.category_id " +
-                    "LEFT JOIN place pl ON i.place = pl.place_id";
-
-            resultset = statement.executeQuery(query);
-            while(resultset.next())
-            {
-                int val=resultset.getInt("amount");
-                String desc=resultset.getString("desc");
-                String timing=resultset.getString("date");
-                String wallet=resultset.getString("wallet_name");
-                String people=resultset.getString("people_name");
-                String place=resultset.getString("place_name");
-                String note=resultset.getString("notes");
-                String category=resultset.getString("category_name");
-                info_box.appendText(("Amount: "+val+"     Description: "+desc+"     Date: "+timing+"     Wallet source: "+wallet+"     Category: "+category+"     People: "+people+"     Place: "+place+"     Note: "+note+"\n\n"));
-            }
-
-            query = "SELECT i.amount, i.desc, i.date, w.wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
-                    "FROM expense i " +
-                    "LEFT JOIN wallet w ON i.wallet = w.wallet_id " +
-                    "LEFT JOIN people p ON i.people = p.people_id " +
-                    "LEFT JOIN category c ON i.category = c.category_id " +
-                    "LEFT JOIN place pl ON i.place = pl.place_id";
-
-            resultset = statement.executeQuery(query);
-            while(resultset.next())
-            {
-                int val=resultset.getInt("amount");
-                String desc=resultset.getString("desc");
-                String timing=resultset.getString("date");
-                String wallet=resultset.getString("wallet_name");
-                String people=resultset.getString("people_name");
-                String place=resultset.getString("place_name");
-                String note=resultset.getString("notes");
-                String category=resultset.getString("category_name");
-                info_box.appendText(("Amount: "+val+"     Description: "+desc+"     Date: "+timing+"     Wallet source: "+wallet+"     Category: "+category+"     People: "+people+"     Place: "+place+"     Note: "+note+"\n\n"));
-            }
-
-            query = "SELECT i.amount, i.desc, i.date, fw.wallet_name as from_wallet_name, tw.wallet_name as to_wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
-                    "FROM transfer i " +
-                    "LEFT JOIN wallet fw ON i.from_wallet = fw.wallet_id " +
-                    "LEFT JOIN people p ON i.people = p.people_id " +
-                    "LEFT JOIN category c ON i.category = c.category_id " +
-                    "LEFT JOIN place pl ON i.place = pl.place_id " +
-                    "LEFT JOIN wallet tw on i.to_wallet = tw.wallet_id";
-            resultset = statement.executeQuery(query);
-            while (resultset.next()) {
-                int val = resultset.getInt("amount");
-                String desc = resultset.getString("desc");
-                String timing = resultset.getString("date");
-                String to_wallet = resultset.getString("to_wallet_name");
-                String from_wallet = resultset.getString("from_wallet_name");
-                String people = resultset.getString("people_name");
-                String place = resultset.getString("place_name");
-                String note = resultset.getString("notes");
-                String category = resultset.getString("category_name");
-                info_box.appendText("Amount: " + val + "     Description: " + desc + "     Date: " + timing + "     From: " + from_wallet + "     To: " + to_wallet + "     Category: " + category + "     People: " + people + "     Place: " + place + "     Note: " + note + "\n\n");
-            }
-
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -111,11 +67,9 @@ public class TransactionsController implements Initializable
     @FXML
     void on_type_selected()throws SQLException
     {
-        info_box.clear();
+        info_box.getItems().clear();
         if(type_combo.getValue()!=null)
         {selected_type=type_combo.getValue();}
-        if(sort_combo.getValue()!=null)
-        {selected_sort=sort_combo.getValue();}
 
         //handle type first
         if(selected_type.equals("Income"))query = "SELECT i.amount, i.desc, i.date, w.wallet_name, c.category_name, p.people_name, pl.place_name, i.notes " +
@@ -139,21 +93,22 @@ public class TransactionsController implements Initializable
                 "LEFT JOIN wallet tw on i.to_wallet = tw.wallet_id";
         else if(selected_type.equals("All"))
         {
-
+            System.out.println("Selected all");
         }
-
-        //handle time second
-        if(selected_sort.equals("Newest"))query += " ORDER BY i.date DESC";
-        else if(selected_sort.equals("Oldest"))query += " ORDER BY i.date ASC";
-        else if(selected_sort.equals("Highest"))query += " ORDER BY i.amount DESC";
-        else if(selected_sort.equals("Lowest"))query += " ORDER BY i.amount ASC";
-        else if(selected_sort.equals("Random"))query+=" ORDER BY RANDOM()";
 
         resultset=statement.executeQuery(query);
         if(selected_type.equals("Transfer")) {
-
+            amount_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(0)));
+            people_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(1)));
+            place_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(2)));
+            cat_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(3)));
+            note_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(4)));
+            desc_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(5)));
+            date_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(6)));
+            src_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(7)));
+            dest_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(8)));
             while (resultset.next()) {
-                int val = resultset.getInt("amount");
+                double val = resultset.getDouble("amount");
                 String desc = resultset.getString("desc");
                 String timing = resultset.getString("date");
                 String to_wallet = resultset.getString("to_wallet_name");
@@ -162,14 +117,34 @@ public class TransactionsController implements Initializable
                 String place = resultset.getString("place_name");
                 String note = resultset.getString("notes");
                 String category = resultset.getString("category_name");
-                info_box.appendText("Amount: " + val + "     Description: " + desc + "     Date: " + timing + "     From: " + from_wallet + "     To: " + to_wallet + "     Category: " + category + "     People: " + people + "     Place: " + place + "     Note: " + note + "\n\n");
+
+                ObservableList<String> row = FXCollections.observableArrayList();
+                row.add(String.valueOf(val));
+                row.add(people);
+                row.add(place);
+                row.add(category);
+                row.add(note);
+                row.add(desc);
+                row.add(timing);
+                row.add(from_wallet);
+                row.add(to_wallet);
+                info_box.getItems().add(row);
             }
         }
         else
         {
+            amount_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(0)));
+            people_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(1)));
+            place_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(2)));
+            cat_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(3)));
+            note_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(4)));
+            desc_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(5)));
+            date_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(6)));
+            src_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(7)));
+            dest_column.setCellValueFactory(null);
             while(resultset.next())
             {
-                int val=resultset.getInt("amount");
+                double val=resultset.getDouble("amount");
                 String desc=resultset.getString("desc");
                 String timing=resultset.getString("date");
                 String wallet=resultset.getString("wallet_name");
@@ -177,7 +152,17 @@ public class TransactionsController implements Initializable
                 String place=resultset.getString("place_name");
                 String note=resultset.getString("notes");
                 String category=resultset.getString("category_name");
-                info_box.appendText(("Amount: "+val+"     Description: "+desc+"     Date: "+timing+"     Wallet source: "+wallet+"     Category: "+category+"     People: "+people+"     Place: "+place+"     Note: "+note+"\n\n"));
+
+                ObservableList<String> row = FXCollections.observableArrayList();
+                row.add(String.valueOf(val));
+                row.add(people);
+                row.add(place);
+                row.add(category);
+                row.add(note);
+                row.add(desc);
+                row.add(timing);
+                row.add(wallet);
+                info_box.getItems().add(row);
             }
         }
     }

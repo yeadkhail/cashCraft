@@ -3,7 +3,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.TransactionsController">
@@ -12,9 +13,20 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #739BD0;">
                <children>
-                  <ComboBox fx:id="type_combo" layoutX="15.0" layoutY="15.0" onAction="#on_type_selected" prefHeight="31.0" prefWidth="318.0" promptText="Type" AnchorPane.leftAnchor="14.0" />
-                  <TextArea fx:id="info_box" editable="false" layoutX="340.0" layoutY="15.0" prefHeight="530.0" prefWidth="450.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="14.0" />
-                  <ComboBox fx:id="sort_combo" layoutX="14.0" layoutY="63.0" onAction="#on_type_selected" prefHeight="31.0" prefWidth="318.0" promptText="Sort by" />
+                  <ComboBox fx:id="type_combo" layoutX="15.0" layoutY="15.0" onAction="#on_type_selected" prefHeight="31.0" prefWidth="150.0" promptText="Type" AnchorPane.leftAnchor="14.0" />
+                  <TableView fx:id="info_box" layoutX="125.0" layoutY="15.0" prefHeight="500.0" prefWidth="1100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="15.0">
+                    <columns>
+                      <TableColumn fx:id="amount_column" prefWidth="100.0" text="Amount" />
+                        <TableColumn fx:id="people_column" prefWidth="100.0" text="People" />
+                        <TableColumn fx:id="place_column" prefWidth="100.0" text="Place" />
+                        <TableColumn fx:id="cat_column" prefWidth="100.0" text="Category" />
+                        <TableColumn fx:id="note_column" prefWidth="200.0" text="Note" />
+                        <TableColumn fx:id="desc_column" prefWidth="200.0" text="Description" />
+                        <TableColumn fx:id="date_column" prefWidth="100.0" text="Date" />
+                        <TableColumn fx:id="src_column" prefWidth="120.0" text="Source Wallet" />
+                        <TableColumn fx:id="dest_column" prefWidth="150.0" text="Destination Wallet" />
+                    </columns>
+                  </TableView>
                </children></AnchorPane>
       </content>
     </Tab>
