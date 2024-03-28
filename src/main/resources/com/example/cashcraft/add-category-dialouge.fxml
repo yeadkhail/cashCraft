@@ -41,8 +41,8 @@
          </children>
       </GridPane>
    </graphic>
-   <buttonTypes>
-      <ButtonType fx:constant="FINISH" />
-      <ButtonType fx:constant="CANCEL" />
-   </buttonTypes>
+    <buttonTypes>
+        <ButtonType fx:id="finishButton" fx:constant="FINISH" />
+        <ButtonType fx:id="cancelButton" fx:constant="CANCEL" />
+    </buttonTypes>
 </DialogPane>
