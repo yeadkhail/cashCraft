@@ -82,6 +82,14 @@ public class PersonClasses {
             this.name = name;
             this.desc = desc;
         }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getId() {
+            return Integer.parseInt(uuid);
+        }
     }
 
     public class Income{
