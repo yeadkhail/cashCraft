@@ -1,0 +1,16 @@
+.roundbutton
+{
+    -fx-background-radius: 10,10,10;
+}
+.radial-gradient {
+    /* Radial gradient */
+    -fx-background-color: linear-gradient(to left,#5F0F40,#310E68);
+}
+.button:hover {
+    /* New background color when hovering */
+    -fx-background-color: linear-gradient(to right, #EE696B, #523A78);
+}
+.radial-green-gradient {
+    /* Radial gradient */
+    -fx-background-color: linear-gradient(to left,#000000,#166D3B);
+}
