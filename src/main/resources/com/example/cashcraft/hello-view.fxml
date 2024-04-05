@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Tab?>
@@ -12,10 +13,14 @@
   <tabs>
     <Tab text="Transactions">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #739BD0;">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="linear-transaction-gradient" stylesheets="@styler.css">
                <children>
-                  <ComboBox fx:id="type_combo" layoutX="15.0" layoutY="15.0" onAction="#on_type_selected" prefHeight="31.0" prefWidth="150.0" promptText="Type" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0" />
-                  <TableView fx:id="info_box" layoutX="125.0" layoutY="15.0" prefHeight="500.0" prefWidth="1100.0" style="-fx-background-color: #ADD8E6;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="15.0">
+                  <ComboBox fx:id="type_combo" layoutX="15.0" layoutY="15.0" onAction="#on_type_selected" prefHeight="31.0" prefWidth="150.0" promptText="Type" stylesheets="@styler.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
+                     <styleClass>
+                        <String fx:value="linear-button-gradient" />
+                        <String fx:value="arrow-button" />
+                     </styleClass></ComboBox>
+                  <TableView fx:id="info_box" layoutX="125.0" layoutY="15.0" prefHeight="500.0" prefWidth="1100.0" stylesheets="@styler.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="15.0">
                     <columns>
                       <TableColumn fx:id="amount_column" prefWidth="100.0" text="Amount" />
                         <TableColumn fx:id="people_column" prefWidth="100.0" text="People" />
@@ -29,9 +34,21 @@
                         <TableColumn fx:id="trans_column" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Transaction ID" />
                     </columns>
                   </TableView>
-                  <Button fx:id="delete_button" layoutX="14.0" layoutY="636.0" mnemonicParsing="false" onAction="#on_deleteButton_clicked" prefWidth="150.0" text="Rid transaction" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" />
-                  <Button fx:id="edit_button" layoutX="14.0" layoutY="599.0" mnemonicParsing="false" prefWidth="150.0" text="Edit transaction" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0" />
-                  <Button fx:id="add_button" layoutX="14.0" layoutY="561.0" mnemonicParsing="false" prefWidth="150.0" text="Add transaction" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="14.0" />
+                  <Button fx:id="delete_button" layoutX="14.0" layoutY="636.0" mnemonicParsing="false" onAction="#on_deleteButton_clicked" prefWidth="150.0" stylesheets="@styler.css" text="Rid transaction" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0">
+                     <styleClass>
+                        <String fx:value="linear-button-gradient" />
+                        <String fx:value="transactionbuttonhover" />
+                     </styleClass></Button>
+                  <Button fx:id="edit_button" layoutX="14.0" layoutY="599.0" mnemonicParsing="false" prefWidth="150.0" stylesheets="@styler.css" text="Edit transaction" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0">
+                     <styleClass>
+                        <String fx:value="linear-button-gradient" />
+                        <String fx:value="transactionbuttonhover" />
+                     </styleClass></Button>
+                  <Button fx:id="add_button" layoutX="14.0" layoutY="561.0" mnemonicParsing="false" prefWidth="150.0" stylesheets="@styler.css" text="Add transaction" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="14.0">
+                     <styleClass>
+                        <String fx:value="linear-button-gradient" />
+                        <String fx:value="transactionbuttonhover" />
+                     </styleClass></Button>
                </children></AnchorPane>
       </content>
     </Tab>
