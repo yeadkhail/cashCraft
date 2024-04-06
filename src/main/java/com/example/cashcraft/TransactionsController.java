@@ -3,19 +3,31 @@ package com.example.cashcraft;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class TransactionsController implements Initializable
 {
+    EdittransactionsController controller;
+    private Scene scene;
+    private Stage stage;
+    private Parent root;
     String selected_type;
     String[] types = {"All","Income","Expense","Transfer"};
     String query;
@@ -27,6 +39,8 @@ public class TransactionsController implements Initializable
     Connection connection;
     @FXML
     TableView<ObservableList<String>> info_box;
+    @FXML
+    TableView.TableViewSelectionModel<ObservableList<String>> selectionModel;
 
     @FXML
     TableColumn<ObservableList<String>, String> amount_column;
@@ -54,10 +68,14 @@ public class TransactionsController implements Initializable
     ComboBox<String> sort_combo;
     @FXML
     Button delete_button;
+    @FXML
+    Button edit_button;
     @Override
     public void initialize(URL arg0, ResourceBundle arg1)
     {
+        selectionModel = info_box.getSelectionModel();
         delete_button.disableProperty().bind(info_box.getSelectionModel().selectedItemProperty().isNull());
+        edit_button.disableProperty().bind(info_box.getSelectionModel().selectedItemProperty().isNull());
         type_combo.getItems().addAll(types);
         selected_type="All";
         try
@@ -118,7 +136,7 @@ public class TransactionsController implements Initializable
             dest_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(8)));
             trans_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(9)));
             while (resultset.next()) {
-                double val = resultset.getDouble("amount");
+                String val = resultset.getString("amount");
                 String desc = resultset.getString("desc");
                 String timing = resultset.getString("date");
                 String to_wallet = resultset.getString("to_wallet_name");
@@ -130,7 +148,7 @@ public class TransactionsController implements Initializable
                 String id = resultset.getString("transfer_id");
 
                 ObservableList<String> row = FXCollections.observableArrayList();
-                row.add(String.valueOf(val));
+                row.add(val);
                 row.add(people);
                 row.add(place);
                 row.add(category);
@@ -157,7 +175,7 @@ public class TransactionsController implements Initializable
             trans_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(8)));
             while(resultset.next())
             {
-                double val=resultset.getDouble("amount");
+                String val=resultset.getString("amount");
                 String desc=resultset.getString("desc");
                 String timing=resultset.getString("date");
                 String wallet=resultset.getString("wallet_name");
@@ -259,5 +277,51 @@ public class TransactionsController implements Initializable
                     // User clicked Cancel or closed the dialog, do nothing
                 }
             });
+    }
+    @FXML
+    void on_edit_clicked(ActionEvent event) throws IOException, SQLException {
+        // Get the value from the specific column directly
+        amount_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(0);
+        people_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(1);
+        place_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(2);
+        cat_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(3);
+        note_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(4);
+        desc_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(5);
+        date_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(6);
+        src_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(7);
+        dest_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(8);
+
+        String amount = amount_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String people = people_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String place = place_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String cat = cat_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String note = note_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String desc = desc_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String date = date_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String src = src_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String dest = dest_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+
+        System.out.println(amount+people+place+cat+note+desc+date+src+dest);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("edit-transactions.fxml"));
+            root = loader.load();
+            controller = loader.getController();
+            if(dest==null) controller.others_initialize(amount,people,place,cat,note,desc,date,src);
+            else controller.transfer_initialize(amount,people,place,cat,note,desc,date,src,dest);
+            connection.close();
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.WINDOW_MODAL);
+            popupStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            popupStage.setScene(new Scene(root));
+            popupStage.setResizable(false);
+            popupStage.setOnHidden(e -> {
+                try {
+                    connection = Makeconnection.makeconnection();
+                    statement = connection.createStatement();
+                    statement.setQueryTimeout(30);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            popupStage.show();
     }
 }
