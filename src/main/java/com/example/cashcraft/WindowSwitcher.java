@@ -39,6 +39,7 @@ public class WindowSwitcher
                     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
                     stage.setScene(scene);
+                    stage.setResizable(true);
                     stage.show();
                 }
                 else throw new ExceptionCatcher("Wrong input!");

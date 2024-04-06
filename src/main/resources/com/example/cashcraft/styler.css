@@ -57,3 +57,7 @@
     -fx-background-color: #12100E;
     -fx-text-fill: white;
 }
+.linear-edit-gradient {
+    /* Radial gradient */
+    -fx-background-color: #1D2951;
+}
