@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class PersonClasses {
-    public class Wallet{
+    public static class Wallet{
         public String uuid;
         public String name;
         public String desc;

@@ -94,4 +94,25 @@ public class PersonDao {
             throw new RuntimeException(e);
         }
     }
+
+    public static void addWallet(PersonClasses.Wallet wallet) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into wallet values(null,?,?)");
+            preparedStatement.setString(1, wallet.name);
+            preparedStatement.setString(2, wallet.desc);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean isWalletExist(String name) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from wallet where wallet.wallet_name = ?");
+            preparedStatement.setString(1, name);
+            return preparedStatement.executeQuery().next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

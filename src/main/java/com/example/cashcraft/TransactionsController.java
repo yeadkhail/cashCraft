@@ -387,4 +387,24 @@ public class TransactionsController implements Initializable
             e.printStackTrace();
         }
     }
+    @FXML
+    private void handleAddWalletButton(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("add-wallet-dialouge.fxml"));
+            DialogPane dialogPane = fxmlLoader.load();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Add Wallet");
+            Optional<ButtonType> clickedbutton = dialog.showAndWait();
+
+            if (clickedbutton.get() == ButtonType.FINISH) {
+                AddWallet controller = fxmlLoader.getController();
+                controller.handleFinishButton();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
