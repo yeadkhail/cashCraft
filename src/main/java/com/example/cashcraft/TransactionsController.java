@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TransactionsController implements Initializable
@@ -323,5 +324,25 @@ public class TransactionsController implements Initializable
                 }
             });
             popupStage.show();
+    }
+    Button add_category_button;
+    @FXML
+    private void handleAddCategoryButton(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("add-category-dialouge.fxml"));
+            DialogPane dialogPane = fxmlLoader.load();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setDialogPane(dialogPane);
+            Optional<ButtonType> clickedbutton = dialog.showAndWait();
+
+            if(clickedbutton.get()== ButtonType.FINISH){
+                AddCategory controller = fxmlLoader.getController();
+                controller.handleFinishButton();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
