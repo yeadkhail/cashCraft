@@ -26,7 +26,7 @@ public class PersonClasses {
             this.desc = desc;
         }
     }
-    public class Place{
+    public static class Place{
         public String uuid;
         public String name;
         public String desc;

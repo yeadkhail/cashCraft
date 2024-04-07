@@ -1,10 +1,14 @@
 package com.example.cashcraft;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-public class AddPeople {
+public class AddPlace {
 
 
 
@@ -39,22 +43,23 @@ public class AddPeople {
         String name = nameTextField.getText();
         String description = descriptionTextField.getText();
 
-        if (PersonDao.isPeopleExist(name)) {
-            System.out.println("Person with name '" + name + "' already exists.");
+
+        if (placeExists(name)) {
+            System.out.println("Place with name '" + name + "' already exists.");
             return;
         }
 
-        PersonClasses.People people = new PersonClasses.People(name, description);
+        PersonClasses.Place place = new PersonClasses.Place(name, description);
         try {
-            PersonDao.addPeople(people);
+            PersonDao.addPlace(place);
             System.out.println("Place added successfully");
         } catch (Exception e) {
             System.err.println("Error adding category: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    private boolean peopleExists(String name) {
-        return PersonDao.isPeopleExist(name);
+    private boolean placeExists(String name) {
+        return PersonDao.isPlaceExist(name);
     }
 
 }
