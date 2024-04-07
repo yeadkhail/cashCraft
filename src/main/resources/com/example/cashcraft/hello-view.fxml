@@ -61,6 +61,12 @@
                         <String fx:value="transactionbuttonhover" />
                      </styleClass>
                   </Button>
+                  <Button fx:id="add_place_button" layoutX="14.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleAddPlaceButton" prefWidth="150.0" stylesheets="@styler.css" text="Add Place">
+                     <styleClass>
+                        <String fx:value="linear-button-gradient" />
+                        <String fx:value="transactionbuttonhover" />
+                     </styleClass>
+                  </Button>
                </children></AnchorPane>
       </content>
     </Tab>

@@ -367,4 +367,24 @@ public class TransactionsController implements Initializable
         }
     }
     Button add_people_button;
+    @FXML
+    private void handleAddPlaceButton(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("add-place-dialouge.fxml"));
+            DialogPane dialogPane = fxmlLoader.load();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Add Place");
+            Optional<ButtonType> clickedbutton = dialog.showAndWait();
+
+            if (clickedbutton.get() == ButtonType.FINISH) {
+                AddPlace controller = fxmlLoader.getController();
+                controller.handleFinishButton();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -74,4 +74,24 @@ public class PersonDao {
             throw new RuntimeException(e);
         }
     }
+    public  static void addPlace(PersonClasses.Place place) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into place values(null,?,?)");
+            preparedStatement.setString(1, place.name);
+            preparedStatement.setString(2, place.desc);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean isPlaceExist(String name) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from place where place.place_name = ?");
+            preparedStatement.setString(1, name);
+            return preparedStatement.executeQuery().next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
