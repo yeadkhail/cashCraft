@@ -4,10 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 public class PersonDao {
 
     public static void addCategory(PersonClasses.Category category) {
@@ -58,13 +54,22 @@ public class PersonDao {
         }
     }
 
-    public static void addPerson(PersonClasses.People people) {
+    public static void addPeople(PersonClasses.People people) {
         try (Connection connection = Makeconnection.makeconnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into people values(?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into people values(null,?,?)");
             preparedStatement.setString(1, people.name);
             preparedStatement.setString(2, people.desc);
             preparedStatement.executeUpdate();
-            connection.commit(); // Commit changes
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean isPeopleExist(String name) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from people where people.people_name = ?");
+            preparedStatement.setString(1, name);
+            return preparedStatement.executeQuery().next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

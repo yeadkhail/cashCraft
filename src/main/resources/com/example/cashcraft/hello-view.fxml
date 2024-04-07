@@ -39,7 +39,7 @@
                         <String fx:value="linear-button-gradient" />
                         <String fx:value="transactionbuttonhover" />
                      </styleClass></Button>
-                  <Button fx:id="edit_button" layoutX="14.0" layoutY="599.0" mnemonicParsing="false" onAction="#on_edit_clicked" prefWidth="150.0" stylesheets="@styler.css" text="Edit transaction" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0">
+                  <Button fx:id="edit_button" layoutX="14.0" layoutY="599.0" mnemonicParsing="false" prefWidth="150.0" stylesheets="@styler.css" text="Edit transaction" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0">
                      <styleClass>
                         <String fx:value="linear-button-gradient" />
                         <String fx:value="transactionbuttonhover" />
@@ -50,6 +50,12 @@
                         <String fx:value="transactionbuttonhover" />
                      </styleClass></Button>
                   <Button fx:id="add_categroybutton" layoutX="14.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleAddCategoryButton" prefWidth="150.0" stylesheets="@styler.css" text="Add Categrory">
+                     <styleClass>
+                        <String fx:value="linear-button-gradient" />
+                        <String fx:value="transactionbuttonhover" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="add_people_button" layoutX="14.0" layoutY="458.0" mnemonicParsing="false" onAction="#handleAddPersonButton" prefWidth="150.0" stylesheets="@styler.css" text="Add People">
                      <styleClass>
                         <String fx:value="linear-button-gradient" />
                         <String fx:value="transactionbuttonhover" />
