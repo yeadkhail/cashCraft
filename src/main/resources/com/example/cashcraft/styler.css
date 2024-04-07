@@ -61,3 +61,18 @@
     /* Radial gradient */
     -fx-background-color: #1D2951;
 }
+.dialog-button {
+    -fx-background-color: linear-gradient(to left, #91A6FF, #FFFFFF);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.dialog-button:hover {
+    -fx-background-color: linear-gradient(to right, #EE696B, #523A78);
+}
+
+.transactionbuttonhover:hover,
+.combo-box .arrow-button:hover {
+    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
+    -fx-text-fill: white;
+}

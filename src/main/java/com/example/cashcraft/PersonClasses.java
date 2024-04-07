@@ -64,7 +64,7 @@ public class PersonClasses {
             this.desc = desc;
         }
     }
-    public class Category{
+    public static class Category{
         public String uuid;
         public String name;
         public String desc;
@@ -89,6 +89,14 @@ public class PersonClasses {
 
         public int getId() {
             return Integer.parseInt(uuid);
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setDescription(String description) {
+            this.desc = description;
         }
     }
 
