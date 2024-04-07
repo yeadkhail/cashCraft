@@ -16,7 +16,7 @@ public class PersonDao {
             preparedStatement.setString(1, category.name);
             preparedStatement.setString(2, category.desc);
             preparedStatement.executeUpdate();
-            connection.commit();
+            //connection.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
