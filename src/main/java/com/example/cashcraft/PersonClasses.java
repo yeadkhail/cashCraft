@@ -45,7 +45,7 @@ public class PersonClasses {
             this.desc = desc;
         }
     }
-    public class People{
+    public static class People{
         public String uuid;
         public String name;
         public String desc;
