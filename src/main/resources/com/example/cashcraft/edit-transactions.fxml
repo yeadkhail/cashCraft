@@ -12,12 +12,12 @@
 
 <AnchorPane maxHeight="600.0" maxWidth="800.0" prefHeight="600.0" prefWidth="800.0" styleClass="linear-edit-gradient" stylesheets="@styler.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.EdittransactionsController">
    <children>
-      <Label layoutX="181.0" layoutY="14.0" text="Please make your changes as preferred" textFill="WHITE">
+      <Label layoutX="144.0" layoutY="50.0" text="Please make your changes as preferred" textFill="RED">
          <font>
-            <Font name="Segoe UI Bold" size="24.0" />
+            <Font name="Segoe UI Bold" size="28.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="137.0" text="Amount:" textFill="RED">
+      <Label alignment="CENTER" layoutX="14.0" layoutY="137.0" text="Amount:" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
@@ -37,17 +37,17 @@
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="241.0" text="Date:" textFill="RED">
+      <Label alignment="CENTER" layoutX="14.0" layoutY="241.0" text="Date:" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="477.0" layoutY="241.0" text="Main wallet:" textFill="RED">
+      <Label alignment="CENTER" layoutX="477.0" layoutY="241.0" text="Main wallet:" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="291.0" text="End wallet:" textFill="RED">
+      <Label alignment="CENTER" layoutX="14.0" layoutY="291.0" text="End wallet:" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
@@ -65,11 +65,6 @@
          </font>
       </Label>
       <TextArea fx:id="description_box" layoutX="598.0" layoutY="345.0" prefHeight="120.0" prefWidth="187.0" />
-      <Label layoutX="167.0" layoutY="66.0" text="**Red marked tabs cannot be left blank**" textFill="RED">
-         <font>
-            <Font name="Segoe UI Bold" size="24.0" />
-         </font>
-      </Label>
       <Button fx:id="cancel_edit" layoutX="146.0" layoutY="521.0" mnemonicParsing="false" prefWidth="200.0" stylesheets="@styler.css" text="Cancel">
          <styleClass>
             <String fx:value="roundbutton" />

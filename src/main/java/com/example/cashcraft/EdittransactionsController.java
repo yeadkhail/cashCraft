@@ -5,10 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -51,11 +48,20 @@ public class EdittransactionsController implements Initializable {
     private ComboBox<String> place_box;
     Connection connection;
     ResultSet resultset;
+
+    PreparedStatement preparedstatement;
     Statement statement;
     String query;
+    String trans_id;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        amount_box.addEventFilter(javafx.scene.input.KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9]")) {
+                // Consume the event to prevent the character from being typed
+                event.consume();
+            }
+        });
         try {
             connection=Makeconnection.makeconnection();
             statement=connection.createStatement();
@@ -65,8 +71,9 @@ public class EdittransactionsController implements Initializable {
         }
     }
     @FXML
-    public void others_initialize(String amount, String people, String place,String cat, String note, String desc,String date, String src) throws SQLException//selected either income or expense
+    public void others_initialize(String amount, String people, String place,String cat, String note, String desc,String date, String src, String id) throws SQLException//selected either income or expense
     {
+        trans_id=id;
         List<String> items = new ArrayList<>();
         endwallet_box.setDisable(true);
         query="SELECT wallet_name from wallet";
@@ -85,6 +92,7 @@ public class EdittransactionsController implements Initializable {
             items.add(item);
         }
         place_box.getItems().addAll(items);
+        place_box.getItems().add("");
         items.clear();
 
         query="SELECT category_name from category";
@@ -94,6 +102,7 @@ public class EdittransactionsController implements Initializable {
             items.add(item);
         }
         category_box.getItems().addAll(items);
+        category_box.getItems().add("");
         items.clear();
 
         query="SELECT people_name from people";
@@ -103,6 +112,7 @@ public class EdittransactionsController implements Initializable {
             items.add(item);
         }
         people_box.getItems().addAll(items);
+        people_box.getItems().add("");
         items.clear();
 
         amount_box.setText(amount);
@@ -117,8 +127,9 @@ public class EdittransactionsController implements Initializable {
         date_box.setValue(parsedDate);
     }
     @FXML
-    public void transfer_initialize(String amount, String people, String place,String cat, String note, String desc,String date, String src, String dest) throws SQLException//selected either income or expense
+    public void transfer_initialize(String amount, String people, String place,String cat, String note, String desc,String date, String src, String dest, String id) throws SQLException//selected either income or expense
     {
+        trans_id=id;
         List<String> items = new ArrayList<>();
         query="SELECT wallet_name from wallet";
         resultset=statement.executeQuery(query);
@@ -136,6 +147,7 @@ public class EdittransactionsController implements Initializable {
             items.add(item);
         }
         place_box.getItems().addAll(items);
+        place_box.getItems().add("");
         items.clear();
 
         query="SELECT category_name from category";
@@ -145,6 +157,7 @@ public class EdittransactionsController implements Initializable {
             items.add(item);
         }
         category_box.getItems().addAll(items);
+        category_box.getItems().add("");
         items.clear();
 
         query="SELECT people_name from people";
@@ -154,6 +167,7 @@ public class EdittransactionsController implements Initializable {
             items.add(item);
         }
         people_box.getItems().addAll(items);
+        people_box.getItems().add("");
         items.clear();
 
         query="SELECT wallet_name from wallet";
@@ -175,5 +189,10 @@ public class EdittransactionsController implements Initializable {
         endwallet_box.setValue(dest);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Assuming 'date' parameter is in this format
         LocalDate parsedDate = LocalDate.parse(date, formatter);
+    }
+    @FXML
+    void on_confirm_edits_clicked()
+    {
+
     }
 }
