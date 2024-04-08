@@ -226,4 +226,35 @@ public class PersonDao {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<PersonClasses.Place> getPlaces() {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from place");
+            return PersonClasses.Place.fromResultSet(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void editPlace(PersonClasses.Place selectedPlace, PersonClasses.Place newPlace) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("update place set place_name = ?, place_desc = ? where place_name = ?");
+            preparedStatement.setString(1, newPlace.name);
+            preparedStatement.setString(2, newPlace.desc);
+            preparedStatement.setString(3, selectedPlace.name);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deletePlace(PersonClasses.Place selectedPlace) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from place where place_name = ?");
+            preparedStatement.setString(1, selectedPlace.name);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
