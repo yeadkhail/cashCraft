@@ -65,6 +65,28 @@ public class PersonClasses {
             this.name = name;
             this.desc = desc;
         }
+
+        public static List<People> fromResultSet(ResultSet resultSet) {
+            List<People> peoples = new ArrayList<>();
+            try {
+                while (resultSet.next()) {
+                    String name = resultSet.getString("people_name");
+                    String desc = resultSet.getString("people_desc");
+                    peoples.add(new People(name, desc));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return peoples;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return desc;
+        }
     }
     public static class Category{
         public String uuid;

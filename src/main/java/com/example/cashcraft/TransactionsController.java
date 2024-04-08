@@ -412,7 +412,7 @@ public class TransactionsController implements Initializable
     }
     public void handleEditCategoryButton(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit-category-dialouge-box-2.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit-category-dialouge-box.fxml"));
             Parent editCategoryParent = fxmlLoader.load();
 
             Scene editCategoryScene = new Scene(editCategoryParent);
@@ -424,6 +424,24 @@ public class TransactionsController implements Initializable
             editCategoryStage.initModality(Modality.APPLICATION_MODAL);
 
             editCategoryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void handleEditPeopleButton(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit-people-dialouge-box.fxml"));
+            Parent editPeopleParent = fxmlLoader.load();
+
+            Scene editPeopleScene = new Scene(editPeopleParent);
+            Stage editPeopleStage = new Stage();
+
+            editPeopleStage.setScene(editPeopleScene);
+
+            editPeopleStage.setTitle("Edit People");
+            editPeopleStage.initModality(Modality.APPLICATION_MODAL);
+
+            editPeopleStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
