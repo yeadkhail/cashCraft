@@ -257,4 +257,73 @@ public class PersonDao {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<PersonClasses.Wallet> getWallets() {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from wallet");
+            return PersonClasses.Wallet.fromResultSet(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void editWallet(PersonClasses.Wallet selectedWallet, PersonClasses.Wallet newWallet) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("update wallet set wallet_name = ?, wallet_desc = ? where wallet_name = ?");
+            preparedStatement.setString(1, newWallet.name);
+            preparedStatement.setString(2, newWallet.desc);
+            preparedStatement.setString(3, selectedWallet.name);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteWallet(PersonClasses.Wallet selectedWallet) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            connection.setAutoCommit(false);
+
+
+            String updateIncomeQuery = "UPDATE Income SET wallet = (SELECT wallet_id FROM wallet WHERE wallet_name = 'Common wallet') WHERE wallet = (SELECT wallet_id FROM wallet WHERE wallet_name = ?)";
+            String updateExpenseQuery = "UPDATE expense SET wallet = (SELECT wallet_id FROM wallet WHERE wallet_name = 'Common wallet') WHERE wallet = (SELECT wallet_id FROM wallet WHERE wallet_name = ?)";
+            String updateTransferQuery = "UPDATE transfer SET from_wallet = (SELECT wallet_id FROM wallet WHERE wallet_name = 'Common wallet') WHERE from_wallet = (SELECT wallet_id FROM wallet WHERE wallet_name = ?)";
+            String updateTransferQuery2 = "UPDATE transfer SET to_wallet = (SELECT wallet_id FROM wallet WHERE wallet_name = 'Common wallet') WHERE to_wallet = (SELECT wallet_id FROM wallet WHERE wallet_name = ?)";
+
+            try (PreparedStatement updateIncomeStatement = connection.prepareStatement(updateIncomeQuery);
+                 PreparedStatement updateExpenseStatement = connection.prepareStatement(updateExpenseQuery);
+                 PreparedStatement updateTransferStatement = connection.prepareStatement(updateTransferQuery);
+                 PreparedStatement updateTransferStatement2 = connection.prepareStatement(updateTransferQuery2)) {
+
+                updateIncomeStatement.setString(1, selectedWallet.name);
+                updateIncomeStatement.executeUpdate();
+
+                updateExpenseStatement.setString(1, selectedWallet.name);
+                updateExpenseStatement.executeUpdate();
+
+                updateTransferStatement.setString(1, selectedWallet.name);
+                updateTransferStatement.executeUpdate();
+
+                updateTransferStatement2.setString(1, selectedWallet.name);
+                updateTransferStatement2.executeUpdate();
+
+
+                String deleteWalletQuery = "DELETE FROM wallet WHERE wallet_name = ?";
+                try (PreparedStatement deleteStatement = connection.prepareStatement(deleteWalletQuery)) {
+                    deleteStatement.setString(1, selectedWallet.name);
+                    deleteStatement.executeUpdate();
+                }
+
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new RuntimeException("Error deleting wallet", e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error connecting to database", e);
+        }
+    }
+
+
+
+
 }

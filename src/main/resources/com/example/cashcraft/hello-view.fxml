@@ -91,6 +91,12 @@
                         <String fx:value="transactionbuttonhover" />
                      </styleClass>
                   </Button>
+                  <Button layoutX="14.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleEditWalletButton" prefWidth="150.0" stylesheets="@styler.css" text="Edit Wallet">
+                     <styleClass>
+                        <String fx:value="linear-button-gradient" />
+                        <String fx:value="transactionbuttonhover" />
+                     </styleClass>
+                  </Button>
                </children></AnchorPane>
       </content>
     </Tab>

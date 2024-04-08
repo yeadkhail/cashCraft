@@ -27,6 +27,28 @@ public class PersonClasses {
             this.name = name;
             this.desc = desc;
         }
+
+        public static List<Wallet> fromResultSet(ResultSet resultSet) {
+            List<Wallet> wallets = new ArrayList<>();
+            try {
+                while (resultSet.next()) {
+                    String name = resultSet.getString("wallet_name");
+                    String desc = resultSet.getString("wallet_desc");
+                    wallets.add(new Wallet(name, desc));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return wallets;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return desc;
+        }
     }
     public static class Place{
         public String uuid;
