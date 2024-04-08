@@ -410,4 +410,23 @@ public class TransactionsController implements Initializable
             e.printStackTrace();
         }
     }
+    public void handleEditCategoryButton(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit-category-dialouge-box-2.fxml"));
+            Parent editCategoryParent = fxmlLoader.load();
+
+            Scene editCategoryScene = new Scene(editCategoryParent);
+            Stage editCategoryStage = new Stage();
+
+            editCategoryStage.setScene(editCategoryScene);
+
+            editCategoryStage.setTitle("Edit Category");
+            editCategoryStage.initModality(Modality.APPLICATION_MODAL);
+
+            editCategoryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

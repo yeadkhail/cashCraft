@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PersonClasses {
     public static class Wallet{
@@ -84,6 +85,20 @@ public class PersonClasses {
             this.desc = desc;
         }
 
+        public static List<Category> fromResultSet(ResultSet resultSet) {
+            List<Category> categories = new ArrayList<>();
+            try {
+                while (resultSet.next()) {
+                    String name = resultSet.getString("category_name");
+                    String desc = resultSet.getString("category_desc");
+                    categories.add(new Category(name, desc));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return categories;
+        }
+
         public String getName() {
             return name;
         }
@@ -98,6 +113,14 @@ public class PersonClasses {
 
         public void setDescription(String description) {
             this.desc = description;
+        }
+
+        public String getUuid() {
+            return uuid;
+        }
+
+        public String getDescription() {
+            return desc;
         }
     }
 

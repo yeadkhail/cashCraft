@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@test.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.TransactionsController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@test.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.TransactionsController">
   <tabs>
     <Tab text="Transactions">
       <content>
@@ -39,7 +39,7 @@
                         <String fx:value="linear-button-gradient" />
                         <String fx:value="transactionbuttonhover" />
                      </styleClass></Button>
-                  <Button fx:id="edit_button" layoutX="14.0" layoutY="599.0" mnemonicParsing="false" onAction="#on_edit_clicked" prefWidth="150.0" stylesheets="@styler.css" text="Edit transaction" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0">
+                  <Button fx:id="edit_button" layoutX="14.0" layoutY="599.0" mnemonicParsing="false" prefWidth="150.0" stylesheets="@styler.css" text="Edit transaction" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0">
                      <styleClass>
                         <String fx:value="linear-button-gradient" />
                         <String fx:value="transactionbuttonhover" />
@@ -68,6 +68,12 @@
                      </styleClass>
                   </Button>
                   <Button fx:id="add_wallet_button" layoutX="14.0" layoutY="376.0" mnemonicParsing="false" onAction="#handleAddWalletButton" prefWidth="150.0" stylesheets="@styler.css" text="Add Wallet">
+                     <styleClass>
+                        <String fx:value="linear-button-gradient" />
+                        <String fx:value="transactionbuttonhover" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="edit_category_button" layoutX="14.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleEditCategoryButton" prefWidth="150.0" stylesheets="@styler.css" text="Edit Category">
                      <styleClass>
                         <String fx:value="linear-button-gradient" />
                         <String fx:value="transactionbuttonhover" />
