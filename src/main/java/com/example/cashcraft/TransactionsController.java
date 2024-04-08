@@ -221,10 +221,10 @@ public class TransactionsController implements Initializable {
                         delete_transfer_statement.setString(1, ID);
                         delete_transfer_statement.executeUpdate();
                         Alert confirm = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Success");
-                        alert.setHeaderText("Transfer transaction");
-                        alert.setContentText("Transfer transaction removed");
-                        alert.showAndWait();
+                        confirm.setTitle("Success");
+                        confirm.setHeaderText("Transfer transaction");
+                        confirm.setContentText("Transfer transaction removed");
+                        confirm.showAndWait();
                         on_type_selected();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -300,24 +300,22 @@ public class TransactionsController implements Initializable {
         root = loader.load();
         controller = loader.getController();
         if (dest == null)
-            controller.others_initialize(amount, people, place, cat, note, desc, date, src, id, selected_type);
-        else controller.transfer_initialize(amount, people, place, cat, note, desc, date, src, dest, id, selected_type);
-        connection.close();
+            controller.others_initialize(connection, amount, people, place, cat, note, desc, date, src, id, selected_type);
+        else controller.transfer_initialize(connection, amount, people, place, cat, note, desc, date, src, dest, id, selected_type);
+        //connection.close();
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.WINDOW_MODAL);
         popupStage.initOwner(((Node) event.getSource()).getScene().getWindow());
         popupStage.setScene(new Scene(root));
         popupStage.setResizable(false);
+        popupStage.show();
         popupStage.setOnHidden(e -> {
             try {
-                connection = Makeconnection.makeconnection();
-                statement = connection.createStatement();
-                statement.setQueryTimeout(30);
+                on_type_selected();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         });
-        popupStage.show();
     }
 
     Button add_category_button;

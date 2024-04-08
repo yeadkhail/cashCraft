@@ -1,5 +1,7 @@
 package com.example.cashcraft;
 
+import javafx.scene.control.Alert;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -154,41 +156,135 @@ public class PersonDao {
             if (type.equals("Income")) {
                 PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Income SET amount=?, people=?, place=?, category=?, notes=?, desc=?, date=?, wallet=? WHERE income_id=?");
 
-                preparedStatement.setFloat(1, Float.parseFloat(transaction.amount));
+                preparedStatement.setString(1, transaction.amount);
 
                 if (transaction.people_id != null) {
-                    preparedStatement.setObject(2, UUID.fromString(transaction.people_id));
+                    preparedStatement.setString(2, transaction.people_id);
                 } else {
-                    preparedStatement.setObject(2, null); // Set the column to NULL
+                    preparedStatement.setObject(2, ""); // Set the column to NULL
                 }
 
                 if (transaction.place_id != null) {
-                    preparedStatement.setObject(3, UUID.fromString(transaction.place_id));
+                    preparedStatement.setString(3, transaction.place_id);
                 } else {
-                    preparedStatement.setObject(3, null); // Set the column to NULL
+                    preparedStatement.setString(3, ""); // Set the column to NULL
                 }
 
                 if (transaction.category_id != null) {
-                    preparedStatement.setObject(4, UUID.fromString(transaction.category_id));
+                    preparedStatement.setString(4, transaction.category_id);
                 } else {
-                    preparedStatement.setObject(4, null); // Set the column to NULL
+                    preparedStatement.setString(4, ""); // Set the column to NULL
                 }
 
                 preparedStatement.setString(5, transaction.note);
                 preparedStatement.setString(6, transaction.desc);
-                preparedStatement.setDate(7, Date.valueOf(transaction.date));
+                preparedStatement.setString(7, transaction.date);
 
                 if (transaction.main_wallet_id != null) {
-                    preparedStatement.setObject(8, UUID.fromString(transaction.main_wallet_id));
+                    preparedStatement.setString(8,transaction.main_wallet_id);
                 } else {
-                    preparedStatement.setObject(8, null); // Set the column to NULL
+                    preparedStatement.setString(8, ""); // Set the column to NULL
                 }
 
-                preparedStatement.setObject(9, UUID.fromString(id));
+                preparedStatement.setString(9, id);
 
                 preparedStatement.executeUpdate();
-                System.out.println("Success income update!");
-                //System.out.println(Date.valueOf(transaction.date));
+                Alert confirm = new Alert(Alert.AlertType.INFORMATION);
+                confirm.setTitle("Success");
+                confirm.setHeaderText("Edit successful");
+                confirm.setContentText("Your transaction has been modified!");
+                confirm.showAndWait();
+            }
+            else if(type.equals("Expense"))
+            {
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE expense SET amount=?, people=?, place=?, category=?, notes=?, desc=?, date=?, wallet=? WHERE transaction_id=?");
+
+                preparedStatement.setString(1, transaction.amount);
+
+                if (transaction.people_id != null) {
+                    preparedStatement.setString(2, transaction.people_id);
+                } else {
+                    preparedStatement.setObject(2, ""); // Set the column to NULL
+                }
+
+                if (transaction.place_id != null) {
+                    preparedStatement.setString(3, transaction.place_id);
+                } else {
+                    preparedStatement.setString(3, ""); // Set the column to NULL
+                }
+
+                if (transaction.category_id != null) {
+                    preparedStatement.setString(4, transaction.category_id);
+                } else {
+                    preparedStatement.setString(4, ""); // Set the column to NULL
+                }
+
+                preparedStatement.setString(5, transaction.note);
+                preparedStatement.setString(6, transaction.desc);
+                preparedStatement.setString(7, transaction.date);
+
+                if (transaction.main_wallet_id != null) {
+                    preparedStatement.setString(8,transaction.main_wallet_id);
+                } else {
+                    preparedStatement.setString(8, ""); // Set the column to NULL
+                }
+
+                preparedStatement.setString(9, id);
+
+                preparedStatement.executeUpdate();
+                Alert confirm = new Alert(Alert.AlertType.INFORMATION);
+                confirm.setTitle("Success");
+                confirm.setHeaderText("Edit successful");
+                confirm.setContentText("Your transaction has been modified!");
+                confirm.showAndWait();
+            }
+            else
+            {
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE transfer SET amount=?, people=?, place=?, category=?, notes=?, desc=?, date=?, from_wallet=?,to_wallet=? WHERE transfer_id=?");
+
+                preparedStatement.setString(1, transaction.amount);
+
+                if (transaction.people_id != null) {
+                    preparedStatement.setString(2, transaction.people_id);
+                } else {
+                    preparedStatement.setObject(2, ""); // Set the column to NULL
+                }
+
+                if (transaction.place_id != null) {
+                    preparedStatement.setString(3, transaction.place_id);
+                } else {
+                    preparedStatement.setString(3, ""); // Set the column to NULL
+                }
+
+                if (transaction.category_id != null) {
+                    preparedStatement.setString(4, transaction.category_id);
+                } else {
+                    preparedStatement.setString(4, ""); // Set the column to NULL
+                }
+
+                preparedStatement.setString(5, transaction.note);
+                preparedStatement.setString(6, transaction.desc);
+                preparedStatement.setString(7, transaction.date);
+                if (transaction.main_wallet_id != null) {
+                    preparedStatement.setString(8,transaction.main_wallet_id);
+                } else {
+                    preparedStatement.setString(8, ""); // Set the column to NULL
+                }
+
+                if (transaction.end_wallet_id != null) {
+                    preparedStatement.setString(9,transaction.end_wallet_id);
+                } else {
+                    preparedStatement.setString(9, ""); // Set the column to NULL
+                }
+
+                preparedStatement.setString(10, id);
+
+                preparedStatement.executeUpdate();
+                Alert confirm = new Alert(Alert.AlertType.INFORMATION);
+                confirm.setTitle("Success");
+                confirm.setHeaderText("Edit successful");
+                confirm.setContentText("Your transaction has been modified!");
+                confirm.showAndWait();
             }
         } catch (SQLException e) {
             e.printStackTrace();

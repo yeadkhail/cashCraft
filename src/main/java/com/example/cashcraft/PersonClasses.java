@@ -231,6 +231,7 @@ public class PersonClasses {
         public String note;
         public String desc;
         public String main_wallet_id;
+        public String end_wallet_id;
         public String date;
 
         public Income_and_expense_String(String a,String pid,String plid, String cid, String n, String de, String mwi, String d)
@@ -242,6 +243,18 @@ public class PersonClasses {
             note=n;
             desc=de;
             main_wallet_id=mwi;
+            date=d;
+        }
+        public Income_and_expense_String(String a,String pid,String plid, String cid, String n, String de, String mwi,String ewi, String d)
+        {
+            amount=a;
+            people_id=pid;
+            place_id=plid;
+            category_id=cid;
+            note=n;
+            desc=de;
+            main_wallet_id=mwi;
+            end_wallet_id=ewi;
             date=d;
         }
     }
