@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 public class PersonDao {
@@ -113,6 +114,36 @@ public class PersonDao {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from wallet where wallet.wallet_name = ?");
             preparedStatement.setString(1, name);
             return preparedStatement.executeQuery().next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void editCategory(PersonClasses.Category oldcategory,PersonClasses.Category newcategory) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("update category set category_name = ?, category_desc = ? where category_name = ?");
+            preparedStatement.setString(1, newcategory.name);
+            preparedStatement.setString(2, newcategory.desc);
+            preparedStatement.setString(3, oldcategory.name);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<PersonClasses.Category> getCategories() {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from category");
+            return PersonClasses.Category.fromResultSet(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteCategory(PersonClasses.Category selectedCategory) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from category where category_name = ?");
+            preparedStatement.setString(1, selectedCategory.name);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

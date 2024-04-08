@@ -1,0 +1,89 @@
+.roundbutton {
+    -fx-background-radius: 10,10,10;
+}
+
+.radial-gradient {
+    /* Radial gradient */
+    -fx-background-color: linear-gradient(to left, #5F0F40, #310E68);
+}
+
+.button:hover {
+    /* New background color when hovering */
+    -fx-background-color: linear-gradient(to right, #EE696B, #523A78);
+}
+
+.radial-green-gradient {
+    /* Radial gradient */
+    -fx-background-color: linear-gradient(to left, #000000, #166D3B);
+}
+
+.linear-transaction-gradient {
+    /* Radial gradient */
+    -fx-background-color: linear-gradient(to left, #DBE7FC, #1D2951);
+}
+
+.linear-transactiontable-gradient {
+    /* Radial gradient */
+    -fx-background-color: linear-gradient(to right, #DBE7FC, #1D2951);
+}
+
+.linear-button-gradient {
+    /* Radial gradient */
+    -fx-background-color: linear-gradient(to left, #91A6FF, #FFFFFF);
+}
+
+.transactionbuttonhover:hover {
+    /* Background color when hovering */
+    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
+
+    /* Text color when hovering */
+    -fx-text-fill: white;
+}
+
+.combo-box .arrow-button:hover {
+    /* Background color when hovering */
+    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
+
+    /* Text color when hovering */
+    -fx-text-fill: white;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #FFFFFF;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #EFE9F4;
+}
+
+.column-header {
+    -fx-background-color: #EFE9F4;
+    -fx-text-fill: WHITE;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #12100E;
+    -fx-text-fill: white;
+}
+
+.linear-edit-gradient {
+    /* Radial gradient */
+    -fx-background-color: #1D2951;
+}
+
+.dialog-button {
+    -fx-background-color: linear-gradient(to left, #91A6FF, #FFFFFF);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.dialog-button:hover {
+    -fx-background-color: linear-gradient(to right, #EE696B, #523A78);
+}
+
+.transactionbuttonhover:hover,
+.combo-box .arrow-button:hover {
+    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
+    -fx-text-fill: white;
+}
