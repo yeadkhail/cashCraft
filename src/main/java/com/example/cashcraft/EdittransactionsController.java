@@ -3,6 +3,7 @@ package com.example.cashcraft;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
@@ -59,6 +60,7 @@ public class EdittransactionsController implements Initializable {
     String query;
     String trans_id;
     String selected_type;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -67,22 +69,19 @@ public class EdittransactionsController implements Initializable {
                 event.consume();
             }
         });
-        try {
-            connection=Makeconnection.makeconnection();
-            statement=connection.createStatement();
-            statement.setQueryTimeout(30);
-            peoplestatement= connection.prepareStatement("SELECT people_id from people where people_name=?");
-            placestatement= connection.prepareStatement("SELECT place_id from place where place_name=?");
-            categorystatement= connection.prepareStatement("SELECT category_id from category where category_name=?");
-            mainwalletstatement= connection.prepareStatement("SELECT wallet_id from wallet where wallet_name=?");
-            endwalletstatement= connection.prepareStatement("SELECT wallet_id from wallet where wallet_name=?");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
     @FXML
-    public void others_initialize(String amount, String people, String place,String cat, String note, String desc,String date, String src, String id,String type) throws SQLException//selected either income or expense
+    public void others_initialize(Connection conn,String amount, String people, String place,String cat, String note, String desc,String date, String src, String id,String type) throws SQLException//selected either income or expense
     {
+        connection=conn;
+        statement=connection.createStatement();
+        statement.setQueryTimeout(30);
+        peoplestatement= connection.prepareStatement("SELECT people_id from people where people_name=?");
+        placestatement= connection.prepareStatement("SELECT place_id from place where place_name=?");
+        categorystatement= connection.prepareStatement("SELECT category_id from category where category_name=?");
+        mainwalletstatement= connection.prepareStatement("SELECT wallet_id from wallet where wallet_name=?");
+        endwalletstatement= connection.prepareStatement("SELECT wallet_id from wallet where wallet_name=?");
+
         trans_id=id;
         selected_type=type;
         List<String> items = new ArrayList<>();
@@ -133,13 +132,22 @@ public class EdittransactionsController implements Initializable {
         category_box.setValue(cat);
         place_box.setValue(place);
         mainwallet_box.setValue(src);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Assuming 'date' parameter is in this format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate parsedDate = LocalDate.parse(date, formatter);
         date_box.setValue(parsedDate);
     }
     @FXML
-    public void transfer_initialize(String amount, String people, String place,String cat, String note, String desc,String date, String src, String dest, String id,String type) throws SQLException//selected either income or expense
+    public void transfer_initialize(Connection conn,String amount, String people, String place,String cat, String note, String desc,String date, String src, String dest, String id,String type) throws SQLException//selected either income or expense
     {
+        connection=conn;
+        statement=connection.createStatement();
+        statement.setQueryTimeout(30);
+        peoplestatement= connection.prepareStatement("SELECT people_id from people where people_name=?");
+        placestatement= connection.prepareStatement("SELECT place_id from place where place_name=?");
+        categorystatement= connection.prepareStatement("SELECT category_id from category where category_name=?");
+        mainwalletstatement= connection.prepareStatement("SELECT wallet_id from wallet where wallet_name=?");
+        //endwalletstatement= connection.prepareStatement("SELECT wallet_id from wallet where wallet_name=?");
+
         trans_id=id;
         selected_type=type;
         List<String> items = new ArrayList<>();
@@ -199,8 +207,9 @@ public class EdittransactionsController implements Initializable {
         place_box.setValue(place);
         mainwallet_box.setValue(src);
         endwallet_box.setValue(dest);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Assuming 'date' parameter is in this format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate parsedDate = LocalDate.parse(date, formatter);
+        date_box.setValue(parsedDate);
     }
     @FXML
     void on_confirm_edits_clicked()
@@ -211,6 +220,7 @@ public class EdittransactionsController implements Initializable {
             String note=note_box.getText();
             String desc=description_box.getText();
             LocalDate selectedDate = date_box.getValue();
+            System.out.println(selectedDate);
             String formattedDate = selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             String people=people_box.getValue();
             String place=place_box.getValue();
@@ -232,12 +242,20 @@ public class EdittransactionsController implements Initializable {
             if(!endwallet_box.isDisabled())//transfer update wanted
             {
                 endwallet=endwallet_box.getValue();
-                endwalletstatement.setString(1,endwallet);
+                mainwalletstatement.setString(1,endwallet);
+                temp_result=mainwalletstatement.executeQuery();
                 if(temp_result.next())endwallet=temp_result.getString("wallet_id");
+                System.out.println("passed "+endwallet+mainwallet);
+
+                PersonClasses.Income_and_expense_String obj= new PersonClasses.Income_and_expense_String(amount,people,place,category,note,desc,mainwallet,endwallet,formattedDate);
+                PersonDao.editTransaction(obj, connection, trans_id,selected_type);
             }
-            PersonClasses.Income_and_expense_String obj= new PersonClasses.Income_and_expense_String(amount,people,place,category,note,desc,mainwallet,formattedDate);
-            System.out.println(trans_id);
-            PersonDao.editTransaction(obj, connection, trans_id,selected_type);
+            else
+            {
+                PersonClasses.Income_and_expense_String obj= new PersonClasses.Income_and_expense_String(amount,people,place,category,note,desc,mainwallet,formattedDate);
+                PersonDao.editTransaction(obj, connection, trans_id,selected_type);
+            }
+            //System.out.println(trans_id);
             //            System.out.println(people+place+category+mainwallet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
