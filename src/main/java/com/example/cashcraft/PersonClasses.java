@@ -46,6 +46,28 @@ public class PersonClasses {
             this.name = name;
             this.desc = desc;
         }
+
+        public static List<Place> fromResultSet(ResultSet resultSet) {
+            List<Place> places = new ArrayList<>();
+            try {
+                while (resultSet.next()) {
+                    String name = resultSet.getString("place_name");
+                    String desc = resultSet.getString("place_desc");
+                    places.add(new Place(name, desc));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return places;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return desc;
+        }
     }
     public static class People{
         public String uuid;

@@ -446,5 +446,23 @@ public class TransactionsController implements Initializable
             e.printStackTrace();
         }
     }
+    public void handleEditPlaceButton(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit-place-dialouge-box.fxml"));
+            Parent editPlaceParent = fxmlLoader.load();
+
+            Scene editPlaceScene = new Scene(editPlaceParent);
+            Stage editPlaceStage = new Stage();
+
+            editPlaceStage.setScene(editPlaceScene);
+
+            editPlaceStage.setTitle("Edit Place");
+            editPlaceStage.initModality(Modality.APPLICATION_MODAL);
+
+            editPlaceStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
