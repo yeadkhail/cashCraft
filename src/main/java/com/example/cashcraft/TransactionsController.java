@@ -279,52 +279,55 @@ public class TransactionsController implements Initializable
                 }
             });
     }
-//    @FXML
-//    void on_edit_clicked(ActionEvent event) throws IOException, SQLException {
-//        // Get the value from the specific column directly
-//        amount_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(0);
-//        people_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(1);
-//        place_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(2);
-//        cat_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(3);
-//        note_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(4);
-//        desc_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(5);
-//        date_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(6);
-//        src_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(7);
-//        dest_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(8);
-//
-//        String amount = amount_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
-//        String people = people_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
-//        String place = place_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
-//        String cat = cat_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
-//        String note = note_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
-//        String desc = desc_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
-//        String date = date_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
-//        String src = src_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
-//        String dest = dest_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
-//
-//        System.out.println(amount+people+place+cat+note+desc+date+src+dest);
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("edit-transactions.fxml"));
-//            root = loader.load();
-//            controller = loader.getController();
-//            if(dest==null) controller.others_initialize(amount,people,place,cat,note,desc,date,src);
-//            else controller.transfer_initialize(amount,people,place,cat,note,desc,date,src,dest);
-//            connection.close();
-//            Stage popupStage = new Stage();
-//            popupStage.initModality(Modality.WINDOW_MODAL);
-//            popupStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-//            popupStage.setScene(new Scene(root));
-//            popupStage.setResizable(false);
-//            popupStage.setOnHidden(e -> {
-//                try {
-//                    connection = Makeconnection.makeconnection();
-//                    statement = connection.createStatement();
-//                    statement.setQueryTimeout(30);
-//                } catch (SQLException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//            });
-//            popupStage.show();
-//    }
+    @FXML
+    void on_edit_clicked(ActionEvent event) throws IOException, SQLException {
+        // Get the value from the specific column directly
+        amount_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(0);
+        people_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(1);
+        place_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(2);
+        cat_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(3);
+        note_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(4);
+        desc_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(5);
+        date_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(6);
+        src_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(7);
+        dest_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(8);
+        trans_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(9);
+
+        String amount = amount_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String people = people_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String place = place_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String cat = cat_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String note = note_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String desc = desc_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String date = date_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String src = src_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String dest = dest_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        String id =trans_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        selected_type=type_combo.getValue();
+        //System.out.println(amount+people+place+cat+note+desc+date+src+dest);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("edit-transactions.fxml"));
+            root = loader.load();
+            controller = loader.getController();
+            if(dest==null) controller.others_initialize(amount,people,place,cat,note,desc,date,src,id,selected_type);
+            else controller.transfer_initialize(amount,people,place,cat,note,desc,date,src,dest,id,selected_type);
+            connection.close();
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.WINDOW_MODAL);
+            popupStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            popupStage.setScene(new Scene(root));
+            popupStage.setResizable(false);
+            popupStage.setOnHidden(e -> {
+                try {
+                    connection = Makeconnection.makeconnection();
+                    statement = connection.createStatement();
+                    statement.setQueryTimeout(30);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            popupStage.show();
+    }
     Button add_category_button;
     @FXML
     private void handleAddCategoryButton(ActionEvent event) {

@@ -1,8 +1,10 @@
 package com.example.cashcraft;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class PersonDao {
 
@@ -113,6 +115,53 @@ public class PersonDao {
             return preparedStatement.executeQuery().next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void editTransaction(PersonClasses.Income_and_expense_String transaction, Connection connection, String id, String type) {
+        try {
+            if (type.equals("Income")) {
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Income SET amount=?, people=?, place=?, category=?, notes=?, desc=?, date=?, wallet=? WHERE income_id=?");
+
+                preparedStatement.setFloat(1, Float.parseFloat(transaction.amount));
+
+                if (transaction.people_id != null) {
+                    preparedStatement.setObject(2, UUID.fromString(transaction.people_id));
+                } else {
+                    preparedStatement.setObject(2, null); // Set the column to NULL
+                }
+
+                if (transaction.place_id != null) {
+                    preparedStatement.setObject(3, UUID.fromString(transaction.place_id));
+                } else {
+                    preparedStatement.setObject(3, null); // Set the column to NULL
+                }
+
+                if (transaction.category_id != null) {
+                    preparedStatement.setObject(4, UUID.fromString(transaction.category_id));
+                } else {
+                    preparedStatement.setObject(4, null); // Set the column to NULL
+                }
+
+                preparedStatement.setString(5, transaction.note);
+                preparedStatement.setString(6, transaction.desc);
+                preparedStatement.setDate(7, Date.valueOf(transaction.date));
+
+                if (transaction.main_wallet_id != null) {
+                    preparedStatement.setObject(8, UUID.fromString(transaction.main_wallet_id));
+                } else {
+                    preparedStatement.setObject(8, null); // Set the column to NULL
+                }
+
+                preparedStatement.setObject(9, UUID.fromString(id));
+
+                preparedStatement.executeUpdate();
+                System.out.println("Success income update!");
+                //System.out.println(Date.valueOf(transaction.date));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle SQLException appropriately
         }
     }
 }
