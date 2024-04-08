@@ -1,6 +1,7 @@
 package com.example.cashcraft;
 
 import java.security.cert.PolicyNode;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -130,6 +131,30 @@ public class PersonClasses {
             this.notes = notes;
         }
 
+    }
+
+    public static class Income_and_expense_String
+    {
+        public String amount;
+        public String people_id;
+        public String place_id;
+        public String category_id;
+        public String note;
+        public String desc;
+        public String main_wallet_id;
+        public String date;
+
+        public Income_and_expense_String(String a,String pid,String plid, String cid, String n, String de, String mwi, String d)
+        {
+            amount=a;
+            people_id=pid;
+            place_id=plid;
+            category_id=cid;
+            note=n;
+            desc=de;
+            main_wallet_id=mwi;
+            date=d;
+        }
     }
 
 
