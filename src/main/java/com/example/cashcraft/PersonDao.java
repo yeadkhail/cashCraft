@@ -195,4 +195,35 @@ public class PersonDao {
             // Handle SQLException appropriately
         }
     }
+
+    public static List<PersonClasses.People> getPeople() {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from people");
+            return PersonClasses.People.fromResultSet(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void editPerson(PersonClasses.People selectedPerson, PersonClasses.People newPerson) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("update people set people_name = ?, people_desc = ? where people_name = ?");
+            preparedStatement.setString(1, newPerson.name);
+            preparedStatement.setString(2, newPerson.desc);
+            preparedStatement.setString(3, selectedPerson.name);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deletePerson(PersonClasses.People selectedPerson) {
+        try (Connection connection = Makeconnection.makeconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from people where people_name = ?");
+            preparedStatement.setString(1, selectedPerson.name);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
