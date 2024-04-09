@@ -26,12 +26,12 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="110.65999984741211">
+                <Text fill="#fcf7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="110.65999984741211">
                     <font>
                         <Font name="Noto Sans Regular" size="20.0" />
                     </font>
                 </Text>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textAlignment="CENTER" wrappingWidth="160.9800033569336" GridPane.rowIndex="1">
+                <Text fill="#f5f5f5" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textAlignment="CENTER" wrappingWidth="160.9800033569336" GridPane.rowIndex="1">
                     <font>
                         <Font name="Noto Sans Regular" size="20.0" />
                     </font>
