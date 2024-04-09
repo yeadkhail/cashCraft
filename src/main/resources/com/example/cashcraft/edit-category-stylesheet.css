@@ -1,89 +1,153 @@
-.roundbutton {
-    -fx-background-radius: 10,10,10;
+.text {
+    -fx-text-fill: white; /* Set text color to white */
+}
+/* Anchor Pane Styles */
+.anchor-pane {
+    -fx-background-color: linear-gradient(to bottom, #5F0F40, #310E68);
 }
 
-.radial-gradient {
-    /* Radial gradient */
-    -fx-background-color: linear-gradient(to left, #5F0F40, #310E68);
+/* Grid Pane Styles */
+.grid-pane {
+    -fx-background-color: #EFE9F4;
+}
+
+/* Text Styles */
+.text {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+}
+
+/* List View Styles */
+/* List View Styles */
+/* List View Styles */
+.list-view {
+    -fx-background-color: #232f56; /* Dark blue background */
+    -fx-control-inner-background: #232f56; /* Background for the list items */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 16px;
+    -fx-padding: 5px; /* Padding around the content */
+    -fx-border-color: #1D2951; /* Border color */
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-background-insets: 0; /* Remove the default insets */
+}
+
+/* Hide Horizontal Scrollbar */
+.list-view .scroll-bar:horizontal {
+    -fx-opacity: 0; /* Hide the horizontal scrollbar */
+}
+
+/* List Cell Styles */
+.list-cell {
+    -fx-background-color: transparent; /* Transparent background for cells */
+    -fx-font-size: 10px; /* Adjust the font size as desired */
+}
+
+/* List Cell Hover Styles */
+.list-cell:hover {
+    -fx-background-color: #4B6EAF; /* Hover color for cells */
+}
+
+
+
+/* Text Field Styles */
+.text-field {
+    -fx-background-color: #DBE7FC;
+    -fx-text-fill: #1D2951;
+    -fx-font-size: 16px;
+    -fx-padding: 5px;
+    -fx-border-color: #1D2951;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+}
+
+.button {
+    -fx-background-color: linear-gradient(to right, #91A6FF, #FFFFFF);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 16px;
+    -fx-border-width: 1px;
+    -fx-border-color: #91A6FF; /* Border color matches the start color of the gradient */
 }
 
 .button:hover {
-    /* New background color when hovering */
     -fx-background-color: linear-gradient(to right, #EE696B, #523A78);
+    -fx-border-color: #EE696B; /* Border color changes when hovered */
 }
 
-.radial-green-gradient {
-    /* Radial gradient */
-    -fx-background-color: linear-gradient(to left, #000000, #166D3B);
+/* Button Bar Styles */
+.button-bar {
+    -fx-background-color: transparent; /* Make the ButtonBar transparent */
 }
 
-.linear-transaction-gradient {
-    /* Radial gradient */
-    -fx-background-color: linear-gradient(to left, #DBE7FC, #1D2951);
+
+/* Tab Pane Styles */
+.tab-pane {
+    -fx-background-color: transparent;
 }
 
-.linear-transactiontable-gradient {
-    /* Radial gradient */
-    -fx-background-color: linear-gradient(to right, #DBE7FC, #1D2951);
-}
-
-.linear-button-gradient {
-    /* Radial gradient */
-    -fx-background-color: linear-gradient(to left, #91A6FF, #FFFFFF);
-}
-
-.transactionbuttonhover:hover {
-    /* Background color when hovering */
-    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
-
-    /* Text color when hovering */
+/* Tab Styles */
+.tab {
+    -fx-background-color: #232f56;
     -fx-text-fill: white;
-}
-
-.combo-box .arrow-button:hover {
-    /* Background color when hovering */
-    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
-
-    /* Text color when hovering */
-    -fx-text-fill: white;
-}
-
-.table-row-cell:even {
-    -fx-background-color: #FFFFFF;
-}
-
-.table-row-cell:odd {
-    -fx-background-color: #EFE9F4;
-}
-
-.column-header {
-    -fx-background-color: #EFE9F4;
-    -fx-text-fill: WHITE;
     -fx-font-weight: bold;
+    -fx-padding: 0 10 0 10;
 }
 
-.table-row-cell:selected {
-    -fx-background-color: #12100E;
-    -fx-text-fill: white;
+.tab:selected {
+    -fx-background-color: #007acc;
 }
 
-.linear-edit-gradient {
-    /* Radial gradient */
-    -fx-background-color: #1D2951;
+.tab:hover {
+    -fx-background-color: #4B6EAF;
 }
 
-.dialog-button {
-    -fx-background-color: linear-gradient(to left, #91A6FF, #FFFFFF);
+/* Hide the ButtonBar */
+/* Hide the ButtonBar background */
+.button-bar {
+    -fx-background-color: transparent;
+}
+
+/* Show the buttons inside the ButtonBar */
+.button-bar > .button {
+    -fx-opacity: 1; /* Make the buttons visible */
+    -fx-background-color: transparent; /* Optionally, set the background color to transparent */
+}
+
+
+
+/* Button Styles */
+.button {
+    -fx-background-color: linear-gradient(to right, #9C27B0, #6A1B9A);
     -fx-text-fill: white;
     -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 16px; /* Padding around the text */
+    -fx-min-width: 100px; /* Set a minimum width for the buttons */
+    -fx-max-width: 200px; /* Set a maximum width for the buttons */
+    -fx-border-width: 1px;
+    -fx-border-color: #9C27B0; /* Border color matches the start color of the gradient */
 }
 
-.dialog-button:hover {
-    -fx-background-color: linear-gradient(to right, #EE696B, #523A78);
+.button:hover {
+    -fx-background-color: linear-gradient(to right, #FF4081, #C51162);
+    -fx-border-color: #FF4081; /* Border color changes when hovered */
 }
 
-.transactionbuttonhover:hover,
-.combo-box .arrow-button:hover {
-    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
-    -fx-text-fill: white;
+
+/* Button Bar Tab Styles */
+.tab-pane > .tab-header-area > .headers-region > .tab-header-background {
+    -fx-opacity: 0; /* Hide the background of the tab headers */
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-opacity: 0; /* Hide the tabs */
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-opacity: 0; /* Hide the selected tab */
+}
+.button-bar .tab {
+    -fx-opacity: 0; /* Hide the tab headers */
 }
