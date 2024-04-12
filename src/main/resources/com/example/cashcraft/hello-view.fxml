@@ -3,13 +3,21 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@test.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.TransactionsController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@test.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.TransactionsController">
   <tabs>
     <Tab text="Transactions">
       <content>
@@ -100,9 +108,35 @@
                </children></AnchorPane>
       </content>
     </Tab>
-    <Tab text="Untitled Tab 2">
+    <Tab onSelectionChanged="#zakInit" text="Zakat">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="anchor-pane" stylesheets="@edit-category-stylesheet.css">
+               <children>
+                  <ImageView fitHeight="660.0" fitWidth="816.0" layoutX="232.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/pngwing.com.png" />
+                     </image>
+                  </ImageView>
+                  <GridPane layoutY="-2.0" prefHeight="658.0" prefWidth="232.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="324.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="593.0" minHeight="10.0" prefHeight="590.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" prefHeight="72.0" prefWidth="250.0" text="Select Wallet" textFill="#f2f2f2" />
+                        <ListView fx:id="ZakwalletListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+                  <Label layoutX="365.0" layoutY="112.0" prefHeight="51.0" prefWidth="82.0" text="Name:" textFill="#fcfcfc" />
+                  <Label layoutX="365.0" layoutY="189.0" prefHeight="51.0" prefWidth="124.0" text="Description:" textFill="#fcfcfc" />
+                  <Label layoutX="365.0" layoutY="275.0" prefHeight="51.0" prefWidth="82.0" text="Zakat:" textFill="#fcfcfc" />
+                  <TextField fx:id="nameField" layoutX="513.0" layoutY="125.0" prefHeight="37.0" prefWidth="287.0" />
+                  <TextField fx:id="descField" layoutX="512.0" layoutY="196.0" prefHeight="59.0" prefWidth="287.0" />
+                  <TextField fx:id="zakField" layoutX="512.0" layoutY="282.0" prefHeight="37.0" prefWidth="125.0" />
+               </children></AnchorPane>
       </content>
     </Tab>
   </tabs>
