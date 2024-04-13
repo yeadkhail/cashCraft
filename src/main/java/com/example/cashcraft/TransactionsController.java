@@ -534,12 +534,24 @@ public class TransactionsController implements Initializable {
             }
         });
 
+
         ZakwalletListView.setItems(observableList);
         ZakwalletListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
+                String walName;
+                ResultSet tot_Amount;
+                walName = newValue.getName();
                 nameField.setText(newValue.getName());
                 descField.setText(newValue.getDescription());
+                try (Connection connection = Makeconnection.makeconnection()) {
+                    PreparedStatement preparedStatement = connection.prepareStatement("select current_balance from wallet_balance_view where wallet_name = " + walName);
+                    tot_Amount = preparedStatement.executeQuery();
+                    zakField.setText(tot_Amount.getString("current_balance"));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
+
     }
 }
