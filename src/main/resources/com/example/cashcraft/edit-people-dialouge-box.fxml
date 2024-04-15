@@ -31,7 +31,7 @@
                         <RowConstraints maxHeight="304.0" minHeight="10.0" prefHeight="293.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select People" textAlignment="CENTER" wrappingWidth="173.7294921875">
+                        <Text fill="#f8f7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="Select People" textAlignment="CENTER" wrappingWidth="173.7294921875">
                             <font>
                                 <Font size="19.0" />
                             </font>
@@ -50,12 +50,12 @@
                         <RowConstraints maxHeight="243.0" minHeight="10.0" prefHeight="106.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="110.65999984741211">
+                        <Text fill="#fcfafa" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="110.65999984741211">
                             <font>
                                 <Font name="Noto Sans Regular" size="20.0" />
                             </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textAlignment="CENTER" wrappingWidth="142.9800033569336" GridPane.rowIndex="1">
+                        <Text fill="#fcf9f9" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textAlignment="CENTER" wrappingWidth="142.9800033569336" GridPane.rowIndex="1">
                             <font>
                                 <Font name="Noto Sans Regular" size="20.0" />
                             </font>
