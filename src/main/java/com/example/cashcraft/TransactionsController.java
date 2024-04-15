@@ -93,7 +93,7 @@ public class TransactionsController implements Initializable {
     @FXML
     void on_type_selected() throws SQLException {
 
-        if(connection.isClosed())
+        if(connection.isClosed())//connection to be closed
         {
             connection = Makeconnection.makeconnection();
             statement = connection.createStatement();
