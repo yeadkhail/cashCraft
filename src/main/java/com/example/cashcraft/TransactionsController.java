@@ -544,9 +544,11 @@ public class TransactionsController implements Initializable {
                 nameField.setText(newValue.getName());
                 descField.setText(newValue.getDescription());
                 try (Connection connection = Makeconnection.makeconnection()) {
-                    PreparedStatement preparedStatement = connection.prepareStatement("select current_balance from wallet_balance_view where wallet_name = " + walName);
+                    PreparedStatement preparedStatement = connection.prepareStatement("select current_balance from wallet_balance_view where wallet_name = ?");
+                    preparedStatement.setString(1, walName);
                     tot_Amount = preparedStatement.executeQuery();
-                    zakField.setText(tot_Amount.getString("current_balance"));
+                    int val = tot_Amount.getInt("current_balance");
+                    zakField.setText(String.valueOf(val * .025));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
