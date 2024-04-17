@@ -102,6 +102,17 @@ public class TransactionsController implements Initializable {
 
     @FXML
     void on_type_selected() throws SQLException {
+
+        if(connection.isClosed())//connection to be closed
+        {
+            connection = Makeconnection.makeconnection();
+            statement = connection.createStatement();
+            delete_income_statement = connection.prepareStatement("DELETE FROM Income WHERE income_id=?");
+            delete_expense_statement = connection.prepareStatement("DELETE FROM expense WHERE transaction_id=?");
+            delete_transfer_statement = connection.prepareStatement("DELETE FROM transfer WHERE transfer_id=?");
+            statement.setQueryTimeout(30);
+        }
+
         info_box.getItems().clear();
         if (type_combo.getValue() != null) {
             selected_type = type_combo.getValue();
@@ -342,6 +353,15 @@ public class TransactionsController implements Initializable {
             dialog.setTitle("Add Category");
             Optional<ButtonType> clickedbutton = dialog.showAndWait();
 
+            dialog.setOnCloseRequest(EVENT -> {
+                try
+                {
+                    on_type_selected();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+
             if (clickedbutton.get() == ButtonType.FINISH) {
                 AddCategory controller = fxmlLoader.getController();
                 controller.handleFinishButton();
@@ -362,6 +382,15 @@ public class TransactionsController implements Initializable {
             dialog.setDialogPane(dialogPane);
             dialog.setTitle("Add People");
             Optional<ButtonType> clickedbutton = dialog.showAndWait();
+
+            dialog.setOnCloseRequest(EVENT -> {
+                try
+                {
+                    on_type_selected();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
 
             if (clickedbutton.get() == ButtonType.FINISH) {
                 AddPeople controller = fxmlLoader.getController();
@@ -386,6 +415,15 @@ public class TransactionsController implements Initializable {
             dialog.setTitle("Add Place");
             Optional<ButtonType> clickedbutton = dialog.showAndWait();
 
+            dialog.setOnCloseRequest(EVENT -> {
+                try
+                {
+                    on_type_selected();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+
             if (clickedbutton.get() == ButtonType.FINISH) {
                 AddPlace controller = fxmlLoader.getController();
                 controller.handleFinishButton();
@@ -398,6 +436,7 @@ public class TransactionsController implements Initializable {
     @FXML
     private void handleAddWalletButton(ActionEvent event) {
         try {
+            connection.close();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("add-wallet-dialouge.fxml"));
             DialogPane dialogPane = fxmlLoader.load();
 
@@ -407,17 +446,29 @@ public class TransactionsController implements Initializable {
             dialog.setTitle("Add Wallet");
             Optional<ButtonType> clickedbutton = dialog.showAndWait();
 
+            dialog.setOnCloseRequest(EVENT -> {
+                try
+                {
+                    on_type_selected();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+
             if (clickedbutton.get() == ButtonType.FINISH) {
                 AddWallet controller = fxmlLoader.getController();
                 controller.handleFinishButton();
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public void handleEditCategoryButton(ActionEvent event) {
         try {
+            connection.close();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit-category-dialouge-box.fxml"));
             Parent editCategoryParent = fxmlLoader.load();
 
@@ -439,11 +490,14 @@ public class TransactionsController implements Initializable {
             });
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public void handleEditPeopleButton(ActionEvent event) {
         try {
+            connection.close();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit-people-dialouge-box.fxml"));
             Parent editPeopleParent = fxmlLoader.load();
 
@@ -465,11 +519,14 @@ public class TransactionsController implements Initializable {
             });
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public void handleEditPlaceButton(ActionEvent event) {
         try {
+            connection.close();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit-place-dialouge-box.fxml"));
             Parent editPlaceParent = fxmlLoader.load();
 
@@ -491,10 +548,13 @@ public class TransactionsController implements Initializable {
             });
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
     public void handleEditWalletButton(ActionEvent event) {
         try {
+            connection.close();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit-wallet-dialouge-box.fxml"));
             Parent editWalletParent = fxmlLoader.load();
 
@@ -516,6 +576,8 @@ public class TransactionsController implements Initializable {
             });
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
     public void zakInit(){
