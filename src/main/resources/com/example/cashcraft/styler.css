@@ -1,78 +1,56 @@
-.roundbutton
+.button
 {
     -fx-background-radius: 10,10,10;
 }
-.radial-gradient {
+/* TRANSACTION TAB BUTTONS */
+.button {
     /* Radial gradient */
-    -fx-background-color: linear-gradient(to left,#5F0F40,#310E68);
+    -fx-background-color: #000133;
+    -fx-text-fill: white;
 }
 .button:hover {
-    /* New background color when hovering */
-    -fx-background-color: linear-gradient(to right, #EE696B, #523A78);
+    -fx-background-color: #cc5500;  /* Darker background color when hovered */
+    -fx-text-fill: white;           /* Text color when hovered */
+    -fx-cursor: hand;               /* Change cursor to hand pointer when hovered */
 }
-.radial-green-gradient {
-    /* Radial gradient */
-    -fx-background-color: linear-gradient(to left,#000000,#166D3B);
-}
-.linear-transaction-gradient {
-    /* Radial gradient */
-    -fx-background-color: linear-gradient(to left, #DBE7FC, #1D2951);
-}
-.linear-transactiontable-gradient {
-    /* Radial gradient */
-    -fx-background-color: linear-gradient(to right, #DBE7FC, #1D2951);
-}
-.linear-button-gradient {
-    /* Radial gradient */
-    -fx-background-color: linear-gradient(to left, #91A6FF, #FFFFFF);
-}
-.transactionbuttonhover:hover {
-    /* Background color when hovering */
-    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
 
-    /* Text color when hovering */
+/* FOR COMBOBOX */
+/* Style for ComboBox dropdown list items */
+.combo-box .list-cell {
+    -fx-background-color: #000133;  /* Background color for dropdown items */
+    -fx-text-fill: white;           /* Text color for dropdown items */
+}
+.combo-box {
+    /* Radial gradient */
+    -fx-background-color: #000133;
     -fx-text-fill: white;
 }
-.combo-box .arrow-button:hover {
-    /* Background color when hovering */
-    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
-
-    /* Text color when hovering */
+.combo-box:hover {
+    /* Radial gradient */
+    -fx-background-color: #cc5500;
     -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+.combo-box .list-cell:hover {
+    -fx-background-color: #cc5500;  /* Background color when hovering */
+    -fx-text-fill: white;           /* Text color when hovering */
+    -fx-cursor: hand;
 }
 
+/* FOR TABLE VIEW */
 .table-row-cell:even {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: #FFFFFF ;
 }
+
 .table-row-cell:odd {
-    -fx-background-color: #EFE9F4;
+    -fx-background-color:  #F1F4FD  ;
 }
+
 .column-header {
-    -fx-background-color: #EFE9F4;
-    -fx-text-fill: WHITE;
+    -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
 .table-row-cell:selected {
-    -fx-background-color: #12100E;
-    -fx-text-fill: white;
-}
-.linear-edit-gradient {
-    /* Radial gradient */
-    -fx-background-color: #1D2951;
-}
-.dialog-button {
-    -fx-background-color: linear-gradient(to left, #91A6FF, #FFFFFF);
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-}
-
-.dialog-button:hover {
-    -fx-background-color: linear-gradient(to right, #EE696B, #523A78);
-}
-
-.transactionbuttonhover:hover,
-.combo-box .arrow-button:hover {
-    -fx-background-color: linear-gradient(to right, #170E13, #7A7ADB);
-    -fx-text-fill: white;
+    -fx-background-color:  #1D224E ;
 }
