@@ -8,41 +8,22 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" prefHeight="478.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.WindowSwitcher">
    <left>
-      <AnchorPane prefHeight="600.0" prefWidth="324.0" styleClass="radial-gradient" stylesheets="@styler.css" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="600.0" prefWidth="324.0" style="-fx-background-color: #090947;" stylesheets="@styler.css" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" layoutX="-1.0" layoutY="60.0" prefHeight="62.0" prefWidth="325.0" stylesheets="@styler.css" text="CA$HCRAFT" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label alignment="CENTER" layoutX="-1.0" layoutY="60.0" prefHeight="62.0" prefWidth="325.0" stylesheets="@styler.css" text="CA$HCRAFT" textFill="#f7ef8a" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font name="ROGFonts-Regular" size="40.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.38834951456310685" startX="1.0" startY="0.7184466019417475">
-                     <stops>
-                        <Stop color="#9e8600" />
-                        <Stop color="#ffea00" offset="1.0" />
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
-            <Text layoutX="27.0" layoutY="198.0" lineSpacing="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Navigate your finances with ease and confidence" textAlignment="CENTER" wrappingWidth="270.69775390625">
+            <Text fill="#f7ef8a" layoutX="27.0" layoutY="198.0" lineSpacing="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Navigate your finances with ease and confidence" textAlignment="CENTER" wrappingWidth="270.69775390625">
                <font>
                   <Font name="Bauhaus 93" size="36.0" />
                </font>
-               <fill>
-                  <RadialGradient centerX="0.5113636363636364" centerY="0.48058252427184467" radius="0.5">
-                     <stops>
-                        <Stop color="#fffcea" />
-                        <Stop color="#ffd900" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </fill>
             </Text>
          </children>
       </AnchorPane>
@@ -50,7 +31,7 @@
    <center>
       <AnchorPane minHeight="1.0" prefHeight="494.0" prefWidth="476.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="585.0" fitWidth="478.0" layoutX="-1.0" opacity="0.25" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+            <ImageView fitHeight="585.0" fitWidth="478.0" layoutX="-1.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@../Images/Designer.jpeg" />
                </image>
@@ -66,9 +47,15 @@
                   <String fx:value="radial-gradient" />
                   <String fx:value="button" />
                </styleClass>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
             </Button>
             <PasswordField fx:id="passfield" alignment="CENTER" layoutX="7.0" layoutY="215.0" prefHeight="31.0" prefWidth="261.0" promptText="password" styleClass="roundbutton" stylesheets="@styler.css" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" />
-            <Label alignment="CENTER" layoutX="7.0" layoutY="418.0" opacity="0.5" text="created by team Deadlocked" textAlignment="CENTER" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" />
+            <Label alignment="CENTER" layoutX="7.0" layoutY="418.0" opacity="0.5" text="created by Deadlocked" textAlignment="CENTER" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </center>
