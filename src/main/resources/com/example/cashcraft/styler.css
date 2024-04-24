@@ -39,7 +39,7 @@
 
 /* FOR TABLE VIEW */
 .table-row-cell:even {
-    -fx-background-color: #FFFFFF ;
+    -fx-background-color: #F1F4FD ;
 }
 
 .table-row-cell:odd {

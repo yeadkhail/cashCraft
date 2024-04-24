@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.TextField?>
@@ -11,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<DialogPane fx:id="dialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="536.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.AddPeople">
+<DialogPane fx:id="dialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="536.0" stylesheets="@styler.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.AddPeople">
     <expandableContent>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
     </expandableContent>
@@ -26,12 +25,12 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Text fill="#f5ecec" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="110.65999984741211">
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="110.65999984741211">
                     <font>
                         <Font name="Noto Sans Regular" size="20.0" />
                     </font>
                 </Text>
-                <Text fill="#f2f2f2" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textAlignment="CENTER" wrappingWidth="160.9800033569336" GridPane.rowIndex="1">
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textAlignment="CENTER" wrappingWidth="160.9800033569336" GridPane.rowIndex="1">
                     <font>
                         <Font name="Noto Sans Regular" size="20.0" />
                     </font>
@@ -45,8 +44,4 @@
         <ButtonType fx:id="finishButton" fx:constant="FINISH" />
         <ButtonType fx:id="cancelButton" fx:constant="CANCEL" />
     </buttonTypes>
-    <stylesheets>
-        <URL value="@add-category-dialogue-box.css" />
-        <URL value="@styler.css" />
-    </stylesheets>
 </DialogPane>
