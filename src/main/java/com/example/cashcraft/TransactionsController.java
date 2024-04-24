@@ -26,6 +26,8 @@ import java.util.ResourceBundle;
 
 public class TransactionsController implements Initializable {
     EdittransactionsController controller;
+
+    AddTransactionController addController;
     private Scene scene;
     private Stage stage;
     private Parent root;
@@ -617,5 +619,26 @@ public class TransactionsController implements Initializable {
             }
         });
 
+    }
+
+    @FXML
+    public void on_add_transaction_clicked(ActionEvent event) throws IOException, SQLException {
+        connection.close();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("addTransactionWindow.fxml"));
+        root = loader.load();
+        addController = loader.getController();
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.WINDOW_MODAL);
+        popupStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+        popupStage.setScene(new Scene(root));
+        popupStage.setResizable(false);
+        popupStage.show();
+        popupStage.setOnHidden(e -> {
+            try {
+                on_type_selected();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 }

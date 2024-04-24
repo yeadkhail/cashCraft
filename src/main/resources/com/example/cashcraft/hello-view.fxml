@@ -142,7 +142,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="add_button" mnemonicParsing="false" prefHeight="60.0" prefWidth="170.0" stylesheets="@styler.css" text="Add transaction">
+                        <Button fx:id="add_button" mnemonicParsing="false" onAction="#on_add_transaction_clicked" prefHeight="60.0" prefWidth="170.0" stylesheets="@styler.css" text="Add transaction">
                            <styleClass>
                               <String fx:value="linear-button-gradient" />
                               <String fx:value="transactionbuttonhover" />

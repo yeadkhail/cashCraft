@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class EdittransactionsController implements Initializable {
@@ -65,7 +66,7 @@ public class EdittransactionsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         amount_box.addEventFilter(javafx.scene.input.KeyEvent.KEY_TYPED, event -> {
-            if (!event.getCharacter().matches("[0-9]")) {
+            if (!event.getCharacter().matches("[0-9.]")) {
                 event.consume();
             }
         });
@@ -241,14 +242,24 @@ public class EdittransactionsController implements Initializable {
             if(temp_result.next())mainwallet=temp_result.getString("wallet_id");
             if(!endwallet_box.isDisabled())//transfer update wanted
             {
-                endwallet=endwallet_box.getValue();
-                mainwalletstatement.setString(1,endwallet);
-                temp_result=mainwalletstatement.executeQuery();
-                if(temp_result.next())endwallet=temp_result.getString("wallet_id");
-                System.out.println("passed "+endwallet+mainwallet);
+                    endwallet = endwallet_box.getValue();
+                    mainwalletstatement.setString(1, endwallet);
+                if(endwallet_box.getValue().equals(mainwallet_box.getValue()))
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERROR!");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Money cannot be transferred from a wallet to itself!");
+                    alert.showAndWait();
+                }
+                else {
+                    temp_result = mainwalletstatement.executeQuery();
+                    if (temp_result.next()) endwallet = temp_result.getString("wallet_id");
+                    System.out.println("passed " + endwallet +" "+ mainwallet);
 
-                PersonClasses.Income_and_expense_String obj= new PersonClasses.Income_and_expense_String(amount,people,place,category,note,desc,mainwallet,endwallet,formattedDate);
-                PersonDao.editTransaction(obj, connection, trans_id,selected_type);
+                    PersonClasses.Income_and_expense_String obj = new PersonClasses.Income_and_expense_String(amount, people, place, category, note, desc, mainwallet, endwallet, formattedDate);
+                    PersonDao.editTransaction(obj, connection, trans_id, selected_type);
+                }
             }
             else
             {

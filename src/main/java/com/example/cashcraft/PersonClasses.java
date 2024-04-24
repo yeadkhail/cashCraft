@@ -34,7 +34,8 @@ public class PersonClasses {
                 while (resultSet.next()) {
                     String name = resultSet.getString("wallet_name");
                     String desc = resultSet.getString("wallet_desc");
-                    wallets.add(new Wallet(name, desc));
+                    String uuid = resultSet.getString("wallet_id");
+                    wallets.add(new Wallet(uuid,name, desc));
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -45,6 +46,7 @@ public class PersonClasses {
         public String getName() {
             return name;
         }
+        public String getUuid() {return uuid;}
 
         public String getDescription() {
             return desc;
@@ -75,7 +77,8 @@ public class PersonClasses {
                 while (resultSet.next()) {
                     String name = resultSet.getString("place_name");
                     String desc = resultSet.getString("place_desc");
-                    places.add(new Place(name, desc));
+                    String uuid = resultSet.getString("place_id");
+                    places.add(new Place(uuid,name, desc));
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -86,6 +89,7 @@ public class PersonClasses {
         public String getName() {
             return name;
         }
+        public String getUuid() {return uuid;}
 
         public String getDescription() {
             return desc;
@@ -116,7 +120,8 @@ public class PersonClasses {
                 while (resultSet.next()) {
                     String name = resultSet.getString("people_name");
                     String desc = resultSet.getString("people_desc");
-                    peoples.add(new People(name, desc));
+                    String uuid = resultSet.getString("people_id");
+                    peoples.add(new People(uuid,name, desc));
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -127,6 +132,7 @@ public class PersonClasses {
         public String getName() {
             return name;
         }
+        public String getUuid() {return uuid;}
 
         public String getDescription() {
             return desc;
@@ -157,7 +163,8 @@ public class PersonClasses {
                 while (resultSet.next()) {
                     String name = resultSet.getString("category_name");
                     String desc = resultSet.getString("category_desc");
-                    categories.add(new Category(name, desc));
+                    String uuid = resultSet.getString("category_id");
+                    categories.add(new Category(uuid,name, desc));
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);

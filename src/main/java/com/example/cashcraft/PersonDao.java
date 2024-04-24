@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PersonDao {
@@ -32,28 +33,50 @@ public class PersonDao {
         }
     }
 
-    public static void addTransaction(PersonClasses.Expense transaction) {
+    public static void addTransaction(PersonClasses.Income_and_expense_String transaction, boolean transfer, String type) {
         try (Connection connection = Makeconnection.makeconnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into expense values(?,?,?,?,?,?)");
+            if(!transfer)
+            {
+                System.out.println("Adding transf3eer");
+                //System.out.println("Printing "+transaction.category_id+" "+transaction.place_id+" "+transaction.people_id);
+                PreparedStatement preparedStatement;
+                if(Objects.equals(type, "Income"))preparedStatement = connection.prepareStatement("insert into Income (amount,desc,category,people,place,date,wallet,notes) values(?,?,?,?,?,?,?,?)");
+                else preparedStatement = connection.prepareStatement("insert into expense (amount,desc,category,people,place,date,wallet,notes) values(?,?,?,?,?,?,?,?)");
+                preparedStatement.setString(1, transaction.amount);
 
-            // Convert date to SQL date
-            java.sql.Date sqlDate = new java.sql.Date(transaction.date.getTime());
-            preparedStatement.setDate(1, sqlDate);
+                preparedStatement.setString(2, transaction.desc);
+                preparedStatement.setString(3, transaction.category_id);
 
-            // Insert category UUID
-            preparedStatement.setString(2, transaction.category.uuid);
+                // Insert people UUID
+                preparedStatement.setString(4, transaction.people_id);
+                preparedStatement.setString(5, transaction.place_id);
+                // Insert wallet UUID
+                preparedStatement.setString(6, transaction.date);
+                preparedStatement.setString(7, transaction.main_wallet_id);
+                preparedStatement.setString(8, transaction.note);
 
-            preparedStatement.setString(3, transaction.desc);
-            preparedStatement.setDouble(4, transaction.amount);
+                preparedStatement.executeUpdate();
+            }
+            else
+            {
+                PreparedStatement preparedStatement = connection.prepareStatement("insert into transfer (amount,desc,category,people,place,date,from_wallet,to_wallet,notes) values(?,?,?,?,?,?,?,?,?)");
 
-            // Insert people UUID
-            preparedStatement.setString(5, transaction.people.uuid);
+                preparedStatement.setString(1, transaction.amount);
 
-            // Insert wallet UUID
-            preparedStatement.setString(6, transaction.wallet.uuid);
+                preparedStatement.setString(2, transaction.desc);
+                preparedStatement.setString(3, transaction.category_id);
 
-            preparedStatement.executeUpdate();
-            connection.commit(); // Commit changes
+                // Insert people UUID
+                preparedStatement.setString(4, transaction.people_id);
+                preparedStatement.setString(5, transaction.place_id);
+                // Insert wallet UUID
+                preparedStatement.setString(6, transaction.date);
+                preparedStatement.setString(7, transaction.main_wallet_id);
+                preparedStatement.setString(8, transaction.end_wallet_id);
+                preparedStatement.setString(9, transaction.note);
+
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
