@@ -1,0 +1,31 @@
+/* Default ComboBox style */
+.combo-box {
+    -fx-background-color: #000133;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 10;
+    -fx-padding: 7 22 7 22;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 5);
+    -fx-cursor: hand;
+}
+.combo-box .list-cell {
+    -fx-background-color: #000133;  /* Background color for dropdown items */
+    -fx-text-fill: white;           /* Text color for dropdown items */
+}
+.combo-box {
+    /* Radial gradient */
+    -fx-background-color: #000133;
+    -fx-text-fill: white;
+}
+.combo-box:hover {
+    -fx-cursor: hand;
+}
+.combo-box .list-cell:hover {
+    -fx-background-color: #cc5500;  /* Background color when hovering */
+    -fx-text-fill: white;           /* Text color when hovering */
+    -fx-cursor: hand;
+}
