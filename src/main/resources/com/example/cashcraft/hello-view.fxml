@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -23,10 +22,9 @@
   <tabs>
     <Tab text="Transactions">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@styler.css">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="background" stylesheets="@transaction_bkg.css">
                <children>
-                  <ComboBox fx:id="type_combo" layoutX="14.0" layoutY="8.0" onAction="#on_type_selected" prefHeight="31.0" prefWidth="150.0" promptText="Type" styleClass="linear-button-transactions" stylesheets="@styler.css" visibleRowCount="4" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="8.0" />
-                  <TableView fx:id="info_box" layoutX="125.0" layoutY="46.0" prefHeight="560.0" prefWidth="1100.0" stylesheets="@styler.css" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="46.0">
+                  <TableView fx:id="info_box" layoutX="125.0" layoutY="46.0" prefHeight="555.0" prefWidth="1100.0" stylesheets="@tableview.css" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="46.0">
                     <columns>
                       <TableColumn fx:id="amount_column" prefWidth="100.0" text="Amount" />
                         <TableColumn fx:id="people_column" prefWidth="100.0" text="People" />
@@ -40,13 +38,9 @@
                         <TableColumn fx:id="trans_column" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Transaction ID" />
                     </columns>
                   </TableView>
-                  <HBox alignment="TOP_CENTER" layoutX="176.0" layoutY="613.0" prefHeight="47.0" prefWidth="1100.0" spacing="5.0" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="3.0">
+                  <HBox alignment="TOP_CENTER" layoutX="177.0" layoutY="606.0" prefHeight="47.0" prefWidth="1100.0" spacing="5.0" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="177.0" AnchorPane.rightAnchor="2.0">
                      <children>
-                        <Button fx:id="edit_button" mnemonicParsing="false" onAction="#on_edit_clicked" prefWidth="540.0" stylesheets="@styler.css" text="Edit transaction" textFill="WHITE">
-                           <styleClass>
-                              <String fx:value="linear-button-transactions" />
-                              <String fx:value="linear-button-transactions-hover" />
-                           </styleClass>
+                        <Button fx:id="edit_button" mnemonicParsing="false" onAction="#on_edit_clicked" prefWidth="540.0" stylesheets="@buttons.css" text="Edit transaction" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="83.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -55,11 +49,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="delete_button" mnemonicParsing="false" onAction="#on_deleteButton_clicked" prefWidth="540.0" stylesheets="@styler.css" text="Delete transaction" textFill="WHITE">
-                           <styleClass>
-                              <String fx:value="linear-button-transactions" />
-                              <String fx:value="linear-button-transactions-hover" />
-                           </styleClass>
+                        <Button fx:id="delete_button" mnemonicParsing="false" onAction="#on_deleteButton_clicked" prefWidth="540.0" stylesheets="@buttons.css" text="Delete transaction" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="83.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -70,31 +60,17 @@
                         </Button>
                      </children>
                   </HBox>
-                  <HBox layoutX="177.0" layoutY="8.0" prefHeight="25.0" prefWidth="1100.0" spacing="1.0">
+                  <HBox layoutX="177.0" layoutY="4.0" prefHeight="25.0" prefWidth="1100.0" spacing="2.0">
                      <children>
-                        <Button fx:id="editWallet" mnemonicParsing="false" onAction="#handleEditWalletButton" prefWidth="275.0" styleClass="roundbutton" stylesheets="@styler.css" text="Edit Wallet" />
-                        <Button mnemonicParsing="false" onAction="#handleEditPeopleButton" prefWidth="275.0" stylesheets="@styler.css" text="Edit People" />
-                        <Button fx:id="editPlace" mnemonicParsing="false" onAction="#handleEditPlaceButton" prefWidth="275.0" stylesheets="@styler.css" text="Edit Place">
-                           <styleClass>
-                              <String fx:value="linear-button-gradient" />
-                              <String fx:value="transactionbuttonhover" />
-                           </styleClass>
-                        </Button>
-                        <Button fx:id="edit_category_button" mnemonicParsing="false" onAction="#handleEditCategoryButton" prefWidth="275.0" stylesheets="@styler.css" text="Edit Category">
-                           <styleClass>
-                              <String fx:value="linear-button-gradient" />
-                              <String fx:value="transactionbuttonhover" />
-                           </styleClass>
-                        </Button>
+                        <Button fx:id="editWallet" mnemonicParsing="false" onAction="#handleEditWalletButton" prefWidth="275.0" stylesheets="@buttons.css" text="Edit Wallet" />
+                        <Button mnemonicParsing="false" onAction="#handleEditPeopleButton" prefWidth="275.0" stylesheets="@buttons.css" text="Edit People" />
+                        <Button fx:id="editPlace" mnemonicParsing="false" onAction="#handleEditPlaceButton" prefWidth="275.0" stylesheets="@buttons.css" text="Edit Place" />
+                        <Button fx:id="edit_category_button" mnemonicParsing="false" onAction="#handleEditCategoryButton" prefWidth="275.0" stylesheets="@buttons.css" text="Edit Category" />
                      </children>
                   </HBox>
-                  <VBox layoutX="4.0" layoutY="305.0" prefHeight="340.0" prefWidth="170.0" spacing="10.0">
+                  <VBox layoutX="3.0" layoutY="305.0" prefHeight="340.0" prefWidth="170.0" spacing="10.0">
                      <children>
-                        <Button fx:id="add_categroybutton" mnemonicParsing="false" onAction="#handleAddCategoryButton" prefHeight="60.0" prefWidth="170.0" stylesheets="@styler.css" text="Add Categrory">
-                           <styleClass>
-                              <String fx:value="linear-button-gradient" />
-                              <String fx:value="transactionbuttonhover" />
-                           </styleClass>
+                        <Button fx:id="add_categroybutton" mnemonicParsing="false" onAction="#handleAddCategoryButton" prefHeight="60.0" prefWidth="170.0" stylesheets="@buttons.css" text="Add Categrory">
                            <graphic>
                               <ImageView fitHeight="83.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -103,11 +79,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="add_place_button" mnemonicParsing="false" onAction="#handleAddPlaceButton" prefHeight="60.0" prefWidth="170.0" stylesheets="@styler.css" text="Add Place">
-                           <styleClass>
-                              <String fx:value="linear-button-gradient" />
-                              <String fx:value="transactionbuttonhover" />
-                           </styleClass>
+                        <Button fx:id="add_place_button" mnemonicParsing="false" onAction="#handleAddPlaceButton" prefHeight="60.0" prefWidth="170.0" stylesheets="@buttons.css" text="Add Place">
                            <graphic>
                               <ImageView fitHeight="83.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -116,11 +88,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="add_wallet_button" mnemonicParsing="false" onAction="#handleAddWalletButton" prefHeight="60.0" prefWidth="170.0" stylesheets="@styler.css" text="Add Wallet">
-                           <styleClass>
-                              <String fx:value="linear-button-gradient" />
-                              <String fx:value="transactionbuttonhover" />
-                           </styleClass>
+                        <Button fx:id="add_wallet_button" mnemonicParsing="false" onAction="#handleAddWalletButton" prefHeight="60.0" prefWidth="170.0" stylesheets="@buttons.css" text="Add Wallet">
                            <graphic>
                               <ImageView fitHeight="83.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -129,11 +97,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="add_people_button" mnemonicParsing="false" onAction="#handleAddPersonButton" prefHeight="60.0" prefWidth="170.0" stylesheets="@styler.css" text="Add People">
-                           <styleClass>
-                              <String fx:value="linear-button-gradient" />
-                              <String fx:value="transactionbuttonhover" />
-                           </styleClass>
+                        <Button fx:id="add_people_button" mnemonicParsing="false" onAction="#handleAddPersonButton" prefHeight="60.0" prefWidth="170.0" stylesheets="@buttons.css" text="Add People">
                            <graphic>
                               <ImageView fitHeight="83.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -142,11 +106,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="add_button" mnemonicParsing="false" onAction="#on_add_transaction_clicked" prefHeight="60.0" prefWidth="170.0" stylesheets="@styler.css" text="Add transaction">
-                           <styleClass>
-                              <String fx:value="linear-button-gradient" />
-                              <String fx:value="transactionbuttonhover" />
-                           </styleClass>
+                        <Button fx:id="add_button" mnemonicParsing="false" onAction="#on_add_transaction_clicked" prefHeight="60.0" prefWidth="170.0" stylesheets="@buttons.css" text="Add transaction">
                            <graphic>
                               <ImageView fitHeight="83.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -157,6 +117,7 @@
                         </Button>
                      </children>
                   </VBox>
+                  <ComboBox fx:id="type_combo" layoutX="14.0" layoutY="8.0" onAction="#on_type_selected" prefHeight="31.0" prefWidth="150.0" promptText="Type" stylesheets="@combobox.css" visibleRowCount="4" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="8.0" />
                </children></AnchorPane>
       </content>
     </Tab>

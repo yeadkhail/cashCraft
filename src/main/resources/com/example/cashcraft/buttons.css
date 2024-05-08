@@ -1,0 +1,24 @@
+/* Default button style */
+.button {
+    -fx-background-color: #000133;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 10;
+    -fx-padding: 7 22 7 22;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 5);
+    -fx-cursor: hand;
+}
+
+/* Hovered button style */
+.button:hover {
+    -fx-background-color: #cc5500;
+}
+
+/* Pressed button style */
+.button:pressed {
+    -fx-background-color: #002b4d;
+}

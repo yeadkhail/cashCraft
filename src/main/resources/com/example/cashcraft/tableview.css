@@ -1,0 +1,17 @@
+.table-view {
+    -fx-background-color: #f4f4f4;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 20, 0, 0, 5);
+}
+
+.table-row-cell:odd {
+    -fx-background-color:  #F1F4FD  ;
+}
+
+.column-header {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:selected {
+    -fx-background-color:  #1D224E ;
+}
