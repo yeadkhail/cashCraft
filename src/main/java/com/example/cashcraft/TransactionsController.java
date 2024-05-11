@@ -7,10 +7,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -46,6 +50,8 @@ public class TransactionsController implements Initializable {
     TableView.TableViewSelectionModel<ObservableList<String>> selectionModel;
 
     @FXML
+    TabPane main_tab;
+    @FXML
     TableColumn<ObservableList<String>, String> amount_column;
     @FXML
     TableColumn<ObservableList<String>, String> people_column;
@@ -73,6 +79,19 @@ public class TransactionsController implements Initializable {
     Button delete_button;
     @FXML
     Button edit_button;
+    @FXML
+    PieChart pie_chart;
+
+    @FXML
+    StackPane graph_stack;
+
+    @FXML
+    ComboBox<String> graph_combo;
+
+    @FXML
+    ScrollPane graph_scroll;
+
+    String[] graph_box = {"Transaction types", "Wallets"};
 
     @FXML
     private ListView<PersonClasses.Wallet> ZakwalletListView;
@@ -85,10 +104,12 @@ public class TransactionsController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        graph_scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         selectionModel = info_box.getSelectionModel();
         delete_button.disableProperty().bind(info_box.getSelectionModel().selectedItemProperty().isNull());
         edit_button.disableProperty().bind(info_box.getSelectionModel().selectedItemProperty().isNull());
         type_combo.getItems().addAll(types);
+        graph_combo.getItems().addAll(graph_box);
         selected_type = "All";
         try {
             connection = Makeconnection.makeconnection();
@@ -105,7 +126,7 @@ public class TransactionsController implements Initializable {
     @FXML
     void on_type_selected() throws SQLException {
 
-        if(connection.isClosed())//connection to be closed
+        if (connection.isClosed())//connection to be closed
         {
             connection = Makeconnection.makeconnection();
             statement = connection.createStatement();
@@ -324,7 +345,8 @@ public class TransactionsController implements Initializable {
         controller = loader.getController();
         if (dest == null)
             controller.others_initialize(connection, amount, people, place, cat, note, desc, date, src, id, selected_type);
-        else controller.transfer_initialize(connection, amount, people, place, cat, note, desc, date, src, dest, id, selected_type);
+        else
+            controller.transfer_initialize(connection, amount, people, place, cat, note, desc, date, src, dest, id, selected_type);
         //connection.close();
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.WINDOW_MODAL);
@@ -356,8 +378,7 @@ public class TransactionsController implements Initializable {
             Optional<ButtonType> clickedbutton = dialog.showAndWait();
 
             dialog.setOnCloseRequest(EVENT -> {
-                try
-                {
+                try {
                     on_type_selected();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -386,8 +407,7 @@ public class TransactionsController implements Initializable {
             Optional<ButtonType> clickedbutton = dialog.showAndWait();
 
             dialog.setOnCloseRequest(EVENT -> {
-                try
-                {
+                try {
                     on_type_selected();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -418,8 +438,7 @@ public class TransactionsController implements Initializable {
             Optional<ButtonType> clickedbutton = dialog.showAndWait();
 
             dialog.setOnCloseRequest(EVENT -> {
-                try
-                {
+                try {
                     on_type_selected();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -449,8 +468,7 @@ public class TransactionsController implements Initializable {
             Optional<ButtonType> clickedbutton = dialog.showAndWait();
 
             dialog.setOnCloseRequest(EVENT -> {
-                try
-                {
+                try {
                     on_type_selected();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -554,6 +572,7 @@ public class TransactionsController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
     public void handleEditWalletButton(ActionEvent event) {
         try {
             connection.close();
@@ -582,7 +601,8 @@ public class TransactionsController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-    public void zakInit(){
+
+    public void zakInit() {
         List<PersonClasses.Wallet> wallets = PersonDao.getWallets();
         ObservableList<PersonClasses.Wallet> observableList = FXCollections.observableArrayList(wallets);
 
@@ -640,5 +660,65 @@ public class TransactionsController implements Initializable {
                 throw new RuntimeException(ex);
             }
         });
+    }
+
+    @FXML
+    public void on_graphs_clicked() {
+        try {
+            double totalIncome = getTotalAmount("income");
+            double totalExpense = getTotalAmount("expense");
+            double totalTransfers = getTotalAmount("transfer");
+
+            double total = totalIncome + totalExpense + totalTransfers;
+            double incomePercentage = (totalIncome / total) * 100;
+            double expensePercentage = (totalExpense / total) * 100;
+            double transfersPercentage = (totalTransfers / total) * 100;
+
+            PieChart pieChart = new PieChart();
+            pieChart.setMaxWidth(1000);
+            pieChart.setMaxHeight(500);
+            PieChart.Data incomeData = new PieChart.Data("Income: " + String.format("%.2f", incomePercentage) + "%", incomePercentage);
+            PieChart.Data expenseData = new PieChart.Data("Expense: " + String.format("%.2f", expensePercentage) + "%", expensePercentage);
+            PieChart.Data transfersData = new PieChart.Data("Transfers: " + String.format("%.2f", transfersPercentage) + "%", transfersPercentage);
+            pieChart.getData().addAll(incomeData, expenseData, transfersData);
+
+            graph_stack.getChildren().add(pieChart);
+            graph_stack.setAlignment(pieChart, Pos.TOP_CENTER);
+
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setRadius(10);
+            dropShadow.setOffsetX(5);
+            dropShadow.setOffsetY(5);
+
+            for (PieChart.Data data : pieChart.getData()) {
+                data.getNode().setEffect(dropShadow);
+
+                // Add hover effect
+                data.getNode().setOnMouseEntered(e -> {
+                    data.getNode().setScaleX(1.1);
+                    data.getNode().setScaleY(1.1);
+                });
+                data.getNode().setOnMouseExited(e -> {
+                    data.getNode().setScaleX(1.0);
+                    data.getNode().setScaleY(1.0);
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+}
+
+    public double getTotalAmount(String tableName) {
+        double total = 0;
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT SUM(amount) FROM " + tableName);
+            if (rs.next()) {
+                total = rs.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
     }
 }
