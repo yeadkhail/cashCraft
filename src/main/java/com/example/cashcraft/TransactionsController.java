@@ -1,5 +1,6 @@
 package com.example.cashcraft;
 
+import javafx.animation.FadeTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -19,7 +21,9 @@ import javafx.stage.Modality;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import javax.xml.transform.Result;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -27,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TransactionsController implements Initializable {
     EdittransactionsController controller;
@@ -101,9 +106,18 @@ public class TransactionsController implements Initializable {
     private TextField descField;
     @FXML
     private TextField zakField;
+    @FXML
+    private DropShadow dropShadow;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+            dropShadow = new DropShadow();
+            dropShadow.setRadius(15);
+            dropShadow.setOffsetX(5);
+            dropShadow.setOffsetY(5);
+
+
+
         graph_scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         selectionModel = info_box.getSelectionModel();
         delete_button.disableProperty().bind(info_box.getSelectionModel().selectedItemProperty().isNull());
@@ -677,36 +691,94 @@ public class TransactionsController implements Initializable {
             PieChart pieChart = new PieChart();
             pieChart.setMaxWidth(1000);
             pieChart.setMaxHeight(500);
+            pieChart.setPadding(new Insets(50,200,0,0));
             PieChart.Data incomeData = new PieChart.Data("Income: " + String.format("%.2f", incomePercentage) + "%", incomePercentage);
             PieChart.Data expenseData = new PieChart.Data("Expense: " + String.format("%.2f", expensePercentage) + "%", expensePercentage);
-            PieChart.Data transfersData = new PieChart.Data("Transfers: " + String.format("%.2f", transfersPercentage) + "%", transfersPercentage);
+            PieChart.Data transfersData = new PieChart.Data("Transfer: " + String.format("%.2f", transfersPercentage) + "%", transfersPercentage);
             pieChart.getData().addAll(incomeData, expenseData, transfersData);
-
+            if (graph_stack.getChildren().size() > 1) {
+                graph_stack.getChildren().remove(1, graph_stack.getChildren().size());
+            }
             graph_stack.getChildren().add(pieChart);
-            graph_stack.setAlignment(pieChart, Pos.TOP_CENTER);
+            incomeData.getNode().setStyle("-fx-pie-color: #2ca02c;");//green
+            expenseData.getNode().setStyle("-fx-pie-color: #ff0000;");//red
+            transfersData.getNode().setStyle("-fx-pie-color: #0000FF;");//blue
 
-            DropShadow dropShadow = new DropShadow();
-            dropShadow.setRadius(10);
-            dropShadow.setOffsetX(5);
-            dropShadow.setOffsetY(5);
+            graph_stack.setAlignment(pieChart, Pos.TOP_LEFT);
 
+
+
+
+
+            pieChart.setEffect(dropShadow);
+            FadeTransition fadeInTransition = new FadeTransition(Duration.millis(500));
+            FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(500));
+            AtomicReference<PieChart> subPieChartRef = new AtomicReference<>(null);
             for (PieChart.Data data : pieChart.getData()) {
-                data.getNode().setEffect(dropShadow);
-
-                // Add hover effect
                 data.getNode().setOnMouseEntered(e -> {
-                    data.getNode().setScaleX(1.1);
-                    data.getNode().setScaleY(1.1);
+                    data.getNode().setScaleX(1.05);
+                    data.getNode().setScaleY(1.05);
+
+                    String nodeName = data.getName();
+                    String[] parts = nodeName.split(":");
+                    String type = parts[0].trim();
+
+                    try {
+                        ResultSet values = getCategoryAmount(type);
+
+                        // Create a new pie chart for displaying category breakdown
+                        PieChart subPieChart = new PieChart();
+                        subPieChart.setMaxWidth(600);
+                        subPieChart.setMaxHeight(300);
+                        subPieChart.setEffect(dropShadow);
+                        fadeInTransition.setNode(subPieChart); // Set the node for fadeInTransition
+                        fadeInTransition.setFromValue(0.0);
+                        fadeInTransition.setToValue(1.0);
+                        fadeInTransition.play();
+
+                        //subPieChart.setPadding(new Insets(100,0,0,0));
+                        while (values.next()) {
+                            double totalAmount = values.getDouble("total_amount");
+                            String categoryName = values.getString("category_name");
+                            double val;
+                            if (type.equals("Income")) val = totalIncome;
+                            else if (type.equals("Expense")) val = totalExpense;
+                            else val = totalTransfers;
+                            // Add a new slice to the sub pie chart
+                            PieChart.Data categoryData = new PieChart.Data(categoryName + ": " + String.format("%.2f", (totalAmount / val) * 100) + "%", (totalAmount / val) * 100);
+                            subPieChart.getData().add(categoryData);
+
+                        }
+
+                        // Add the sub pie chart to the graph stack and set the reference atomically
+                        graph_stack.getChildren().add(subPieChart);
+                        graph_stack.setAlignment(subPieChart, Pos.TOP_RIGHT);
+                        subPieChartRef.set(subPieChart);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 });
+
                 data.getNode().setOnMouseExited(e -> {
                     data.getNode().setScaleX(1.0);
                     data.getNode().setScaleY(1.0);
+
+                    fadeOutTransition.setNode(subPieChartRef.get()); // Set the node for fadeOutTransition
+                    fadeOutTransition.setFromValue(1.0);
+                    fadeOutTransition.setToValue(0.0);
+                    fadeOutTransition.play();
+
+                    // Remove the sub pie chart from the graph_stack atomically
+                    PieChart subPieChartToRemove = subPieChartRef.getAndSet(null);
+                    if (subPieChartToRemove != null) {
+                        graph_stack.getChildren().remove(subPieChartToRemove);
+                    }
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-}
+    }
 
     public double getTotalAmount(String tableName) {
         double total = 0;
@@ -721,4 +793,21 @@ public class TransactionsController implements Initializable {
         }
         return total;
     }
+
+    public ResultSet getCategoryAmount(String tableName) {
+        double total = 0;
+        try {
+            Statement stmt = connection.createStatement();
+            String query = "SELECT SUM(income.amount) AS total_amount, category.category_name " +
+                    "FROM " + tableName + " AS income " +
+                    "JOIN category ON income.category = category.category_id " +
+                    "GROUP BY income.category";
+            ResultSet rs = stmt.executeQuery(query);
+            return rs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
+/* SELECT SUM(i.amount) AS total_amount, c.category_name as name FROM income i JOIN category c ON i.category = c.category_id GROUP BY i.category ;*/

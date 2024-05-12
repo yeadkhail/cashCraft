@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -159,7 +160,7 @@
          <content>
             <ScrollPane fx:id="graph_scroll" prefHeight="200.0" prefWidth="200.0">
                <content>
-                  <StackPane fx:id="graph_stack" maxHeight="1000.0" prefHeight="1000.0" prefWidth="1280.0" styleClass="background" stylesheets="@transaction_bkg.css">
+                  <StackPane fx:id="graph_stack" maxHeight="1000.0" prefHeight="1000.0" prefWidth="1280.0" styleClass="background">
                      <children>
                         <ComboBox fx:id="graph_combo" prefHeight="45.0" prefWidth="260.0" promptText="Graphs based on:" stylesheets="@combobox.css" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
@@ -167,6 +168,10 @@
                            </StackPane.margin>
                         </ComboBox>
                      </children>
+                     <stylesheets>
+                        <URL value="@transaction_bkg.css" />
+                        <URL value="@graphs.css" />
+                     </stylesheets>
                   </StackPane>
                </content>
             </ScrollPane>
