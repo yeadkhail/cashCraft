@@ -17,9 +17,12 @@ import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -790,6 +793,181 @@ public class TransactionsController implements Initializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        try {
+            double totalIncome = getTotalAmount("income");
+            double totalExpense = getTotalAmount("expense");
+            double totalTransfers = getTotalAmount("transfer");
+
+            double total = totalIncome + totalExpense + totalTransfers;
+            double incomePercentage = (totalIncome / total) * 100;
+            double expensePercentage = (totalExpense / total) * 100;
+            double transfersPercentage = (totalTransfers / total) * 100;
+
+            CategoryAxis xAxis = new CategoryAxis();
+            xAxis.setLabel("Category");
+
+            NumberAxis yAxis = new NumberAxis();
+            yAxis.setLabel("Percentage");
+
+            BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+            barChart.setMaxWidth(1000);
+            barChart.setMaxHeight(500);
+            barChart.setPadding(new Insets(50, 200, 0, 0));
+            barChart.setLegendVisible(false); // Disable the default legend
+
+            XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
+            XYChart.Data<String, Number> incomeData = new XYChart.Data<>("Income: " + String.format("%.2f", incomePercentage) + "%", incomePercentage);
+            XYChart.Data<String, Number> expenseData = new XYChart.Data<>("Expense: " + String.format("%.2f", expensePercentage) + "%", expensePercentage);
+            XYChart.Data<String, Number> transfersData = new XYChart.Data<>("Transfer: " + String.format("%.2f", transfersPercentage) + "%", transfersPercentage);
+
+            dataSeries.getData().add(incomeData);
+            dataSeries.getData().add(expenseData);
+            dataSeries.getData().add(transfersData);
+
+            barChart.getData().add(dataSeries);
+
+            if (graph_stack2.getChildren().size() > 1) {
+                graph_stack2.getChildren().remove(1, graph_stack2.getChildren().size());
+            }
+            graph_stack2.getChildren().add(barChart);
+            graph_stack2.setAlignment(barChart, Pos.TOP_LEFT);
+
+            // Set colors directly for the main categories
+            incomeData.getNode().setStyle("-fx-bar-fill: #2ca02c;"); // green
+            expenseData.getNode().setStyle("-fx-bar-fill: #ff0000;"); // red
+            transfersData.getNode().setStyle("-fx-bar-fill: #0000FF;"); // blue
+
+            // Create a custom legend for the main bar chart
+            HBox mainLegend = new HBox(10);
+            mainLegend.setPadding(new Insets(10, 0, 0, 0));
+            mainLegend.setAlignment(Pos.CENTER);
+
+            // Create legend items for the main bar chart
+            HBox incomeLegend = createLegendItem("#2ca02c", "Income: " + String.format("%.2f", incomePercentage) + "%");
+            HBox expenseLegend = createLegendItem("#ff0000", "Expense: " + String.format("%.2f", expensePercentage) + "%");
+            HBox transfersLegend = createLegendItem("#0000FF", "Transfer: " + String.format("%.2f", transfersPercentage) + "%");
+
+            mainLegend.getChildren().addAll(incomeLegend, expenseLegend, transfersLegend);
+
+            // Add the legend beneath the graph
+            VBox layout = new VBox();
+            layout.getChildren().addAll(barChart, mainLegend);
+            graph_stack2.getChildren().clear();
+            graph_stack2.getChildren().add(layout);
+
+            barChart.setEffect(dropShadow);
+            FadeTransition fadeInTransition = new FadeTransition(Duration.millis(500));
+            FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(500));
+            AtomicReference<BarChart<String, Number>> subBarChartRef = new AtomicReference<>(null);
+
+            for (XYChart.Data<String, Number> data : dataSeries.getData()) {
+                data.getNode().setOnMouseEntered(e -> {
+                    data.getNode().setScaleX(1.05);
+                    data.getNode().setScaleY(1.05);
+
+                    String nodeName = data.getXValue();
+                    String[] parts = nodeName.split(":");
+                    String type = parts[0].trim();
+
+                    try {
+                        ResultSet values = getCategoryAmount(type);
+
+                        // Check if ResultSet is not empty before proceeding
+                        if (values.isBeforeFirst()) {
+                            // Create a new bar chart for displaying category breakdown
+                            CategoryAxis subXAxis = new CategoryAxis();
+                            subXAxis.setLabel("Sub-Category");
+
+                            NumberAxis subYAxis = new NumberAxis();
+                            subYAxis.setLabel("Percentage");
+
+                            BarChart<String, Number> subBarChart = new BarChart<>(subXAxis, subYAxis);
+                            subBarChart.setMaxWidth(600);
+                            subBarChart.setMaxHeight(300);
+                            subBarChart.setEffect(dropShadow);
+                            subBarChart.setLegendVisible(false); // Disable the default legend for the sub-bar chart
+
+                            fadeInTransition.setNode(subBarChart);
+                            fadeInTransition.setFromValue(0.0);
+                            fadeInTransition.setToValue(1.0);
+                            fadeInTransition.play();
+
+                            XYChart.Series<String, Number> subDataSeries = new XYChart.Series<>();
+
+                            // Define an array of colors for sub-categories
+                            String[] colors = {"#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"};
+
+                            int colorIndex = 0;
+
+                            while (values.next()) {
+                                double totalAmount = values.getDouble("total_amount");
+                                String categoryName = values.getString("category_name");
+                                double val;
+                                if (type.equals("Income")) val = totalIncome;
+                                else if (type.equals("Expense")) val = totalExpense;
+                                else val = totalTransfers;
+
+                                XYChart.Data<String, Number> subData = new XYChart.Data<>(categoryName + ": " + String.format("%.2f", (totalAmount / val) * 100) + "%", (totalAmount / val) * 100);
+                                subDataSeries.getData().add(subData);
+
+                                // Apply color from the array to each sub-category
+                                int finalColorIndex = colorIndex;
+                                subData.nodeProperty().addListener((observable, oldValue, newValue) -> {
+                                    if (newValue != null) {
+                                        newValue.setStyle("-fx-bar-fill: " + colors[finalColorIndex % colors.length] + ";");
+                                    }
+                                });
+
+                                colorIndex++;
+                            }
+
+                            subBarChart.getData().add(subDataSeries);
+
+                            // Add the sub-bar chart to the graph stack and set the reference atomically
+                            graph_stack2.getChildren().add(subBarChart);
+                            graph_stack2.setAlignment(subBarChart, Pos.TOP_RIGHT);
+                            subBarChartRef.set(subBarChart);
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+
+                data.getNode().setOnMouseExited(e -> {
+                    data.getNode().setScaleX(1.0);
+                    data.getNode().setScaleY(1.0);
+
+                    fadeOutTransition.setNode(subBarChartRef.get());
+                    fadeOutTransition.setFromValue(1.0);
+                    fadeOutTransition.setToValue(0.0);
+                    fadeOutTransition.play();
+
+                    // Remove the sub-bar chart from the graph_stack2 atomically
+                    BarChart<String, Number> subBarChartToRemove = subBarChartRef.getAndSet(null);
+                    if (subBarChartToRemove != null) {
+                        graph_stack2.getChildren().remove(subBarChartToRemove);
+                    }
+                });
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        AnchorPane container = new AnchorPane(graph_stack, graph_stack2);
+        AnchorPane.setTopAnchor(graph_stack, 0.0);
+        AnchorPane.setLeftAnchor(graph_stack, 0.0);
+        AnchorPane.setRightAnchor(graph_stack, 0.0);
+
+        // Anchor graph_stack2 to the bottom of the AnchorPane
+        AnchorPane.setBottomAnchor(graph_stack2, 0.0);
+        AnchorPane.setLeftAnchor(graph_stack2, 0.0);
+        AnchorPane.setRightAnchor(graph_stack2, 0.0);
+
+        // Set a gap between the two StackPanes if needed
+        AnchorPane.setTopAnchor(graph_stack2, 500.0);
+
+        graph_scroll.setContent(container);
     }
 
     @FXML
@@ -814,6 +992,7 @@ public class TransactionsController implements Initializable {
             barChart.setMaxWidth(1000);
             barChart.setMaxHeight(500);
             barChart.setPadding(new Insets(50, 200, 0, 0));
+            barChart.setLegendVisible(false); // Disable the default legend
 
             XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
             XYChart.Data<String, Number> incomeData = new XYChart.Data<>("Income: " + String.format("%.2f", incomePercentage) + "%", incomePercentage);
@@ -830,13 +1009,30 @@ public class TransactionsController implements Initializable {
                 graph_stack2.getChildren().remove(1, graph_stack2.getChildren().size());
             }
             graph_stack2.getChildren().add(barChart);
-
             graph_stack2.setAlignment(barChart, Pos.TOP_LEFT);
 
-            // Set colors directly
+            // Set colors directly for the main categories
             incomeData.getNode().setStyle("-fx-bar-fill: #2ca02c;"); // green
             expenseData.getNode().setStyle("-fx-bar-fill: #ff0000;"); // red
             transfersData.getNode().setStyle("-fx-bar-fill: #0000FF;"); // blue
+
+            // Create a custom legend for the main bar chart
+            HBox mainLegend = new HBox(10);
+            mainLegend.setPadding(new Insets(10, 0, 0, 0));
+            mainLegend.setAlignment(Pos.CENTER);
+
+            // Create legend items for the main bar chart
+            HBox incomeLegend = createLegendItem("#2ca02c", "Income: " + String.format("%.2f", incomePercentage) + "%");
+            HBox expenseLegend = createLegendItem("#ff0000", "Expense: " + String.format("%.2f", expensePercentage) + "%");
+            HBox transfersLegend = createLegendItem("#0000FF", "Transfer: " + String.format("%.2f", transfersPercentage) + "%");
+
+            mainLegend.getChildren().addAll(incomeLegend, expenseLegend, transfersLegend);
+
+            // Add the legend beneath the graph
+            VBox layout = new VBox();
+            layout.getChildren().addAll(barChart, mainLegend);
+            graph_stack2.getChildren().clear();
+            graph_stack2.getChildren().add(layout);
 
             barChart.setEffect(dropShadow);
             FadeTransition fadeInTransition = new FadeTransition(Duration.millis(500));
@@ -855,41 +1051,62 @@ public class TransactionsController implements Initializable {
                     try {
                         ResultSet values = getCategoryAmount(type);
 
-                        // Create a new bar chart for displaying category breakdown
-                        CategoryAxis subXAxis = new CategoryAxis();
-                        subXAxis.setLabel("Sub-Category");
+                        // Check if ResultSet is not empty before proceeding
+                        if (values.isBeforeFirst()) {
+                            // Create a new bar chart for displaying category breakdown
+                            CategoryAxis subXAxis = new CategoryAxis();
+                            subXAxis.setLabel("Sub-Category");
 
-                        NumberAxis subYAxis = new NumberAxis();
-                        subYAxis.setLabel("Percentage");
+                            NumberAxis subYAxis = new NumberAxis();
+                            subYAxis.setLabel("Percentage");
 
-                        BarChart<String, Number> subBarChart = new BarChart<>(subXAxis, subYAxis);
-                        subBarChart.setMaxWidth(600);
-                        subBarChart.setMaxHeight(300);
-                        subBarChart.setEffect(dropShadow);
-                        fadeInTransition.setNode(subBarChart);
-                        fadeInTransition.setFromValue(0.0);
-                        fadeInTransition.setToValue(1.0);
-                        fadeInTransition.play();
+                            BarChart<String, Number> subBarChart = new BarChart<>(subXAxis, subYAxis);
+                            subBarChart.setMaxWidth(600);
+                            subBarChart.setMaxHeight(300);
+                            subBarChart.setEffect(dropShadow);
+                            subBarChart.setLegendVisible(false); // Disable the default legend for the sub-bar chart
 
-                        XYChart.Series<String, Number> subDataSeries = new XYChart.Series<>();
+                            fadeInTransition.setNode(subBarChart);
+                            fadeInTransition.setFromValue(0.0);
+                            fadeInTransition.setToValue(1.0);
+                            fadeInTransition.play();
 
-                        while (values.next()) {
-                            double totalAmount = values.getDouble("total_amount");
-                            String categoryName = values.getString("category_name");
-                            double val;
-                            if (type.equals("Income")) val = totalIncome;
-                            else if (type.equals("Expense")) val = totalExpense;
-                            else val = totalTransfers;
+                            XYChart.Series<String, Number> subDataSeries = new XYChart.Series<>();
 
-                            subDataSeries.getData().add(new XYChart.Data<>(categoryName + ": " + String.format("%.2f", (totalAmount / val) * 100) + "%", (totalAmount / val) * 100));
+                            // Define an array of colors for sub-categories
+                            String[] colors = {"#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"};
+
+                            int colorIndex = 0;
+
+                            while (values.next()) {
+                                double totalAmount = values.getDouble("total_amount");
+                                String categoryName = values.getString("category_name");
+                                double val;
+                                if (type.equals("Income")) val = totalIncome;
+                                else if (type.equals("Expense")) val = totalExpense;
+                                else val = totalTransfers;
+
+                                XYChart.Data<String, Number> subData = new XYChart.Data<>(categoryName + ": " + String.format("%.2f", (totalAmount / val) * 100) + "%", (totalAmount / val) * 100);
+                                subDataSeries.getData().add(subData);
+
+                                // Apply color from the array to each sub-category
+                                int finalColorIndex = colorIndex;
+                                subData.nodeProperty().addListener((observable, oldValue, newValue) -> {
+                                    if (newValue != null) {
+                                        newValue.setStyle("-fx-bar-fill: " + colors[finalColorIndex % colors.length] + ";");
+                                    }
+                                });
+
+                                colorIndex++;
+                            }
+
+                            subBarChart.getData().add(subDataSeries);
+
+                            // Add the sub-bar chart to the graph stack and set the reference atomically
+                            graph_stack2.getChildren().add(subBarChart);
+                            graph_stack2.setAlignment(subBarChart, Pos.TOP_RIGHT);
+                            subBarChartRef.set(subBarChart);
                         }
-
-                        subBarChart.getData().add(subDataSeries);
-
-                        // Add the sub bar chart to the graph stack and set the reference atomically
-                        graph_stack2.getChildren().add(subBarChart);
-                        graph_stack2.setAlignment(subBarChart, Pos.TOP_RIGHT);
-                        subBarChartRef.set(subBarChart);
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -904,7 +1121,7 @@ public class TransactionsController implements Initializable {
                     fadeOutTransition.setToValue(0.0);
                     fadeOutTransition.play();
 
-                    // Remove the sub bar chart from the graph_stack2 atomically
+                    // Remove the sub-bar chart from the graph_stack2 atomically
                     BarChart<String, Number> subBarChartToRemove = subBarChartRef.getAndSet(null);
                     if (subBarChartToRemove != null) {
                         graph_stack2.getChildren().remove(subBarChartToRemove);
@@ -914,6 +1131,14 @@ public class TransactionsController implements Initializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private HBox createLegendItem(String color, String text) {
+        Circle circle = new Circle(5, Paint.valueOf(color));
+        Label label = new Label(text);
+        HBox legendItem = new HBox(5, circle, label);
+        legendItem.setAlignment(Pos.CENTER);
+        return legendItem;
     }
 
 
