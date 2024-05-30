@@ -257,59 +257,13 @@ public class AddTransactionController {
         }
         else if(endwallet_box_add.isDisabled())
         {
-            if(amount_box_add.getText().isEmpty() || date_box_add.getValue()==null || category_box_add.getValue()==null || mainwallet_box_add.getValue()==null || endwallet_box_add.getValue()==null)
+            if(amount_box_add.getText().isEmpty() || date_box_add.getValue()==null || category_box_add.getValue()==null || mainwallet_box_add.getValue()==null)
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("ERROR");
                 alert.setHeaderText(null);
                 alert.setContentText("A possible MANDATORY tab has been left empty!");
                 alert.showAndWait();
-            }
-        }
-        else if(amount_box_add.getText().isEmpty() || date_box_add.getValue()==null || category_box_add.getValue()==null || mainwallet_box_add.getValue()==null)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR!");
-            alert.setHeaderText(null);
-            alert.setContentText("A possible MANDATORY tab has been left EMPTY!");
-            alert.showAndWait();
-        }
-        else // ALL OK
-        {
-            if(type_transaction_add.getValue().equals("Transfer"))
-            {
-                if(selectedMainWallet.getName()==selectedEndWallet.getName())
-                {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("ERROR!");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Money cannot be transferred from a wallet to itself!");
-                    alert.showAndWait();
-                }
-                else{
-                String amount = amount_box_add.getText();
-                String category = selectedCategory.getUuid();
-                String people;
-                String place;
-                if(selectedPeople==null || selectedPeople.getUuid().isEmpty())people="";
-                else people = selectedPeople.getUuid();
-                if(selectedPlace==null || selectedPlace.getUuid().isEmpty())place="";
-                else place = selectedPlace.getUuid();
-                String main_wallet = selectedMainWallet.getUuid();
-                String end_wallet = selectedEndWallet.getUuid();
-                LocalDate selectedDate = date_box_add.getValue();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                String dateString = selectedDate.format(formatter);
-                String note = note_box_add.getText();
-                String desc = description_box_add.getText();
-                PersonClasses.Income_and_expense_String obj = new PersonClasses.Income_and_expense_String(amount,people,place,category,note,desc,main_wallet,end_wallet,dateString);
-                //System.out.println(desc+note);
-                PersonDao.addTransaction(obj, true, type_transaction_add.getValue());
-
-                Alert confirm = new Alert(Alert.AlertType.INFORMATION);
-                confirm.setTitle("Success");
-                confirm.setContentText("Your transaction has been added!");
-                confirm.showAndWait();}
             }
             else
             {
@@ -335,6 +289,50 @@ public class AddTransactionController {
                 confirm.setTitle("Success");
                 confirm.setContentText("Your transaction has been added!");
                 confirm.showAndWait();
+            }
+        }
+        else if(amount_box_add.getText().isEmpty() || date_box_add.getValue()==null || category_box_add.getValue()==null || mainwallet_box_add.getValue()==null || endwallet_box_add.getValue()==null)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR!");
+            alert.setHeaderText(null);
+            alert.setContentText("A possible MANDATORY tab has been left EMPTY!");
+            alert.showAndWait();
+        }
+        else // ALL OK
+        {
+            if(type_transaction_add.getValue().equals("Transfer")) {
+                if (selectedMainWallet.getName() == selectedEndWallet.getName()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERROR!");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Money cannot be transferred from a wallet to itself!");
+                    alert.showAndWait();
+                } else {
+                    String amount = amount_box_add.getText();
+                    String category = selectedCategory.getUuid();
+                    String people;
+                    String place;
+                    if (selectedPeople == null || selectedPeople.getUuid().isEmpty()) people = "";
+                    else people = selectedPeople.getUuid();
+                    if (selectedPlace == null || selectedPlace.getUuid().isEmpty()) place = "";
+                    else place = selectedPlace.getUuid();
+                    String main_wallet = selectedMainWallet.getUuid();
+                    String end_wallet = selectedEndWallet.getUuid();
+                    LocalDate selectedDate = date_box_add.getValue();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String dateString = selectedDate.format(formatter);
+                    String note = note_box_add.getText();
+                    String desc = description_box_add.getText();
+                    PersonClasses.Income_and_expense_String obj = new PersonClasses.Income_and_expense_String(amount, people, place, category, note, desc, main_wallet, end_wallet, dateString);
+                    //System.out.println(desc+note);
+                    PersonDao.addTransaction(obj, true, type_transaction_add.getValue());
+
+                    Alert confirm = new Alert(Alert.AlertType.INFORMATION);
+                    confirm.setTitle("Success");
+                    confirm.setContentText("Your transaction has been added!");
+                    confirm.showAndWait();
+                }
             }
         }
     }
