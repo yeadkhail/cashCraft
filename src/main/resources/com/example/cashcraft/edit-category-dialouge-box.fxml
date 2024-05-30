@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="624.0" styleClass="anchor-pane" stylesheets="@edit-category-stylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.EditCategory">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="624.0" styleClass="anchor-pane" stylesheets="@styler.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.EditCategory">
     <children>
         <GridPane prefHeight="337.0" prefWidth="600.0">
             <columnConstraints>
@@ -31,7 +31,7 @@
                         <RowConstraints maxHeight="304.0" minHeight="10.0" prefHeight="293.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Text fill="#fcf8f8" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Category" textAlignment="CENTER" wrappingWidth="173.7294921875">
+                        <Text fill="#141313" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Category" textAlignment="CENTER" wrappingWidth="173.7294921875">
                             <font>
                                 <Font size="19.0" />
                             </font>
@@ -50,12 +50,12 @@
                         <RowConstraints maxHeight="243.0" minHeight="10.0" prefHeight="106.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Text fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="110.65999984741211">
+                        <Text fill="#171717" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="110.65999984741211">
                             <font>
                                 <Font name="Noto Sans Regular" size="20.0" />
                             </font>
                         </Text>
-                        <Text fill="#eeebeb" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textAlignment="CENTER" wrappingWidth="142.9800033569336" GridPane.rowIndex="1">
+                        <Text fill="#0d0d0d" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textAlignment="CENTER" wrappingWidth="142.9800033569336" GridPane.rowIndex="1">
                             <font>
                                 <Font name="Noto Sans Regular" size="20.0" />
                             </font>
