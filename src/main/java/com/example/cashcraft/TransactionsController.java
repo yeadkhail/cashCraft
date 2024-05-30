@@ -129,10 +129,10 @@ public class TransactionsController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-            dropShadow = new DropShadow();
-            dropShadow.setRadius(15);
-            dropShadow.setOffsetX(5);
-            dropShadow.setOffsetY(5);
+        dropShadow = new DropShadow();
+        dropShadow.setRadius(15);
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
 
 
         buttons_shower.setText("Buttons: Showing");
@@ -307,7 +307,7 @@ public class TransactionsController implements Initializable {
                 String timing = resultset.getString("transaction_date");
                 String from_wallet;
                 if(resultset.getString("transaction_type").equals("Transfer"))
-                from_wallet = resultset.getString("from_wallet");
+                    from_wallet = resultset.getString("from_wallet");
                 else from_wallet = resultset.getString("wallet");
                 String to_wallet = resultset.getString("to_wallet");
                 String people = resultset.getString("person");
@@ -706,7 +706,8 @@ public class TransactionsController implements Initializable {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
-                    setStyle(""); // Clear any existing style
+                    setGraphic(null);
+                    setStyle("-fx-background-color: transparent;"); // Clear any existing style
                 } else {
                     setText(item.getName());
                     setPrefHeight(60); // Set the preferred height
@@ -718,20 +719,27 @@ public class TransactionsController implements Initializable {
                             "-fx-border-radius: 10px;");
                 }
 
-                setOnMouseEntered(event -> setStyle("-fx-background-color: #e0e0e0; " +
-                        "-fx-background-radius: 10px; " +
-                        "-fx-padding: 10px; " +
-                        "-fx-font-size: 16px; " +
-                        "-fx-border-color: #ccc; " +
-                        "-fx-border-radius: 10px;"));
+                setOnMouseEntered(event -> {
+                    if (!isEmpty()) {
+                        setStyle("-fx-background-color: #e0e0e0; " +
+                                "-fx-background-radius: 10px; " +
+                                "-fx-padding: 10px; " +
+                                "-fx-font-size: 16px; " +
+                                "-fx-border-color: #ccc; " +
+                                "-fx-border-radius: 10px;");
+                    }
+                });
 
-                // Event handler for mouse exit
-                setOnMouseExited(event -> setStyle("-fx-background-color: #f0f0f0; " +
-                        "-fx-background-radius: 10px; " +
-                        "-fx-padding: 10px; " +
-                        "-fx-font-size: 16px; " +
-                        "-fx-border-color: #ccc; " +
-                        "-fx-border-radius: 10px;"));
+                setOnMouseExited(event -> {
+                    if (!isEmpty()) {
+                        setStyle("-fx-background-color: #f0f0f0; " +
+                                "-fx-background-radius: 10px; " +
+                                "-fx-padding: 10px; " +
+                                "-fx-font-size: 16px; " +
+                                "-fx-border-color: #ccc; " +
+                                "-fx-border-radius: 10px;");
+                    }
+                });
             }
         });
 
@@ -776,6 +784,20 @@ public class TransactionsController implements Initializable {
             }
         });
 
+        adder.setOnMouseEntered(event -> adder.setStyle("-fx-background-color: #e0e0e0; " +
+                "-fx-background-radius: 10px; " +
+                "-fx-padding: 10px; " +
+                "-fx-font-size: 16px; " +
+                "-fx-border-color: #ccc; " +
+                "-fx-border-radius: 10px;"));
+
+        // Event handler for mouse exit on the button
+        adder.setOnMouseExited(event -> adder.setStyle("-fx-background-color: #f0f0f0; " +
+                "-fx-background-radius: 10px; " +
+                "-fx-padding: 10px; " +
+                "-fx-font-size: 16px; " +
+                "-fx-border-color: #ccc; " +
+                "-fx-border-radius: 10px;"));
 
 
     }
@@ -834,8 +856,6 @@ public class TransactionsController implements Initializable {
 
 
 
-
-            pieChart.setEffect(dropShadow);
             FadeTransition fadeInTransition = new FadeTransition(Duration.millis(500));
             FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(500));
             AtomicReference<PieChart> subPieChartRef = new AtomicReference<>(null);
@@ -855,7 +875,6 @@ public class TransactionsController implements Initializable {
                         PieChart subPieChart = new PieChart();
                         subPieChart.setMaxWidth(600);
                         subPieChart.setMaxHeight(300);
-                        subPieChart.setEffect(dropShadow);
                         fadeInTransition.setNode(subPieChart); // Set the node for fadeInTransition
                         fadeInTransition.setFromValue(0.0);
                         fadeInTransition.setToValue(1.0);
@@ -925,6 +944,8 @@ public class TransactionsController implements Initializable {
             barChart.setMaxHeight(500);
             barChart.setPadding(new Insets(50, 200, 0, 0));
             barChart.setLegendVisible(false); // Disable the default legend
+            barChart.lookup(".chart-plot-background").setStyle("-fx-background-color: #D5FFFF;");
+
 
             XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
             XYChart.Data<String, Number> incomeData = new XYChart.Data<>("Income: " + String.format("%.2f", incomePercentage) + "%", incomePercentage);
@@ -966,7 +987,6 @@ public class TransactionsController implements Initializable {
             graph_stack2.getChildren().clear();
             graph_stack2.getChildren().add(layout);
 
-            barChart.setEffect(dropShadow);
             FadeTransition fadeInTransition = new FadeTransition(Duration.millis(500));
             FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(500));
             AtomicReference<BarChart<String, Number>> subBarChartRef = new AtomicReference<>(null);
@@ -993,10 +1013,11 @@ public class TransactionsController implements Initializable {
                             subYAxis.setLabel("Percentage");
 
                             BarChart<String, Number> subBarChart = new BarChart<>(subXAxis, subYAxis);
-                            subBarChart.setMaxWidth(600);
-                            subBarChart.setMaxHeight(300);
-                            subBarChart.setEffect(dropShadow);
+                            subBarChart.setMaxWidth(500);
+                            subBarChart.setMaxHeight(200);
                             subBarChart.setLegendVisible(false); // Disable the default legend for the sub-bar chart
+                            subBarChart.lookup(".chart-plot-background").setStyle("-fx-background-color: #D5FFFF;");
+
 
                             fadeInTransition.setNode(subBarChart);
                             fadeInTransition.setFromValue(0.0);
@@ -1144,7 +1165,6 @@ public class TransactionsController implements Initializable {
             graph_stack2.getChildren().clear();
             graph_stack2.getChildren().add(layout);
 
-            barChart.setEffect(dropShadow);
             FadeTransition fadeInTransition = new FadeTransition(Duration.millis(500));
             FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(500));
             AtomicReference<BarChart<String, Number>> subBarChartRef = new AtomicReference<>(null);
@@ -1171,9 +1191,8 @@ public class TransactionsController implements Initializable {
                             subYAxis.setLabel("Percentage");
 
                             BarChart<String, Number> subBarChart = new BarChart<>(subXAxis, subYAxis);
-                            subBarChart.setMaxWidth(600);
-                            subBarChart.setMaxHeight(300);
-                            subBarChart.setEffect(dropShadow);
+                            subBarChart.setMaxWidth(500);
+                            subBarChart.setMaxHeight(200);
                             subBarChart.setLegendVisible(false); // Disable the default legend for the sub-bar chart
 
                             fadeInTransition.setNode(subBarChart);
