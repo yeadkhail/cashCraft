@@ -8,49 +8,64 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="10.0" minWidth="10.0" prefHeight="478.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.WindowSwitcher">
    <left>
-      <AnchorPane prefHeight="600.0" prefWidth="324.0" style="-fx-background-color: #090947;" stylesheets="@styler.css" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="600.0" prefWidth="324.0" style="-fx-background-color: #090947;" styleClass="anchor-pane" stylesheets="@fields.css" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" layoutX="-1.0" layoutY="60.0" prefHeight="62.0" prefWidth="325.0" stylesheets="@styler.css" text="CA$HCRAFT" textFill="#f7ef8a" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font name="ROGFonts-Regular" size="40.0" />
-               </font>
-            </Label>
-            <Text fill="#f7ef8a" layoutX="27.0" layoutY="198.0" lineSpacing="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Navigate your finances with ease and confidence" textAlignment="CENTER" wrappingWidth="270.69775390625">
-               <font>
-                  <Font name="Bauhaus 93" size="36.0" />
-               </font>
-            </Text>
-         </children>
-      </AnchorPane>
-   </left>
-   <center>
-      <AnchorPane minHeight="1.0" prefHeight="494.0" prefWidth="476.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="585.0" fitWidth="478.0" layoutX="-1.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+            <ImageView fitHeight="262.0" fitWidth="308.0" layoutX="31.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/Designer.jpeg" />
+                  <Image url="@../Images/transaction_1875506.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" layoutY="134.0" prefHeight="62.0" prefWidth="325.0" text="Enter your password:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label alignment="CENTER" layoutX="1.0" layoutY="370.0" prefHeight="62.0" prefWidth="324.0" text="empowering your financial journey" textFill="#ffd900">
+               <font>
+                  <Font name="ROGFonts-Regular" size="12.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="64.0" layoutY="46.0" prefHeight="62.0" prefWidth="197.0" text="cashcraft" textFill="#ffd900">
                <font>
                   <Font name="ROGFonts-Regular" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="log_in_button" alignment="CENTER" layoutX="7.0" layoutY="257.0" mnemonicParsing="false" onAction="#log_in" prefHeight="31.0" prefWidth="262.0" stylesheets="@buttons.css" text="Log In" textFill="WHITE" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0">
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane minHeight="1.0" prefHeight="478.0" prefWidth="403.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="585.0" fitWidth="478.0" layoutX="55.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../Images/Designer.jpeg" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutY="153.0" prefHeight="62.0" prefWidth="325.0" text="Enter your password:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="ROGFonts-Regular" size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="log_in_button" alignment="CENTER" layoutX="7.0" layoutY="257.0" mnemonicParsing="false" onAction="#log_in" prefHeight="31.0" prefWidth="462.0" stylesheets="@buttons.css" text="LOG IN" textFill="WHITE" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
             </Button>
-            <PasswordField fx:id="passfield" alignment="CENTER" layoutX="7.0" layoutY="215.0" prefHeight="31.0" prefWidth="261.0" promptText="password" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" />
+            <PasswordField fx:id="passfield" alignment="CENTER" layoutX="7.0" layoutY="215.0" prefHeight="31.0" prefWidth="261.0" promptText="password" stylesheets="@fields.css" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font></PasswordField>
             <Label alignment="CENTER" layoutX="7.0" layoutY="418.0" opacity="0.5" text="created by Deadlocked" textAlignment="CENTER" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Label>
+            <Label alignment="CENTER" layoutX="128.0" prefHeight="62.0" prefWidth="220.0" text="log in panel" underline="true">
+               <font>
+                  <Font name="ROGFonts-Regular" size="24.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-   </center>
+   </right>
 </BorderPane>

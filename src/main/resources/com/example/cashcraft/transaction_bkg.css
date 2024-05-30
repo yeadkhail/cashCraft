@@ -3,3 +3,12 @@
     -fx-background-color:
         linear-gradient(to bottom, #7EE8FA, #EEC0C6);
 }
+.background-add {
+    -fx-background-color:
+        linear-gradient(to bottom, #EFE9F4, #5078F2);
+}
+.rounder{
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 5);
+    -fx-background-radius: 20;
+}
