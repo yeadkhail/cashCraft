@@ -2,6 +2,7 @@ package com.example.cashcraft;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,7 +61,7 @@ public class TransactionsController implements Initializable {
     @FXML
     TabPane main_tab;
     @FXML
-    TableColumn<ObservableList<String>, String> amount_column;
+    TableColumn<ObservableList<String>, Double> amount_column;
     @FXML
     TableColumn<ObservableList<String>, String> people_column;
     @FXML
@@ -142,6 +143,7 @@ public class TransactionsController implements Initializable {
             delete_expense_statement = connection.prepareStatement("DELETE FROM expense WHERE transaction_id=?");
             delete_transfer_statement = connection.prepareStatement("DELETE FROM transfer WHERE transfer_id=?");
             statement.setQueryTimeout(30);
+            on_type_selected();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -189,12 +191,16 @@ public class TransactionsController implements Initializable {
                     "LEFT JOIN place pl ON i.place = pl.place_id " +
                     "LEFT JOIN wallet tw on i.to_wallet = tw.wallet_id";
         else if (selected_type.equals("All")) {
-            System.out.println("Selected all");
+            query = "SELECT * FROM financial_transactions_view";
         }
 
         resultset = statement.executeQuery(query);
         if (selected_type.equals("Transfer")) {
-            amount_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(0)));
+            amount_column.setCellValueFactory(cellData -> {
+                String amountString = cellData.getValue().get(0);
+                Double amountValue = amountString != null && !amountString.isEmpty() ? Double.parseDouble(amountString) : 0.0;
+                return new SimpleObjectProperty<>(amountValue);
+            });
             people_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(1)));
             place_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(2)));
             cat_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(3)));
@@ -229,8 +235,12 @@ public class TransactionsController implements Initializable {
                 row.add(id);
                 info_box.getItems().add(row);
             }
-        } else {
-            amount_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(0)));
+        } else if(selected_type.equals("Income") || selected_type.equals("Expense")) {
+            amount_column.setCellValueFactory(cellData -> {
+                String amountString = cellData.getValue().get(0);
+                Double amountValue = amountString != null && !amountString.isEmpty() ? Double.parseDouble(amountString) : 0.0;
+                return new SimpleObjectProperty<>(amountValue);
+            });
             people_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(1)));
             place_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(2)));
             cat_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(3)));
@@ -260,6 +270,52 @@ public class TransactionsController implements Initializable {
                 row.add(desc);
                 row.add(timing);
                 row.add(wallet);
+                row.add(id);
+                info_box.getItems().add(row);
+            }
+        }
+        else
+        {
+            amount_column.setCellValueFactory(cellData -> {
+                String amountString = cellData.getValue().get(0);
+                Double amountValue = amountString != null && !amountString.isEmpty() ? Double.parseDouble(amountString) : 0.0;
+                return new SimpleObjectProperty<>(amountValue);
+            });
+            people_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(1)));
+            place_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(2)));
+            cat_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(3)));
+            note_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(4)));
+            desc_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(5)));
+            date_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(6)));
+            src_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(7)));
+            dest_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(8)));
+            trans_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(9)));
+            while(resultset.next())
+            {
+                String val = resultset.getString("amount");
+                String desc = resultset.getString("description");
+                String timing = resultset.getString("transaction_date");
+                String from_wallet;
+                if(resultset.getString("transaction_type").equals("Transfer"))
+                from_wallet = resultset.getString("from_wallet");
+                else from_wallet = resultset.getString("wallet");
+                String to_wallet = resultset.getString("to_wallet");
+                String people = resultset.getString("person");
+                String place = resultset.getString("place");
+                String note = resultset.getString("notes");
+                String category = resultset.getString("category");
+                String id = resultset.getString("transaction_id");
+                System.out.println(from_wallet + " " + to_wallet);
+                ObservableList<String> row = FXCollections.observableArrayList();
+                row.add(val);
+                row.add(people);
+                row.add(place);
+                row.add(category);
+                row.add(note);
+                row.add(desc);
+                row.add(timing);
+                row.add(from_wallet);
+                row.add(to_wallet);
                 row.add(id);
                 info_box.getItems().add(row);
             }
@@ -340,7 +396,11 @@ public class TransactionsController implements Initializable {
     @FXML
     void on_edit_clicked(ActionEvent event) throws IOException, SQLException {
         // Get the value from the specific column directly
-        amount_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(0);
+        amount_column.setCellValueFactory(cellData -> {
+            String amountString = cellData.getValue().get(0);
+            Double amountValue = amountString != null && !amountString.isEmpty() ? Double.parseDouble(amountString) : 0.0;
+            return new SimpleObjectProperty<>(amountValue);
+        });
         people_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(1);
         place_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(2);
         cat_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(3);
@@ -351,7 +411,7 @@ public class TransactionsController implements Initializable {
         dest_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(8);
         trans_column = (TableColumn<ObservableList<String>, String>) info_box.getColumns().get(9);
 
-        String amount = amount_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
+        Double amount = amount_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
         String people = people_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
         String place = place_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
         String cat = cat_column.getCellData(info_box.getSelectionModel().getSelectedIndex());
