@@ -157,7 +157,7 @@
                         <ListView fx:id="ZakwalletListView" prefHeight="200.0" prefWidth="200.0" styleClass="background" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
-                  <ImageView fitHeight="646.0" fitWidth="813.0" layoutX="288.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="646.0" fitWidth="813.0" layoutX="288.0" layoutY="1.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/zakat.png" />
                      </image>
