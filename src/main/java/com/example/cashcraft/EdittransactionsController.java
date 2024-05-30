@@ -72,7 +72,7 @@ public class EdittransactionsController implements Initializable {
         });
     }
     @FXML
-    public void others_initialize(Connection conn,String amount, String people, String place,String cat, String note, String desc,String date, String src, String id,String type) throws SQLException//selected either income or expense
+    public void others_initialize(Connection conn,Double amount, String people, String place,String cat, String note, String desc,String date, String src, String id,String type) throws SQLException//selected either income or expense
     {
         connection=conn;
         statement=connection.createStatement();
@@ -126,7 +126,7 @@ public class EdittransactionsController implements Initializable {
         people_box.getItems().add("");
         items.clear();
 
-        amount_box.setText(amount);
+        amount_box.setText(amount.toString());
         note_box.setText(note);
         description_box.setText(desc);
         people_box.setValue(people);
@@ -138,7 +138,7 @@ public class EdittransactionsController implements Initializable {
         date_box.setValue(parsedDate);
     }
     @FXML
-    public void transfer_initialize(Connection conn,String amount, String people, String place,String cat, String note, String desc,String date, String src, String dest, String id,String type) throws SQLException//selected either income or expense
+    public void transfer_initialize(Connection conn,Double amount, String people, String place,String cat, String note, String desc,String date, String src, String dest, String id,String type) throws SQLException//selected either income or expense
     {
         connection=conn;
         statement=connection.createStatement();
@@ -200,7 +200,7 @@ public class EdittransactionsController implements Initializable {
         endwallet_box.getItems().addAll(items);
         items.clear();
 
-        amount_box.setText(amount);
+        amount_box.setText(amount.toString());
         note_box.setText(note);
         description_box.setText(desc);
         people_box.setValue(people);
