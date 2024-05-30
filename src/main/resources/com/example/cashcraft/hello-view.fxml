@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -168,7 +169,16 @@
     </Tab>
       <Tab fx:id="graph_tab" onSelectionChanged="#on_graphs_clicked" text="Graphs">
          <content>
-            <ScrollPane fx:id="graph_scroll" prefHeight="200.0" prefWidth="200.0" />
+            <ScrollPane fx:id="graph_scroll" prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <StackPane fx:id="graph_stack" maxHeight="1000.0" prefHeight="1000.0" prefWidth="1280.0" styleClass="background">
+                     <stylesheets>
+                        <URL value="@transaction_bkg.css" />
+                        <URL value="@graphs.css" />
+                     </stylesheets>
+                  </StackPane>
+               </content>
+            </ScrollPane>
          </content>
       </Tab>
       <Tab onSelectionChanged="#on_graphs2_clicked" text="Bar">
