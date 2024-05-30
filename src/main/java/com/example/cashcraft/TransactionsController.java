@@ -707,7 +707,7 @@ public class TransactionsController implements Initializable {
                 if (empty || item == null) {
                     setText(null);
                     setGraphic(null);
-                    setStyle("-fx-background-color: transparent;"); // Clear any existing style
+                    setStyle("-fx-background-color: transparent;");
                 } else {
                     setText(item.getName());
                     setPrefHeight(60); // Set the preferred height
@@ -730,6 +730,7 @@ public class TransactionsController implements Initializable {
                     }
                 });
 
+                // Event handler for mouse exit
                 setOnMouseExited(event -> {
                     if (!isEmpty()) {
                         setStyle("-fx-background-color: #f0f0f0; " +
@@ -787,7 +788,7 @@ public class TransactionsController implements Initializable {
         adder.setOnMouseEntered(event -> adder.setStyle("-fx-background-color: #e0e0e0; " +
                 "-fx-background-radius: 10px; " +
                 "-fx-padding: 10px; " +
-                "-fx-font-size: 16px; " +
+                "-fx-font-size: 24px; " +
                 "-fx-border-color: #ccc; " +
                 "-fx-border-radius: 10px;"));
 
@@ -795,7 +796,7 @@ public class TransactionsController implements Initializable {
         adder.setOnMouseExited(event -> adder.setStyle("-fx-background-color: #f0f0f0; " +
                 "-fx-background-radius: 10px; " +
                 "-fx-padding: 10px; " +
-                "-fx-font-size: 16px; " +
+                "-fx-font-size: 24px; " +
                 "-fx-border-color: #ccc; " +
                 "-fx-border-radius: 10px;"));
 
@@ -1017,7 +1018,6 @@ public class TransactionsController implements Initializable {
                             subBarChart.setMaxHeight(200);
                             subBarChart.setLegendVisible(false); // Disable the default legend for the sub-bar chart
                             subBarChart.lookup(".chart-plot-background").setStyle("-fx-background-color: #D5FFFF;");
-
 
                             fadeInTransition.setNode(subBarChart);
                             fadeInTransition.setFromValue(0.0);
