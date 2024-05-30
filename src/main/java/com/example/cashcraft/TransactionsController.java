@@ -14,7 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
@@ -92,6 +92,8 @@ public class TransactionsController implements Initializable {
 
     @FXML
     StackPane graph_stack;
+    @FXML
+    StackPane graph_stack2;
 
     @FXML
     ScrollPane graph_scroll;
@@ -789,6 +791,131 @@ public class TransactionsController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+    @FXML
+    public void on_graphs2_clicked() {
+        try {
+            double totalIncome = getTotalAmount("income");
+            double totalExpense = getTotalAmount("expense");
+            double totalTransfers = getTotalAmount("transfer");
+
+            double total = totalIncome + totalExpense + totalTransfers;
+            double incomePercentage = (totalIncome / total) * 100;
+            double expensePercentage = (totalExpense / total) * 100;
+            double transfersPercentage = (totalTransfers / total) * 100;
+
+            CategoryAxis xAxis = new CategoryAxis();
+            xAxis.setLabel("Category");
+
+            NumberAxis yAxis = new NumberAxis();
+            yAxis.setLabel("Percentage");
+
+            BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+            barChart.setMaxWidth(1000);
+            barChart.setMaxHeight(500);
+            barChart.setPadding(new Insets(50, 200, 0, 0));
+
+            XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
+            XYChart.Data<String, Number> incomeData = new XYChart.Data<>("Income: " + String.format("%.2f", incomePercentage) + "%", incomePercentage);
+            XYChart.Data<String, Number> expenseData = new XYChart.Data<>("Expense: " + String.format("%.2f", expensePercentage) + "%", expensePercentage);
+            XYChart.Data<String, Number> transfersData = new XYChart.Data<>("Transfer: " + String.format("%.2f", transfersPercentage) + "%", transfersPercentage);
+
+            dataSeries.getData().add(incomeData);
+            dataSeries.getData().add(expenseData);
+            dataSeries.getData().add(transfersData);
+
+            barChart.getData().add(dataSeries);
+
+            if (graph_stack2.getChildren().size() > 1) {
+                graph_stack2.getChildren().remove(1, graph_stack2.getChildren().size());
+            }
+            graph_stack2.getChildren().add(barChart);
+
+            graph_stack2.setAlignment(barChart, Pos.TOP_LEFT);
+
+            // Set colors directly
+            incomeData.getNode().setStyle("-fx-bar-fill: #2ca02c;"); // green
+            expenseData.getNode().setStyle("-fx-bar-fill: #ff0000;"); // red
+            transfersData.getNode().setStyle("-fx-bar-fill: #0000FF;"); // blue
+
+            barChart.setEffect(dropShadow);
+            FadeTransition fadeInTransition = new FadeTransition(Duration.millis(500));
+            FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(500));
+            AtomicReference<BarChart<String, Number>> subBarChartRef = new AtomicReference<>(null);
+
+            for (XYChart.Data<String, Number> data : dataSeries.getData()) {
+                data.getNode().setOnMouseEntered(e -> {
+                    data.getNode().setScaleX(1.05);
+                    data.getNode().setScaleY(1.05);
+
+                    String nodeName = data.getXValue();
+                    String[] parts = nodeName.split(":");
+                    String type = parts[0].trim();
+
+                    try {
+                        ResultSet values = getCategoryAmount(type);
+
+                        // Create a new bar chart for displaying category breakdown
+                        CategoryAxis subXAxis = new CategoryAxis();
+                        subXAxis.setLabel("Sub-Category");
+
+                        NumberAxis subYAxis = new NumberAxis();
+                        subYAxis.setLabel("Percentage");
+
+                        BarChart<String, Number> subBarChart = new BarChart<>(subXAxis, subYAxis);
+                        subBarChart.setMaxWidth(600);
+                        subBarChart.setMaxHeight(300);
+                        subBarChart.setEffect(dropShadow);
+                        fadeInTransition.setNode(subBarChart);
+                        fadeInTransition.setFromValue(0.0);
+                        fadeInTransition.setToValue(1.0);
+                        fadeInTransition.play();
+
+                        XYChart.Series<String, Number> subDataSeries = new XYChart.Series<>();
+
+                        while (values.next()) {
+                            double totalAmount = values.getDouble("total_amount");
+                            String categoryName = values.getString("category_name");
+                            double val;
+                            if (type.equals("Income")) val = totalIncome;
+                            else if (type.equals("Expense")) val = totalExpense;
+                            else val = totalTransfers;
+
+                            subDataSeries.getData().add(new XYChart.Data<>(categoryName + ": " + String.format("%.2f", (totalAmount / val) * 100) + "%", (totalAmount / val) * 100));
+                        }
+
+                        subBarChart.getData().add(subDataSeries);
+
+                        // Add the sub bar chart to the graph stack and set the reference atomically
+                        graph_stack2.getChildren().add(subBarChart);
+                        graph_stack2.setAlignment(subBarChart, Pos.TOP_RIGHT);
+                        subBarChartRef.set(subBarChart);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+
+                data.getNode().setOnMouseExited(e -> {
+                    data.getNode().setScaleX(1.0);
+                    data.getNode().setScaleY(1.0);
+
+                    fadeOutTransition.setNode(subBarChartRef.get());
+                    fadeOutTransition.setFromValue(1.0);
+                    fadeOutTransition.setToValue(0.0);
+                    fadeOutTransition.play();
+
+                    // Remove the sub bar chart from the graph_stack2 atomically
+                    BarChart<String, Number> subBarChartToRemove = subBarChartRef.getAndSet(null);
+                    if (subBarChartToRemove != null) {
+                        graph_stack2.getChildren().remove(subBarChartToRemove);
+                    }
+                });
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public double getTotalAmount(String tableName) {
         double total = 0;
