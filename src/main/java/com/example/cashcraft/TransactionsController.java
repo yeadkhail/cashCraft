@@ -808,6 +808,11 @@ public class TransactionsController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    public Button importExport;
+    public void handleImportExportButton(ActionEvent event) {
+            ExportImportScene exportImportScene = new ExportImportScene();
+            exportImportScene.show();
+        }
 }
 
 /* SELECT SUM(i.amount) AS total_amount, c.category_name as name FROM income i JOIN category c ON i.category = c.category_id GROUP BY i.category ;*/
