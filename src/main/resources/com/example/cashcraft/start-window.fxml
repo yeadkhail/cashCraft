@@ -15,7 +15,7 @@
          <children>
             <ImageView fitHeight="262.0" fitWidth="308.0" layoutX="31.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/transaction_1875506.png" />
+                  <Image url="@../Images/welcome_icon.png" />
                </image>
             </ImageView>
             <Label alignment="CENTER" layoutX="1.0" layoutY="370.0" prefHeight="62.0" prefWidth="324.0" text="empowering your financial journey" textFill="#ffd900">
