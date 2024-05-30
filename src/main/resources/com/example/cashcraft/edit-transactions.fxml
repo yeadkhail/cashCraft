@@ -10,62 +10,63 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="600.0" maxWidth="800.0" prefHeight="600.0" prefWidth="800.0" styleClass="anchor-pane" stylesheets="@styler.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.EdittransactionsController">
+<AnchorPane maxHeight="600.0" maxWidth="800.0" prefHeight="600.0" prefWidth="800.0" styleClass="background-add" stylesheets="@transaction_bkg.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.EdittransactionsController">
    <children>
+      <AnchorPane fx:id="left_add_pane" layoutX="10.0" layoutY="103.0" opacity="0.3" prefHeight="410.0" prefWidth="780.0" style="-fx-background-color: #FFFFFF;" styleClass="rounder" stylesheets="@transaction_bkg.css" />
       <Label layoutX="14.0" layoutY="40.0" text="EDITING PANEL" underline="true">
          <font>
             <Font name="Segoe UI Bold" size="28.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="137.0" text="Amount:">
+      <Label alignment="CENTER" layoutX="20.0" layoutY="137.0" text="Amount:">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="478.0" layoutY="137.0" text="Place:">
+      <Label alignment="CENTER" layoutX="430.0" layoutY="150.0" text="Place:">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="189.0" text="People:">
+      <Label alignment="CENTER" layoutX="20.0" layoutY="203.0" text="People:">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="477.0" layoutY="189.0" text="Category: ">
+      <Label alignment="CENTER" layoutX="430.0" layoutY="230.0" text="Category: ">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="241.0" text="Date:">
+      <Label alignment="CENTER" layoutX="20.0" layoutY="255.0" text="Date:">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="477.0" layoutY="241.0" text="Main wallet:">
+      <Label alignment="CENTER" layoutX="430.0" layoutY="310.0" text="Main wallet:">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="14.0" layoutY="291.0" text="End wallet:">
+      <Label alignment="CENTER" layoutX="20.0" layoutY="315.0" text="End wallet:">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="amount_box" layoutX="116.0" layoutY="135.0" />
-      <Label alignment="CENTER" layoutX="14.0" layoutY="345.0" text="Note:">
+      <TextField fx:id="amount_box" layoutX="150.0" layoutY="135.0" stylesheets="@fields.css" />
+      <Label alignment="CENTER" layoutX="20.0" layoutY="372.0" text="Note:">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <TextArea fx:id="note_box" layoutX="116.0" layoutY="345.0" prefHeight="120.0" prefWidth="187.0" />
-      <Label alignment="CENTER" layoutX="478.0" layoutY="345.0" text="Description:">
+      <TextArea fx:id="note_box" layoutX="150.0" layoutY="372.0" prefHeight="120.0" prefWidth="187.0" stylesheets="@fields.css" />
+      <Label alignment="CENTER" layoutX="430.0" layoutY="372.0" text="Description:">
          <font>
             <Font name="Leelawadee UI Bold" size="18.0" />
          </font>
       </Label>
-      <TextArea fx:id="description_box" layoutX="598.0" layoutY="345.0" prefHeight="120.0" prefWidth="187.0" />
-      <Button fx:id="cancel_edit" layoutX="146.0" layoutY="521.0" mnemonicParsing="false" prefWidth="200.0" stylesheets="@styler.css" text="Cancel">
+      <TextArea fx:id="description_box" layoutX="570.0" layoutY="372.0" prefHeight="120.0" prefWidth="187.0" stylesheets="@fields.css" />
+      <Button fx:id="cancel_edit" layoutX="146.0" layoutY="529.0" mnemonicParsing="false" prefWidth="200.0" stylesheets="@styler.css" text="Cancel">
          <styleClass>
             <String fx:value="roundbutton" />
             <String fx:value="linear-button-gradient" />
@@ -74,7 +75,7 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <Button fx:id="confirm_edit" layoutX="455.0" layoutY="521.0" mnemonicParsing="false" onAction="#on_confirm_edits_clicked" prefWidth="200.0" stylesheets="@styler.css" text="Confirm edits">
+      <Button fx:id="confirm_edit" layoutX="455.0" layoutY="529.0" mnemonicParsing="false" onAction="#on_confirm_edits_clicked" prefWidth="200.0" stylesheets="@styler.css" text="Confirm edits">
          <styleClass>
             <String fx:value="roundbutton" />
             <String fx:value="linear-button-gradient" />
@@ -83,11 +84,11 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <DatePicker fx:id="date_box" layoutX="116.0" layoutY="239.0" prefHeight="31.0" prefWidth="187.0" />
-      <ComboBox fx:id="people_box" layoutX="116.0" layoutY="187.0" prefHeight="31.0" prefWidth="187.0" />
-      <ComboBox fx:id="endwallet_box" layoutX="116.0" layoutY="291.0" prefHeight="31.0" prefWidth="187.0" />
-      <ComboBox fx:id="category_box" layoutX="598.0" layoutY="187.0" prefHeight="31.0" prefWidth="187.0" />
-      <ComboBox fx:id="mainwallet_box" layoutX="598.0" layoutY="239.0" prefHeight="31.0" prefWidth="187.0" />
-      <ComboBox fx:id="place_box" layoutX="598.0" layoutY="135.0" prefHeight="31.0" prefWidth="187.0" />
+      <DatePicker fx:id="date_box" layoutX="150.0" layoutY="253.0" prefHeight="31.0" prefWidth="187.0" stylesheets="@buttons.css" />
+      <ComboBox fx:id="people_box" layoutX="150.0" layoutY="187.0" prefHeight="31.0" prefWidth="187.0" stylesheets="@combobox.css" />
+      <ComboBox fx:id="endwallet_box" layoutX="150.0" layoutY="300.0" prefHeight="31.0" prefWidth="187.0" stylesheets="@combobox.css" />
+      <ComboBox fx:id="category_box" layoutX="570.0" layoutY="220.0" prefHeight="31.0" prefWidth="187.0" stylesheets="@combobox.css" />
+      <ComboBox fx:id="mainwallet_box" layoutX="570.0" layoutY="300.0" prefHeight="31.0" prefWidth="187.0" stylesheets="@combobox.css" />
+      <ComboBox fx:id="place_box" layoutX="570.0" layoutY="140.0" prefHeight="31.0" prefWidth="187.0" stylesheets="@combobox.css" />
    </children>
 </AnchorPane>
