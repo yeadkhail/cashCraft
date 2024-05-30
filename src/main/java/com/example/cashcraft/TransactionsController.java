@@ -1,6 +1,7 @@
 package com.example.cashcraft;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -91,11 +94,11 @@ public class TransactionsController implements Initializable {
     StackPane graph_stack;
 
     @FXML
-    ComboBox<String> graph_combo;
-
-    @FXML
     ScrollPane graph_scroll;
-
+    @FXML
+    CheckBox buttons_shower;
+    @FXML
+    CheckBox buttons_shower2;
     String[] graph_box = {"Transaction types", "Wallets"};
 
     @FXML
@@ -108,6 +111,10 @@ public class TransactionsController implements Initializable {
     private TextField zakField;
     @FXML
     private DropShadow dropShadow;
+    @FXML
+    private VBox buttons_vbox;
+    @FXML
+    private HBox editbuttons_box;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -117,13 +124,16 @@ public class TransactionsController implements Initializable {
             dropShadow.setOffsetY(5);
 
 
+        buttons_shower.setText("Buttons: Showing");
+        buttons_shower.setSelected(true);
+        buttons_shower2.setText("Showing");
+        buttons_shower2.setSelected(true);
 
         graph_scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         selectionModel = info_box.getSelectionModel();
         delete_button.disableProperty().bind(info_box.getSelectionModel().selectedItemProperty().isNull());
         edit_button.disableProperty().bind(info_box.getSelectionModel().selectedItemProperty().isNull());
         type_combo.getItems().addAll(types);
-        graph_combo.getItems().addAll(graph_box);
         selected_type = "All";
         try {
             connection = Makeconnection.makeconnection();
@@ -808,6 +818,48 @@ public class TransactionsController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    @FXML
+    public void handleCheckBoxAction() {
+        if (buttons_shower.isSelected()) {
+            buttons_shower.setText("Buttons: Showing");
+            buttons_vbox.setVisible(true);
+            buttons_vbox.setManaged(true);
+            TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), buttons_vbox);
+            slideIn.setToX(0);
+            slideIn.play();
+        } else {
+            buttons_shower.setText("Buttons: Hidden");
+            TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), buttons_vbox);
+            slideOut.setToX(-buttons_vbox.getWidth());
+            slideOut.setOnFinished(event -> {
+                buttons_vbox.setVisible(false);
+                buttons_vbox.setManaged(false);
+            });
+            slideOut.play();
+        }
+    }
+
+    @FXML
+    public void handleCheckBoxAction2() {
+        if (buttons_shower2.isSelected()) {
+            buttons_shower2.setText("Showing");
+            editbuttons_box.setVisible(true);
+            editbuttons_box.setManaged(true);
+            TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), editbuttons_box);
+            slideIn.setToX(0);
+            slideIn.play();
+        } else {
+            buttons_shower2.setText("Hidden");
+            TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), editbuttons_box);
+            slideOut.setToX(editbuttons_box.getWidth());
+            slideOut.setOnFinished(event -> {
+                editbuttons_box.setVisible(false);
+                editbuttons_box.setManaged(false);
+            });
+            slideOut.play();
+        }
+    }
 }
+
 
 /* SELECT SUM(i.amount) AS total_amount, c.category_name as name FROM income i JOIN category c ON i.category = c.category_id GROUP BY i.category ;*/

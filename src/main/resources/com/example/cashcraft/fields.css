@@ -1,0 +1,12 @@
+.text-field, .password-field {
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 5 10 5 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 5);
+}
+.text-area {
+    -fx-background-radius: 5px; /* Adjust the radius as needed */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 5);
+}

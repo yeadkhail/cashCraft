@@ -2,7 +2,7 @@
 .button {
     -fx-background-color: #000133;
     -fx-background-insets: 0, 1;
-    -fx-background-radius: 10;
+    -fx-background-radius: 20;
     -fx-padding: 7 22 7 22;
     -fx-text-fill: white;
     -fx-font-size: 13px;
@@ -21,4 +21,16 @@
 /* Pressed button style */
 .button:pressed {
     -fx-background-color: #002b4d;
+}
+.date-picker {
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 5);
+}
+.date-picker > .arrow-button {
+    -fx-background-radius: 10px; /* Adjust the radius as needed */
+}
+
+.date-picker > .text-field {
+    -fx-background-radius: 10px; /* Adjust the radius as needed */
+
 }

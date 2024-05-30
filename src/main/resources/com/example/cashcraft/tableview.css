@@ -1,8 +1,12 @@
 .table-view {
-    -fx-background-color: #f4f4f4;
+    -fx-background-color: #D6EAF8 ;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 20, 0, 0, 5);
-}
+    -fx-background-radius: 10px;
 
+}
+.table-cell {
+    -fx-font-weight: bold;
+}
 .table-row-cell:odd {
     -fx-background-color:  #F1F4FD  ;
 }
@@ -10,8 +14,33 @@
 .column-header {
     -fx-text-fill: black;
     -fx-font-weight: bold;
+    -fx-background-color: #D6EAF8 ;
 }
 
 .table-row-cell:selected {
     -fx-background-color:  #1D224E ;
+}
+
+
+
+/* Apply styling to the column headers */
+.column-header {
+    -fx-background-color: #85C1E9 ; /* Set the background color */
+    -fx-text-fill: black; /* Set the text color */
+    -fx-font-weight: bold; /* Set the font weight */
+    -fx-padding: 5px 10px; /* Add padding for spacing */
+    -fx-background-radius: 10px; /* Set rounded corners */
+    -fx-border-width: 2px; /* Add border width */
+    -fx-border-color: #2C3E50; /* Set border color */
+    -fx-border-radius: 5px; /* Set border radius */
+}
+
+
+.checkbox > .box {
+    -fx-background-color: white; /* Checkbox background color */
+    -fx-border-color: #ccc; /* Checkbox border color */
+}
+
+.checkbox > .box > .mark {
+    -fx-background-color: #641E16; /* Checkbox mark color */
 }
