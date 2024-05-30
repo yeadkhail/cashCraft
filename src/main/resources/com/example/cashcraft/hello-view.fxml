@@ -212,7 +212,7 @@
          <content>
             <ScrollPane fx:id="graph_scroll" prefHeight="200.0" prefWidth="200.0">
                <content>
-                  <StackPane fx:id="graph_stack" maxHeight="1000.0" prefHeight="1000.0" prefWidth="1280.0" styleClass="background">
+                  <StackPane fx:id="graph_stack" maxHeight="1000.0" prefHeight="1000.0" prefWidth="1280.0" style="-fx-background-color: #D5FFFF;">
                      <stylesheets>
                         <URL value="@transaction_bkg.css" />
                         <URL value="@graphs.css" />
