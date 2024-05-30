@@ -43,6 +43,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class TransactionsController implements Initializable {
     EdittransactionsController controller;
 
+    static private double zakTotal = 0;
     AddTransactionController addController;
     private Scene scene;
     private Stage stage;
@@ -115,6 +116,10 @@ public class TransactionsController implements Initializable {
     private TextField descField;
     @FXML
     private TextField zakField;
+    @FXML
+    private TextField totField;
+    @FXML
+    private Button adder;
     @FXML
     private DropShadow dropShadow;
     @FXML
@@ -701,9 +706,32 @@ public class TransactionsController implements Initializable {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
+                    setStyle(""); // Clear any existing style
                 } else {
                     setText(item.getName());
+                    setPrefHeight(60); // Set the preferred height
+                    setStyle("-fx-background-color: #f0f0f0; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-padding: 10px; " +
+                            "-fx-font-size: 16px; " +
+                            "-fx-border-color: #ccc; " +
+                            "-fx-border-radius: 10px;");
                 }
+
+                setOnMouseEntered(event -> setStyle("-fx-background-color: #e0e0e0; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-padding: 10px; " +
+                        "-fx-font-size: 16px; " +
+                        "-fx-border-color: #ccc; " +
+                        "-fx-border-radius: 10px;"));
+
+                // Event handler for mouse exit
+                setOnMouseExited(event -> setStyle("-fx-background-color: #f0f0f0; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-padding: 10px; " +
+                        "-fx-font-size: 16px; " +
+                        "-fx-border-color: #ccc; " +
+                        "-fx-border-radius: 10px;"));
             }
         });
 
@@ -721,12 +749,34 @@ public class TransactionsController implements Initializable {
                     preparedStatement.setString(1, walName);
                     tot_Amount = preparedStatement.executeQuery();
                     int val = tot_Amount.getInt("current_balance");
-                    zakField.setText(String.valueOf(val * .025));
+                    zakField.setText(String.format("%.2f", val * .025));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
+
+        adder.setOnAction(event -> {
+            PersonClasses.Wallet selectedWallet = ZakwalletListView.getSelectionModel().getSelectedItem();
+            if (selectedWallet != null) {
+                String walName = selectedWallet.getName();
+                try (Connection connection = Makeconnection.makeconnection()) {
+                    // Calculate Zakat
+                    PreparedStatement preparedStatement = connection.prepareStatement("select current_balance from wallet_balance_view where wallet_name = ?");
+                    preparedStatement.setString(1, walName);
+                    ResultSet tot_Amount = preparedStatement.executeQuery();
+                    if (tot_Amount.next()) {
+                        int val = tot_Amount.getInt("current_balance");
+                        zakTotal += val * 0.025;
+                    }
+                    totField.setText(String.format("%.2f", zakTotal));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+
 
     }
 
