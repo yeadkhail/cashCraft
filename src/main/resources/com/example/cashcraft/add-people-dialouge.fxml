@@ -10,12 +10,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<DialogPane fx:id="dialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="536.0" stylesheets="@styler.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.AddPeople">
+<DialogPane fx:id="dialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="536.0" styleClass="background-edit" stylesheets="@transaction_bkg.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.AddPeople">
     <expandableContent>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
     </expandableContent>
     <graphic>
-        <GridPane alignment="TOP_CENTER" prefHeight="126.0" prefWidth="465.0">
+        <GridPane alignment="TOP_CENTER" prefHeight="150.0" prefWidth="536.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="151.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="248.0" minWidth="10.0" prefWidth="234.0" />
@@ -27,16 +27,16 @@
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="CENTER" wrappingWidth="110.65999984741211">
                     <font>
-                        <Font name="Noto Sans Regular" size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                     </font>
                 </Text>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" textAlignment="CENTER" wrappingWidth="160.9800033569336" GridPane.rowIndex="1">
                     <font>
-                        <Font name="Noto Sans Regular" size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                     </font>
                 </Text>
-                <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
-                <TextField fx:id="descriptionTextField" prefHeight="49.0" prefWidth="248.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="nameTextField" stylesheets="@fields.css" GridPane.columnIndex="1" />
+                <TextField fx:id="descriptionTextField" prefHeight="49.0" prefWidth="248.0" stylesheets="@fields.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </children>
         </GridPane>
     </graphic>

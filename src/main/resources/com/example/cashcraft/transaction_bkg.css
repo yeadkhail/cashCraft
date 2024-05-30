@@ -7,8 +7,37 @@
     -fx-background-color:
         linear-gradient(to bottom, #EFE9F4, #5078F2);
 }
+.background-edit {
+    -fx-background-color:
+        linear-gradient(to bottom, #5200AE, #4062BB);
+}
+
 .rounder{
     -fx-background-color: transparent;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 5);
     -fx-background-radius: 20;
+}
+
+.button {
+    -fx-background-color: #000133;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 20;
+    -fx-padding: 7 22 7 22;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 5);
+    -fx-cursor: hand;
+}
+
+/* Hovered button style */
+.button:hover {
+    -fx-background-color: #cc5500;
+}
+
+/* Pressed button style */
+.button:pressed {
+    -fx-background-color: #002b4d;
 }
