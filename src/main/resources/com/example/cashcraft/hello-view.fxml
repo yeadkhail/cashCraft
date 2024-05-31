@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
-<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="main_tab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@test.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.TransactionsController">
+<TabPane fx:id="main_tab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@test.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.TransactionsController">
   <tabs>
     <Tab text="Transactions">
       <content>
@@ -74,7 +74,7 @@
                         <Button fx:id="edit_category_button" mnemonicParsing="false" onAction="#handleEditCategoryButton" prefWidth="275.0" stylesheets="@buttons.css" text="Edit Category" />
                      </children>
                   </HBox>
-                  <VBox fx:id="buttons_vbox" layoutX="3.0" layoutY="305.0" prefHeight="300.0" prefWidth="170.0" spacing="10.0">
+                  <VBox fx:id="buttons_vbox" layoutX="3.0" layoutY="250.0" prefHeight="350.0" prefWidth="170.0" spacing="10.0">
                      <children>
                         <Button fx:id="add_categroybutton" mnemonicParsing="false" onAction="#handleAddCategoryButton" prefHeight="60.0" prefWidth="170.0" stylesheets="@buttons.css" text="Add Categrory">
                            <graphic>
@@ -121,9 +121,18 @@
                               </ImageView>
                            </graphic>
                         </Button>
+                        <Button fx:id="filter_button" mnemonicParsing="false" onAction="#filter_button_clicked" prefHeight="60.0" prefWidth="170.0" stylesheets="@buttons.css" text="Column filter">
+                           <graphic>
+                              <ImageView fitHeight="83.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/fillter.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </VBox>
-                  <ComboBox fx:id="type_combo" layoutX="14.0" layoutY="8.0" onAction="#on_type_selected" prefHeight="31.0" prefWidth="150.0" promptText="Type" stylesheets="@combobox.css" visibleRowCount="4" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="8.0" />
+                  <ComboBox fx:id="type_combo" layoutX="14.0" layoutY="10.0" onAction="#on_type_selected" prefHeight="31.0" prefWidth="150.0" promptText="Type" stylesheets="@combobox.css" visibleRowCount="4" AnchorPane.leftAnchor="14.0" />
                   <CheckBox fx:id="buttons_shower" layoutX="3.0" layoutY="619.0" mnemonicParsing="false" onAction="#handleCheckBoxAction" styleClass="checkbox" stylesheets="@tableview.css" text="Buttons:">
                      <font>
                         <Font name="System Bold" size="15.0" />
@@ -157,7 +166,7 @@
                         <ListView fx:id="ZakwalletListView" prefHeight="200.0" prefWidth="200.0" styleClass="background" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
-                  <ImageView fitHeight="646.0" fitWidth="813.0" layoutX="288.0" layoutY="1.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="646.0" fitWidth="813.0" layoutX="288.0" layoutY="1.0" opacity="0.65" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../Images/zakat.png" />
                      </image>
@@ -168,35 +177,35 @@
                      </font></Label>
                   <Label layoutX="365.0" layoutY="189.0" prefHeight="54.0" prefWidth="139.0" text="Description:">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font></Label>
                   <Label layoutX="365.0" layoutY="275.0" prefHeight="51.0" prefWidth="82.0" text="Zakat:">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font></Label>
-                  <TextField fx:id="nameField" layoutX="513.0" layoutY="125.0" prefHeight="37.0" prefWidth="287.0">
+                  <TextField fx:id="nameField" editable="false" layoutX="513.0" layoutY="125.0" prefHeight="37.0" prefWidth="287.0" stylesheets="@fields.css">
                      <font>
                         <Font size="18.0" />
                      </font></TextField>
-                  <TextField fx:id="descField" layoutX="512.0" layoutY="196.0" prefHeight="59.0" prefWidth="287.0">
+                  <TextField fx:id="descField" editable="false" layoutX="512.0" layoutY="196.0" prefHeight="59.0" prefWidth="287.0" stylesheets="@fields.css">
                      <font>
                         <Font size="18.0" />
                      </font></TextField>
-                  <TextField fx:id="zakField" layoutX="512.0" layoutY="282.0" prefHeight="37.0" prefWidth="125.0">
+                  <TextField fx:id="zakField" editable="false" layoutX="512.0" layoutY="282.0" prefHeight="37.0" prefWidth="125.0" stylesheets="@fields.css">
                      <font>
                         <Font size="18.0" />
                      </font></TextField>
-                  <Button fx:id="adder" layoutX="1022.0" layoutY="540.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="52.0" style="-fx-background-color: white;" text="+">
+                  <Button fx:id="adder" layoutX="837.0" layoutY="540.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="242.0" stylesheets="@buttons.css" text="Display cumulative Zakat">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
                   <Label layoutX="365.0" layoutY="354.0" prefHeight="52.0" prefWidth="118.0" text="Total:">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="totField" layoutX="512.0" layoutY="361.0" prefHeight="37.0" prefWidth="125.0">
+                  <TextField fx:id="totField" editable="false" layoutX="512.0" layoutY="361.0" prefHeight="37.0" prefWidth="125.0" stylesheets="@fields.css">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -208,21 +217,24 @@
                </styleClass></AnchorPane>
       </content>
     </Tab>
-      <Tab fx:id="graph_tab" onSelectionChanged="#on_graphs_clicked" text="Graphs">
+      <Tab fx:id="graph_tab" onSelectionChanged="#on_graphs_clicked" text="Data Analytics">
          <content>
             <ScrollPane fx:id="graph_scroll" prefHeight="200.0" prefWidth="200.0">
                <content>
-                  <StackPane fx:id="graph_stack" maxHeight="1000.0" prefHeight="1000.0" prefWidth="1280.0" style="-fx-background-color: #D5FFFF;">
-                     <stylesheets>
-                        <URL value="@transaction_bkg.css" />
-                        <URL value="@graphs.css" />
-                     </stylesheets>
+                  <StackPane fx:id="graph_stack" maxHeight="1000.0" prefHeight="1000.0" prefWidth="1280.0" styleClass="background-edit" stylesheets="@transaction_bkg.css">
+                     <children>
+                        <AnchorPane maxHeight="960.0" maxWidth="1280.0" opacity="0.8" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #D5FFFF;" styleClass="round" stylesheets="@transaction_bkg.css" StackPane.alignment="TOP_CENTER">
+                           <StackPane.margin>
+                              <Insets right="10.0" top="20.0" />
+                           </StackPane.margin>
+                        </AnchorPane>
+                     </children>
                   </StackPane>
                </content>
             </ScrollPane>
          </content>
       </Tab>
-      <Tab onSelectionChanged="#on_graphs2_clicked" text="Bar">
+      <Tab onSelectionChanged="#on_graphs2_clicked">
          <content>
             <StackPane fx:id="graph_stack2" prefHeight="150.0" prefWidth="200.0" />
          </content>

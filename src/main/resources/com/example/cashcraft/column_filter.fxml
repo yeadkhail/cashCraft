@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" spacing="10.0" stylesheets="@transaction_bkg.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cashcraft.FilterController">
+   <children>
+      <Label text="TABLE COLUMN FILTERS" underline="true">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <VBox maxWidth="500.0" prefHeight="300.0" prefWidth="300.0" spacing="15.0">
+         <children>
+            <CheckBox fx:id="amount_filter" mnemonicParsing="false" text="Amount">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="people_filter" mnemonicParsing="false" text="People">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="place_filter" mnemonicParsing="false" text="Place">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="desc_filter" mnemonicParsing="false" text="Description">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="note_filter" layoutX="90.0" layoutY="148.0" mnemonicParsing="false" text="Note">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="cat_filter" mnemonicParsing="false" text="Category">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="date_filter" mnemonicParsing="false" stylesheets="@transaction_bkg.css" text="Date">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="src_filter" mnemonicParsing="false" text="Source wallet">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="dest_filter" mnemonicParsing="false" text="Destination wallet" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="trans_id" layoutX="90.0" layoutY="292.0" mnemonicParsing="false" text="Transaction ID" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+         </children>
+         <padding>
+            <Insets left="80.0" />
+         </padding>
+      </VBox>
+   </children>
+   <styleClass>
+      <String fx:value="background-add" />
+      <String fx:value="round" />
+   </styleClass>
+</VBox>
