@@ -710,6 +710,8 @@ public class TransactionsController implements Initializable {
     }
 
     public void zakInit() {
+
+
         List<PersonClasses.Wallet> wallets = PersonDao.getWallets();
         ObservableList<PersonClasses.Wallet> observableList = FXCollections.observableArrayList(wallets);
 
@@ -724,34 +726,40 @@ public class TransactionsController implements Initializable {
                 } else {
                     setText(item.getName());
                     setPrefHeight(60); // Set the preferred height
-                    setStyle("-fx-background-color: #f0f0f0; " +
+                    setStyle("-fx-background-color: #000133; " +
                             "-fx-background-radius: 10px; " +
                             "-fx-padding: 10px; " +
                             "-fx-font-size: 16px; " +
                             "-fx-border-color: #ccc; " +
-                            "-fx-border-radius: 10px;");
+                            "-fx-border-radius: 10px;" +
+                            "-fx-text-fill: white;" +
+                            "-fx-font-weight: bold;");
                 }
 
                 setOnMouseEntered(event -> {
                     if (!isEmpty()) {
-                        setStyle("-fx-background-color: #e0e0e0; " +
+                        setStyle("-fx-background-color: #cc5500; " +
                                 "-fx-background-radius: 10px; " +
                                 "-fx-padding: 10px; " +
                                 "-fx-font-size: 16px; " +
                                 "-fx-border-color: #ccc; " +
-                                "-fx-border-radius: 10px;");
+                                "-fx-border-radius: 10px;" +
+                                "-fx-text-fill: white;" +
+                                "-fx-font-weight: bold;");
                     }
                 });
 
                 // Event handler for mouse exit
                 setOnMouseExited(event -> {
                     if (!isEmpty()) {
-                        setStyle("-fx-background-color: #f0f0f0; " +
+                        setStyle("-fx-background-color: #000133; " +
                                 "-fx-background-radius: 10px; " +
                                 "-fx-padding: 10px; " +
                                 "-fx-font-size: 16px; " +
                                 "-fx-border-color: #ccc; " +
-                                "-fx-border-radius: 10px;");
+                                "-fx-border-radius: 10px;" +
+                                "-fx-text-fill: white;" +
+                                "-fx-font-weight: bold;");
                     }
                 });
             }
@@ -797,21 +805,6 @@ public class TransactionsController implements Initializable {
                 }
             }
         });
-
-        adder.setOnMouseEntered(event -> adder.setStyle("-fx-background-color: #e0e0e0; " +
-                "-fx-background-radius: 10px; " +
-                "-fx-padding: 10px; " +
-                "-fx-font-size: 24px; " +
-                "-fx-border-color: #ccc; " +
-                "-fx-border-radius: 10px;"));
-
-        // Event handler for mouse exit on the button
-        adder.setOnMouseExited(event -> adder.setStyle("-fx-background-color: #f0f0f0; " +
-                "-fx-background-radius: 10px; " +
-                "-fx-padding: 10px; " +
-                "-fx-font-size: 24px; " +
-                "-fx-border-color: #ccc; " +
-                "-fx-border-radius: 10px;"));
 
 
     }
