@@ -126,6 +126,8 @@ public class TransactionsController implements Initializable {
     private VBox buttons_vbox;
     @FXML
     private HBox editbuttons_box;
+    @FXML
+    private Button importExport;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -1376,7 +1378,11 @@ public class TransactionsController implements Initializable {
         trans_column.setVisible(filterController.trans_id.isSelected());
         on_type_selected();
     }
-
+    @FXML
+    public void handleImportExportButton(ActionEvent event) {
+        ExportImportScene exportImportScene = new ExportImportScene();
+        exportImportScene.show();
+    }
 }
 
 
