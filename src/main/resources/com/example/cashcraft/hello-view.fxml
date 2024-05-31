@@ -221,12 +221,24 @@
          <content>
             <ScrollPane fx:id="graph_scroll" prefHeight="200.0" prefWidth="200.0">
                <content>
-                  <StackPane fx:id="graph_stack" maxHeight="1000.0" prefHeight="1000.0" prefWidth="1280.0" styleClass="background-edit" stylesheets="@transaction_bkg.css">
+                  <StackPane fx:id="graph_stack" maxHeight="1000.0" prefHeight="1000.0" prefWidth="1280.0" style="-fx-background-color: #232f56;" stylesheets="@transaction_bkg.css">
                      <children>
-                        <AnchorPane maxHeight="960.0" maxWidth="1280.0" opacity="0.8" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #D5FFFF;" styleClass="round" stylesheets="@transaction_bkg.css" StackPane.alignment="TOP_CENTER">
+                        <AnchorPane maxHeight="960.0" maxWidth="1280.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #D5FFFF;" styleClass="round" stylesheets="@transaction_bkg.css" StackPane.alignment="TOP_CENTER">
                            <StackPane.margin>
                               <Insets right="10.0" top="20.0" />
                            </StackPane.margin>
+                           <children>
+                              <Label layoutX="15.0" text="PIE CHART REPRESENTATION" underline="true">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="15.0" layoutY="500.0" text="BAR CHART REPRESENTATION" underline="true">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
                         </AnchorPane>
                      </children>
                   </StackPane>
