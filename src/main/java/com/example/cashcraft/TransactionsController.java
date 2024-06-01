@@ -121,6 +121,12 @@ public class TransactionsController implements Initializable {
     @FXML
     private Button adder;
     @FXML
+    private Button subtracter;
+    @FXML
+    private Button reseter;
+    @FXML
+    private Label errorField;
+    @FXML
     private DropShadow dropShadow;
     @FXML
     private VBox buttons_vbox;
@@ -801,6 +807,7 @@ public class TransactionsController implements Initializable {
                         int val = tot_Amount.getInt("current_balance");
                         zakTotal += val * 0.025;
                     }
+                    errorField.setText("");
                     totField.setText(String.format("%.2f", zakTotal));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -808,6 +815,38 @@ public class TransactionsController implements Initializable {
             }
         });
 
+        subtracter.setOnAction(event -> {
+            PersonClasses.Wallet selectedWallet = ZakwalletListView.getSelectionModel().getSelectedItem();
+            if (selectedWallet != null) {
+                String walName = selectedWallet.getName();
+                try (Connection connection = Makeconnection.makeconnection()) {
+                    // Calculate Zakat
+                    PreparedStatement preparedStatement = connection.prepareStatement("select current_balance from wallet_balance_view where wallet_name = ?");
+                    preparedStatement.setString(1, walName);
+                    ResultSet tot_Amount = preparedStatement.executeQuery();
+                    double temp = zakTotal;
+                    if (tot_Amount.next()) {
+                        int val = tot_Amount.getInt("current_balance");
+                        temp -= val * 0.025;
+                        if(temp < 0)
+                            errorField.setText("Zakat Cannot Be Less Than 0!");
+                        else {
+                            zakTotal = temp;
+                            errorField.setText("");
+                        }
+                    }
+                        totField.setText(String.format("%.2f", zakTotal));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        reseter.setOnAction(event -> {
+            zakTotal = 0;
+            totField.setText(String.format("%.2f", zakTotal));
+            errorField.setText("");
+        });
 
     }
 
