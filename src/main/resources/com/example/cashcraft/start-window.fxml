@@ -65,6 +65,7 @@
                   <Font name="ROGFonts-Regular" size="24.0" />
                </font>
             </Label>
+            <Button fx:id="change_pass" graphicTextGap="0.0" layoutX="7.0" layoutY="304.0" mnemonicParsing="false" onAction="#change_pass_clicked" prefHeight="35.0" prefWidth="462.0" stylesheets="@buttons.css" text="CHANGE PASSWORD" />
          </children>
       </AnchorPane>
    </right>
