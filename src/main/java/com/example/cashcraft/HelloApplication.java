@@ -2,7 +2,7 @@
  * This hello-application.java file implements the application of cashCraft.
  * It holds the main function for the project and holds the application class from javafx application
  * @ author: Md. Yead Khail Shovo , Muhammad Tausif Ul Islam , Shahir Awlad
- * The view-only link for the E-R diagram for the sqlite-database : https://lucid.app/lucidchart/95af82fb-b0e0-4918-9560-080446c1473c/edit?viewport_loc=-602%2C-186%2C2834%2C1218%2C0_0&invitationId=inv_66e7b2eb-a3c9-4cc4-be92-b9020dd5d2c9
+ * The view-only link for the E-R diagram for the sqlite-database : https://drawsql.app/teams/yeads-team/diagrams/cashcraft
  * Database structure is changed only on request-only basis.
  *
  */
